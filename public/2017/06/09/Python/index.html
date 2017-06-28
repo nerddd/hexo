@@ -1,0 +1,825 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Calyp" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Python">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="calyp.github.io/2017/06/09/Python/index.html">
+<meta property="og:site_name" content="Calyp">
+<meta property="og:description" content="Python">
+<meta property="og:updated_time" content="2017-06-14T01:51:24.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python">
+<meta name="twitter:description" content="Python">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="calyp.github.io/2017/06/09/Python/"/>
+
+
+
+
+
+  <title>Python | Calyp</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Calyp</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Study</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="calyp.github.io/2017/06/09/Python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Calyp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/images.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Calyp">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-09T20:52:56+08:00">
+                2017-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  Python
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="图像操作"><a href="#图像操作" class="headerlink" title="图像操作"></a>图像操作</h1><h2 id="关于PIL-image和skimage的图像处理"><a href="#关于PIL-image和skimage的图像处理" class="headerlink" title="关于PIL image和skimage的图像处理"></a>关于PIL image和skimage的图像处理</h2><h3 id="对skimage图像"><a href="#对skimage图像" class="headerlink" title="对skimage图像"></a>对skimage图像</h3><p>镜像处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">from skimage import io,transform</div><div class="line">import matplotlib.pyplot as plt</div><div class="line">import cv2</div><div class="line"></div><div class="line">img=io.imread(&quot;test.jpg&quot;)</div><div class="line">#img=transform.rotate(img,180)</div><div class="line">img=cv2.flip(img,1)</div><div class="line">plt.figure(&apos;skimage&apos;)</div><div class="line">plt.imshow(img)</div><div class="line">plt.show()</div><div class="line">print img.shape</div><div class="line">print(img.dtype)</div></pre></td></tr></table></figure>
+<h1 id="文本处理"><a href="#文本处理" class="headerlink" title="文本处理"></a>文本处理</h1><h2 id="提取两个文件中相同的部分"><a href="#提取两个文件中相同的部分" class="headerlink" title="提取两个文件中相同的部分"></a>提取两个文件中相同的部分</h2><p>a.txt内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">aaa 0</div><div class="line">bbb 0</div><div class="line">ccc 0</div></pre></td></tr></table></figure>
+<p>b.txt内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">aaa 0</div><div class="line">bbb 1</div><div class="line">ccc 0</div></pre></td></tr></table></figure>
+<h3 id="提取相同的部分"><a href="#提取相同的部分" class="headerlink" title="提取相同的部分"></a>提取相同的部分</h3><p>写入到c.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">fa=open(&apos;a.txt&apos;,&apos;r&apos;)</div><div class="line">a=fa.readlines()</div><div class="line">fa.close()</div><div class="line">fb=open(&apos;b.txt&apos;,&apos;r&apos;)</div><div class="line">b=fb.readlines()</div><div class="line">fb.close()</div><div class="line">c= [i for i in a if i in b]</div><div class="line">fc=open(&apos;c.txt&apos;,&apos;w&apos;)</div><div class="line">fc.writelines(c)</div><div class="line">fc.close()</div><div class="line">print &apos;Done&apos;</div></pre></td></tr></table></figure>
+<p>最后c.txt内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">aaa 0</div><div class="line">ccc 0</div></pre></td></tr></table></figure>
+<h1 id="读取文件并绘制图片"><a href="#读取文件并绘制图片" class="headerlink" title="读取文件并绘制图片"></a>读取文件并绘制图片</h1><h2 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import matplotlib</div><div class="line">import matplotlib.pyplot as plt</div><div class="line"></div><div class="line">def loadData(fileName):</div><div class="line">    inFile=open(fileName,&apos;r&apos;)</div><div class="line">    X = []</div><div class="line">    y = []</div><div class="line">    for line in inFile:</div><div class="line">        trainingSet = line.split()  </div><div class="line">        X.append(trainingSet[0])</div><div class="line">        y.append(trainingSet[1])</div><div class="line">    return (X, y)</div><div class="line"></div><div class="line"></div><div class="line">def plotData(X, y):</div><div class="line">    length = len(y)</div><div class="line">    plt.figure(1)</div><div class="line">    #plt.plot(X, y, &apos;rx&apos;)</div><div class="line">    plt.scatter(X,y,c=&apos;r&apos;,marker=&apos;.&apos;)</div><div class="line">    plt.xlabel(&apos;eye_width&apos;)</div><div class="line">    plt.ylabel(&apos;eye_height&apos;)</div><div class="line">    #plt.show()</div><div class="line">    plt.savefig(&apos;dis.png&apos;)</div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    (X, y) = loadData(&apos;dis.txt&apos;)</div><div class="line"></div><div class="line">    plotData(X, y)</div></pre></td></tr></table></figure>
+<h2 id="折线图"><a href="#折线图" class="headerlink" title="折线图"></a>折线图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">import matplotlib.pyplot as plt </div><div class="line"></div><div class="line">y1=[14,3329,213675,451416,491919,728911,1379232,1287442,309026,85674,29481,9051,2894,932,279,86,14,6,0,0] </div><div class="line">x1=range(0,200,10) </div><div class="line"></div><div class="line">num = 0</div><div class="line">for i in range(20):</div><div class="line">    num+=y1[i]</div><div class="line">print num</div><div class="line">plt.plot(x1,y1,label=&apos;Frist line&apos;,linewidth=1,color=&apos;r&apos;,marker=&apos;o&apos;, </div><div class="line">markerfacecolor=&apos;blue&apos;,markersize=6) </div><div class="line">plt.xlabel(&apos;eye_width distribute&apos;) </div><div class="line">plt.ylabel(&apos;Num&apos;) </div><div class="line">plt.title(&apos;Eye\nCheck it out&apos;) </div><div class="line">plt.legend()</div><div class="line">plt.savefig(&apos;figure.png&apos;) </div><div class="line">plt.show()</div></pre></td></tr></table></figure>
+<h1 id="统计文件中的数据分布"><a href="#统计文件中的数据分布" class="headerlink" title="统计文件中的数据分布"></a>统计文件中的数据分布</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">import matplotlib</div><div class="line">import matplotlib.pyplot as plt</div><div class="line">import numpy as np</div><div class="line"></div><div class="line">def loadData(fileName):</div><div class="line">    inFile=open(fileName,&apos;r&apos;)</div><div class="line">    x_lines=inFile.readlines()#x_lines为str的list</div><div class="line">    x_distribute=[0]*20 #对列表元素进行重复复制</div><div class="line">    for x_line in x_lines:</div><div class="line">        x_point=x_line.split()[0]</div><div class="line">        i=np.int(np.float32(x_point)/10)  #注意str要先转化为np.float才能转化为int型</div><div class="line">        x_distribute[i]+=1</div><div class="line">    print x_distribute</div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    loadData(&apos;dis.txt&apos;)</div></pre></td></tr></table></figure>
+<h1 id="windows下安装OpenCV-for-Python"><a href="#windows下安装OpenCV-for-Python" class="headerlink" title="windows下安装OpenCV for Python"></a>windows下安装OpenCV for Python</h1><ol>
+<li><p>Download Python, Numpy, OpenCV from their official sites.</p>
+</li>
+<li><p>Extract OpenCV (will be extracted to a folder opencv)</p>
+</li>
+<li><p>Copy ..\opencv\build\python\x86\2.7\cv2.pyd</p>
+</li>
+<li><p>Paste it in C:\Python27\Lib\site-packages</p>
+</li>
+<li><p>Open Python IDLE or terminal, and type</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import cv2</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="读取文件，进行批量创建目录"><a href="#读取文件，进行批量创建目录" class="headerlink" title="读取文件，进行批量创建目录"></a>读取文件，进行批量创建目录</h1><p>存在一个image.txt里面每一行都是目录/文件名，要提取目录名，并由此创建新目录，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xxx/0.jpg</div><div class="line">yyy/0.jpg</div><div class="line">zzz/0.jpg</div></pre></td></tr></table></figure>
+<p>创建xxx目录，yyy目录，zzz目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">import sys</div><div class="line">import os</div><div class="line">import numpy as np</div><div class="line">import skimage</div><div class="line">from skimage import io,transform</div><div class="line">import matplotlib.pyplot as plt</div><div class="line">import cv2</div><div class="line"></div><div class="line">def read_file(path):</div><div class="line">    with open(path) as f:</div><div class="line">        return list(f)</div><div class="line"></div><div class="line"></div><div class="line">def make_dir(image_path):   </div><div class="line">    image_lines = read_file(image_path)</div><div class="line">    if not image_lines:</div><div class="line">        print &apos;empty file&apos;</div><div class="line">        return</div><div class="line">    i = 0</div><div class="line">    for image_line in image_lines:</div><div class="line">        image_line = image_line.strip(&apos;\n&apos;)</div><div class="line">        subdir_name = image_line.split(&apos;/&apos;)[0]</div><div class="line">        print subdir_name</div><div class="line">        isExists=os.path.exists(subdir_name)</div><div class="line">        if not isExists:</div><div class="line">            os.mkdir(subdir_name)</div><div class="line">            print subdir_name+&quot;created successfully!&quot;</div><div class="line">       </div><div class="line">        i = i+1</div><div class="line">        sys.stdout.write(&apos;\riter %d\n&apos; %(i))</div><div class="line">        sys.stdout.flush()</div><div class="line"></div><div class="line">    print &apos;Done&apos;</div><div class="line"></div><div class="line">if __name__==&apos;__main__&apos;: </div><div class="line">    image_path=&apos;./image.txt&apos;</div><div class="line">    make_dir(image_path)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/02/Triplet loss/" rel="next" title="Triplet loss">
+                <i class="fa fa-chevron-left"></i> Triplet loss
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/17/Caffe调参/" rel="prev" title="Caffe调参">
+                Caffe调参 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/images.jpg"
+               alt="Calyp" />
+          <p class="site-author-name" itemprop="name">Calyp</p>
+           
+              <p class="site-description motion-element" itemprop="description">学习博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nerddd/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5048688311/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Other">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Other
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/atom.xml" title="Feed" target="_blank">Feed</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/sitemap.xml" title="SiteMap" target="_blank">SiteMap</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像操作"><span class="nav-number">1.</span> <span class="nav-text">图像操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于PIL-image和skimage的图像处理"><span class="nav-number">1.1.</span> <span class="nav-text">关于PIL image和skimage的图像处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对skimage图像"><span class="nav-number">1.1.1.</span> <span class="nav-text">对skimage图像</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本处理"><span class="nav-number">2.</span> <span class="nav-text">文本处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#提取两个文件中相同的部分"><span class="nav-number">2.1.</span> <span class="nav-text">提取两个文件中相同的部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提取相同的部分"><span class="nav-number">2.1.1.</span> <span class="nav-text">提取相同的部分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件并绘制图片"><span class="nav-number">3.</span> <span class="nav-text">读取文件并绘制图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#散点图"><span class="nav-number">3.1.</span> <span class="nav-text">散点图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#折线图"><span class="nav-number">3.2.</span> <span class="nav-text">折线图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统计文件中的数据分布"><span class="nav-number">4.</span> <span class="nav-text">统计文件中的数据分布</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#windows下安装OpenCV-for-Python"><span class="nav-number">5.</span> <span class="nav-text">windows下安装OpenCV for Python</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件，进行批量创建目录"><span class="nav-number">6.</span> <span class="nav-text">读取文件，进行批量创建目录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Calyp</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

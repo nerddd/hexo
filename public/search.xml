@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[FaceNet论文笔记]]></title>
+    <url>%2F2017%2F06%2F28%2FFaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%2F</url>
+    <content type="text"><![CDATA[原文链接:FaceNet:A unified embedding for face recognition and clustering 简介FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。FaceNet在LFW数据集上的准确率为99.63%，在YouTube Faces 数据集上准确率为95.12%。 前言FaceNet采用的是通过卷积神经网络学习将图像映射到欧几里得空间，空间距离之间和图片相似度相关：同一个人的不同图像的空间距离很小，不同人的图像的空间距离较大，只要该映射确定下来，相关的人脸识别任务就变得简单。 当前存在的基于深度神经网络的人脸识别模型使用了分类层：中间层为人脸图像的向量映射，然后以分类层作为输出层，这类方法的缺点就是不直接和效率不高。与当前方法不同，FaceNet直接使用基于triplets的LMNN（最大边界近邻分类）的loss函数训练神经网络，网络直接输出为128维度的向量空间。]]></content>
+      <categories>
+        <category>Face</category>
+      </categories>
+      <tags>
+        <tag>笔记，人脸识别</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Caffe调参]]></title>
+    <url>%2F2017%2F06%2F17%2FCaffe%E8%B0%83%E5%8F%82%2F</url>
+    <content type="text"><![CDATA[loss为nan梯度爆炸 原因：梯度变得非常大，使得学习过程难以继续 现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。 措施： 减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的loss_weight，而非是减小通用的base_lr。 设置clip gradient，用于限制过大的diff ## 不当的损失函数 原因：有时候损失层中loss的计算可能导致NaN的出现。比如，给InfogainLoss层（信息熵损失）输入没有归一化的值，使用带有bug的自定义损失层等等。 现象：观测训练产生的log时一开始并不能看到异常，loss也在逐步的降低，但突然之间NaN就出现了。 措施：看看你是否能重现这个错误，在loss layer中加入一些输出以进行调试。 示例：有一次我使用的loss归一化了batch中label错误的次数。如果某个label从未在batch中出现过，loss就会变成NaN。在这种情况下，可以用足够大的batch来尽量避免这个错误。 ## 不当的输入 原因：输入中就含有NaN。 现象：每当学习的过程中碰到这个错误的输入，就会变成NaN。观察log的时候也许不能察觉任何异常，loss逐步的降低，但突然间就变成NaN了。 措施：重整你的数据集，确保训练集和验证集里面没有损坏的图片。调试中你可以使用一个简单的网络来读取输入层，有一个缺省的loss，并过一遍所有输入，如果其中有错误的输入，这个缺省的层也会产生NaN。 案例：有一次公司需要训练一个模型，把标注好的图片放在了七牛上，拉下来的时候发生了dns劫持，有一张图片被换成了淘宝的购物二维码，且这个二维码格式与原图的格式不符合，因此成为了一张“损坏”图片。每次训练遇到这个图片的时候就会产生NaN。良好的习惯是，你有一个检测性的网络，每次训练目标网络之前把所有的样本在这个检测性的网络里面过一遍，去掉非法值。 池化层中步长比核的尺寸大 如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN 1234567891011layer &#123; name: &quot;faulty_pooling&quot; type: &quot;Pooling&quot; bottom: &quot;x&quot; top: &quot;y&quot; pooling_param &#123; pool: AVE stride: 5 kernel: 3 &#125;&#125; 致谢http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training Accuracy一直为0考虑标签是否从0开始递增]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>caffe</tag>
+        <tag>调参</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python]]></title>
+    <url>%2F2017%2F06%2F09%2FPython%2F</url>
+    <content type="text"><![CDATA[图像操作关于PIL image和skimage的图像处理对skimage图像镜像处理： 123456789101112from skimage import io,transformimport matplotlib.pyplot as pltimport cv2img=io.imread(&quot;test.jpg&quot;)#img=transform.rotate(img,180)img=cv2.flip(img,1)plt.figure(&apos;skimage&apos;)plt.imshow(img)plt.show()print img.shapeprint(img.dtype) 文本处理提取两个文件中相同的部分a.txt内容： 123aaa 0bbb 0ccc 0 b.txt内容： 123aaa 0bbb 1ccc 0 提取相同的部分写入到c.txt 1234567891011fa=open(&apos;a.txt&apos;,&apos;r&apos;)a=fa.readlines()fa.close()fb=open(&apos;b.txt&apos;,&apos;r&apos;)b=fb.readlines()fb.close()c= [i for i in a if i in b]fc=open(&apos;c.txt&apos;,&apos;w&apos;)fc.writelines(c)fc.close()print &apos;Done&apos; 最后c.txt内容 12aaa 0ccc 0 读取文件并绘制图片散点图12345678910111213141516171819202122232425262728import matplotlibimport matplotlib.pyplot as pltdef loadData(fileName): inFile=open(fileName,&apos;r&apos;) X = [] y = [] for line in inFile: trainingSet = line.split() X.append(trainingSet[0]) y.append(trainingSet[1]) return (X, y)def plotData(X, y): length = len(y) plt.figure(1) #plt.plot(X, y, &apos;rx&apos;) plt.scatter(X,y,c=&apos;r&apos;,marker=&apos;.&apos;) plt.xlabel(&apos;eye_width&apos;) plt.ylabel(&apos;eye_height&apos;) #plt.show() plt.savefig(&apos;dis.png&apos;)if __name__ == &apos;__main__&apos;: (X, y) = loadData(&apos;dis.txt&apos;) plotData(X, y) 折线图1234567891011121314151617import matplotlib.pyplot as plt y1=[14,3329,213675,451416,491919,728911,1379232,1287442,309026,85674,29481,9051,2894,932,279,86,14,6,0,0] x1=range(0,200,10) num = 0for i in range(20): num+=y1[i]print numplt.plot(x1,y1,label=&apos;Frist line&apos;,linewidth=1,color=&apos;r&apos;,marker=&apos;o&apos;, markerfacecolor=&apos;blue&apos;,markersize=6) plt.xlabel(&apos;eye_width distribute&apos;) plt.ylabel(&apos;Num&apos;) plt.title(&apos;Eye\nCheck it out&apos;) plt.legend()plt.savefig(&apos;figure.png&apos;) plt.show() 统计文件中的数据分布12345678910111213141516import matplotlibimport matplotlib.pyplot as pltimport numpy as npdef loadData(fileName): inFile=open(fileName,&apos;r&apos;) x_lines=inFile.readlines()#x_lines为str的list x_distribute=[0]*20 #对列表元素进行重复复制 for x_line in x_lines: x_point=x_line.split()[0] i=np.int(np.float32(x_point)/10) #注意str要先转化为np.float才能转化为int型 x_distribute[i]+=1 print x_distributeif __name__ == &apos;__main__&apos;: loadData(&apos;dis.txt&apos;) windows下安装OpenCV for Python Download Python, Numpy, OpenCV from their official sites. Extract OpenCV (will be extracted to a folder opencv) Copy ..\opencv\build\python\x86\2.7\cv2.pyd Paste it in C:\Python27\Lib\site-packages Open Python IDLE or terminal, and type 1&gt;&gt;&gt; import cv2 读取文件，进行批量创建目录存在一个image.txt里面每一行都是目录/文件名，要提取目录名，并由此创建新目录，内容如下： 123xxx/0.jpgyyy/0.jpgzzz/0.jpg 创建xxx目录，yyy目录，zzz目录 12345678910111213141516171819202122232425262728293031323334353637import sysimport osimport numpy as npimport skimagefrom skimage import io,transformimport matplotlib.pyplot as pltimport cv2def read_file(path): with open(path) as f: return list(f)def make_dir(image_path): image_lines = read_file(image_path) if not image_lines: print &apos;empty file&apos; return i = 0 for image_line in image_lines: image_line = image_line.strip(&apos;\n&apos;) subdir_name = image_line.split(&apos;/&apos;)[0] print subdir_name isExists=os.path.exists(subdir_name) if not isExists: os.mkdir(subdir_name) print subdir_name+&quot;created successfully!&quot; i = i+1 sys.stdout.write(&apos;\riter %d\n&apos; %(i)) sys.stdout.flush() print &apos;Done&apos;if __name__==&apos;__main__&apos;: image_path=&apos;./image.txt&apos; make_dir(image_path)]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Triplet loss]]></title>
+    <url>%2F2017%2F06%2F02%2FTriplet%20loss%2F</url>
+    <content type="text"><![CDATA[原理Triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为x_a)属于同一类的样本Positive (记为x_p)和不同类的样本Negative (记为x_n)，由此构成一个（Anchor，Positive，Negative）三元组。 Triplet loss中的margin取值分析我们的目的是为了让loss在训练迭代中下降的越小越好，即使Anchor和Positive越接近越好，Anchor和Negative越远越好，并且要让x_a与x_n之间的距离和x_a与x_p之间的距离之间有一个最小的间隔。简而言之，Triplet loss就是要使类内距离越小，类间距离越大。 12345当 margin 值越小时，loss 也就较容易的趋近于 0，于是 Anchor 与 Positive 都不需要拉的太近，Anchor 与 Negative 不需要拉的太远，就能使得 loss 很快的趋近于 0。这样训练得到的结果，不能够很好的区分相似的图像。当 Anchor 越大时，就需要使得网络参数要拼命地拉近 Anchor、Positive 之间的距离，拉远 Anchor、Negative 之间的距离。如果 margin 值设置的太大，很可能最后 loss 保持一个较大的值，难以趋近于 0 。因此，设置一个合理的 margin 值很关键，这是衡量相似度的重要指标。简而言之，margin 值设置的越小，loss 很容易趋近于 0 ，但很难区分相似的图像。margin 值设置的越大，loss 值较难趋近于 0，甚至导致网络不收敛，但可以较有把握的区分较为相似的图像。 相关区分相似图形，除了triplet loss，还有一篇CVPR：《Deep Relative Distance Learning: Tell the Difference Between Similar Vehicles》提出的Coupled Cluster Loss. 本文参考： triplet loss 原理以及梯度推导 如何在Caffe中增加layer以及Caffe中triplet loss layer的实现]]></content>
+      <categories>
+        <category>Face</category>
+      </categories>
+      <tags>
+        <tag>深度学习，人脸识别</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo相关]]></title>
+    <url>%2F2017%2F06%2F02%2FHexo%E7%9B%B8%E5%85%B3%2F</url>
+    <content type="text"><![CDATA[问题Hexo无法正常显示公式善用主题(theme)，以我使用的next主题为例，打开/themes/next/_config.yml文件，更改mathjax开关为： 1234# MathJax Supportmathjax: enable: true per_page: true 另外，还要在文章(.md文件)头设置开关，只用在有用公式显示的页面才加载Mathjax渲染，不影响其他的页面渲染速度，如下： 123456---title: index.htmldate: 2016-12-28 21:01:30tags:mathjax: true-- 题外话，可以在/scaffolds/post.md文件中添加mathjax一行，这样每次layout如果是由默认的post 生成新的文章的开头都会有mathjax，可以自己选择true或是false(注意mathjax冒号后面不要掉了空格)，如下： 123456title: &#123;&#123; title &#125;&#125;date: &#123;&#123; date &#125;&#125;categories: tags:description: mathjax: 优化]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[待办及进度]]></title>
+    <url>%2F2017%2F06%2F02%2F%E5%BE%85%E5%8A%9E%E5%8F%8A%E8%BF%9B%E5%BA%A6%2F</url>
+    <content type="text"><![CDATA[Model PCA Size Threshold Score Mirror 192 0.64 99.42% Mirror Concat 192 0.65 99.42% Mirror Add/Average 184 0.64 99.47% Mirror Max 144 0.65 99.43% Mirror Min 168 0.65 99.48% Mirror Avg+min 168 0.65 99.45% eye_width num eye_width num 0~10 14 90~100 8,5674 10~20 3329 100~110 2,9481 20~30 21,3675 110~120 9051 30~40 45,1416 120~130 2894 40~50 49,1913 130~140 932 50~60 72,8911 140~150 279 60~70 137,9232 150~160 86 70~80 128,7442 160~170 14 80~90 30,9026 170~180 6 问题1.对于人脸关键点数据中，[eye_left_x,eye_left_y,eye_right_x,eye_right_y…],在进行眼睛宽度估算时，利用eye_width=(eye_right_x-eye_elft_x)0.78,所以crop后左眼的最左边的坐标公式为eye_left_x-0.5eye_width，有一种情况没考虑到就是eye_left_x小于0.5*eye_width，所以要加一个判断语句12if eye_width*0.5&gt;eye_left_x: eye_width=eye_left_x*2 导致眼睛宽度估算分布就不太准确，最终导致在mscelebv1_crop数据上，最终符合要求的只有731750张 重新生成眼睛宽度估算文件，其分布如下 eye_width num eye_width num 0~10 1,8975 100~110 98 10~20 71,3760 110~120 17 20~30 126,4102 120~130 3 30~40 226,4348 130~140 0 40~50 59,3351 140~150 0 50~60 10,6502 150~160 0 60~70 2,4588 160~170 1 70~80 5592 170~180 0 80~90 1588 180~190 8 90~100 421 190~200 21 2.tripletloss在100次迭代时，loss=nan，原因是初始化的base_lr过大，调小即可3.test的accuracy一直为0：想到了在清洗数据的时候，有的人物并没有参与，也就是最开始直接用小蔓师兄的标签不行，最后一层的输出不等于我现在数据中的样本类别数。。得自己重新生成，首先要将空目录删除，确定有多少类别，然后label从0开始重新生成。最后发现我的类别应该是90481.而最后一个全连接层的num_output=90526]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[杂知识点]]></title>
+    <url>%2F2017%2F06%2F01%2F%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9%2F</url>
+    <content type="text"><![CDATA[分类与回归本节部分转载于穆文发表于知乎的分类与回归区别是什么下面的回答，获得原作者授权 分类与回归的模型本质一样，分类模型可将回归模型的输出离散化，回归模型也可将分类模型的输出连续化。 Logistic Regression&amp;Linear Regression: Linear Regression:输出一个标量wx+b，这个值是连续值，用以回归问题 Logistic Regression:将上面的wx+b通过sigmoid函数映射到(0,1)上，划分阈值，大于阈值的分为一类，小于的分为另一类，用以处理二分类的问题 对于N分类问题，可以先计算N组w值不同的wx+b ，然后归一化，比如softmax函数变成N个类上的概率，用以多分类 SVR &amp;SVM SVR:输出wx+b，即某个样本点到分类面的距离，是连续值，属于回归问题 SVM：将SVR的距离用sign(.)函数作用，距离为正的样本点属于一类，为负的属于另一类 Naive Bayes用来分类和回归 前馈神经网络（CNN系列）用于分类和回归 回归：最后一层有m个神经元，每个神经元输出一个标量，m个神经元的三个月抽根烟截图看做向量v，现全部连接到一个神经元上，这个神经元的输出wv+b，是一个连续值，处理回归问题，和Linear Regression的思想一样 分类：将m个神经元最后连接到N个神经元，有N组不同的wv+b，进行归一化（比如softmax)，就变成N个类上的概率，如果不用softmax，而是每个wx+b用一个sigmoid，就变成多标签问题 循环神经网络（RNN系列）用于分类和回归 回归和分类与CNN类似，输出层的值y=wx+b，可做分类和回归，区别在于，RNN的输出和时间有关，即输出的是{y(t),y(t+1),..}序列 Logistic回归&amp;SVM 两种方法都是常见的分类算法，从目标函数来看，区别在于逻辑回归采用的是logistical loss，svm采用的是hinge loss。这两个损失函数的目的都是增加对分类影响较大的数据点的权重，减少与分类关系较小的数据点的权重。SVM的处理方法是只考虑support vectors，也就是和分类最相关的少数点，去学习分类器。而逻辑回归通过非线性映射，大大减小了离分类平面较远的点的权重，相对提升了与分类最相关的数据点的权重。两者的根本目的都是一样的。此外，根据需要，两个方法都可以增加不同的正则化项，如l1,l2等等。所以在很多实验中，两种算法的结果是很接近的。^1 线性模型的表达式为 $$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$$ ​ 将线性模型的输出送给sigmoid函数，就得到logistic回归模型；将线性模型表达式中的xi换为fi，就得到SVM模型的表达式。其中fi是xi的核函数，也就是xi的非线性多项式，例如f1=x1*x2，所以线性kernel的SVM(fi=xi)，在选择和使用上跟logistic回归没有区别。 ​ 用n表示Feature数量,m表示训练集个数。下面分情况讨论^2： n很大，m很小n很大，一般指n=10000；m很小，一般m=10-1000。m很小，说明没有足够的训练集来拟合非常复杂的非线性模型，所以这种情况既可以选择线性kernel的SVM，也可以选择Logistic回归。 n很小，m中等n很小，一般指n=1-1000；m很小，一般m=1000-10000。m中等，说明有足够的训练集来拟合非常复杂的非线性模型，此时适合选择非线性kernel的SVM，比如高斯核kernel的SVM。 n很小，m很大n很小，一般指n=1-1000；m很大，一般m=50000-1000000。m很大，说明有足够的训练集来拟合非常复杂的非线性模型，但m很大的情况下，带核函数的SVM计算也非常慢。所以此时应该选线性kernel的SVM，也可以选择Logistic回归。n很小，说明Feature可能不足以表达模型，所以要添加更多Feature。 一些概念迁移学习^3：有监督预训练(supervised pre-training)，把一个任务训练好的参数拿到另一个任务作为神经网络的初始参数值。 NMS(非极大值抑制)： 在物体检测中NMS（Non-maximum suppression）非极大抑制应用十分广泛，其目的是为了消除多余的框，找到最佳的物体检测的位置。在RCNN系列算法中，会从一张图片中找出很多个候选框（可能包含物体的矩形边框），然后为每个矩形框为做类别分类概率。非极大值抑制（NMS）非极大值抑制顾名思义就是抑制不是极大值的元素，搜索局部的极大值。例如在对象检测中，滑动窗口经提取特征，经分类器分类识别后，每个窗口都会得到一个分类及分数。但是滑动窗口会导致很多窗口与其他窗口存在包含或者大部分交叉的情况。这时就需要用到NMS来选取那些邻域里分数最高（是某类对象的概率最大），并且抑制那些分数低的窗口。 定位一个车辆，最后算法就找出了一堆的方框，我们需要判别哪些矩形框是没用的。 所谓非极大值抑制：先假设有6个矩形框，根据分类器类别分类概率做排序，从小到大分别属于车辆的概率分别为A、B、C、D、E、F。(1)从最大概率矩形框F开始，分别判断A~E与F的重叠度IOU是否大于某个设定的阈值;(2)假设B、D与F的重叠度超过阈值，那么就扔掉B、D；并标记第一个矩形框F，是我们保留下来的。(3)从剩下的矩形框A、C、E中，选择概率最大的E，然后判断E与A、C的重叠度，重叠度大于一定的阈值，那么就扔掉；并标记E是我们保留下来的第二个矩形框。就这样一直重复，找到所有被保留下来的矩形框。 IoU(交并比)： 物体检测需要定位出物体的bounding box，比如车辆检查中，我们不仅要定位出车辆的bounding box ，还要识别出bounding box 里面的物体就是车辆。对于bounding box的定位精度，有一个很重要的概念，因为我们算法不可能百分百跟人工标注的数据完全匹配，因此就存在一个定位精度评价公式：IOU。IOU表示了bounding box 与 ground truth 的重叠度。即IoU是定位精度的评价公式$$IoU=\frac{A\cap B}{A\cup B}$$ 准确率&amp;精确率&amp;召回率:​ 准确率是正确预测的样本占总的预测样本比例​ 精确率是预测为正的样本中有多少是真的正类​ 召回率是样本中有多少正例被正确的预测​ F值=准确率*召回率*2/(准确率+召回率)，是准确率和召回率的调和平均值 ​TP：正类被预测为正类​FN：正类被预测为负类​FP：负类被预测为正类​TN：负类被预测为负类 $$准确率=\frac{TP+TN}{TP+TF+FN+FP}$$ $$精确率=\frac{TP}{TP+FP}$$ $$召回率=\frac{TP}{TP+FN}$$ 卷积计算后的图片尺寸：$$outputsize=\frac{imagesize+2*padding-kernelsize}{stride}$$ RankBoost:​ RankBoost的思想比较简单，是二元Learning to rank的常规思路：通过构造目标分类 器，使得pair之间的对象存在相对大小关系。通俗点说，把对象组成一对对的pair，比如一组排序r1&gt;r2&gt;r3&gt;r4，那可以构成pair：(r1,r2)(r1,r3),(r1,r4),(r2,r3)(r3,r4),这样的pair是正值，也就是label是1；而余下的pair如(r2,r1)的值应该是-1或0。这样一个排序问题就被巧妙的转换为了分类问题。近来CV界很多又用这种learning to rank的思想做识别问题，先把识别转换为排序问题再转换为分类问题 参考文献SVM和logistic回归分别在什么情况下使用 SVM和Logistic的区别 [物体检测中常用的几个概念迁移学习、IOU、NMS理解]]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+        <tag>神经网络</tag>
+      </tags>
+  </entry>
+</search>
