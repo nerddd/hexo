@@ -23,6 +23,8 @@ FaceNet采用的是通过卷积神经网络学习将图像映射到欧几里得�
 
 triplet loss的启发是传统loss函数趋向于将有一类特征的人脸图像映射到同一个空间，而triplet loss尝试将一个个体的人脸图像和其他人脸图像分开。
 
+![facenet_triplet1](.\pictures\facenet_triplet1.png)
+
 
 
 
