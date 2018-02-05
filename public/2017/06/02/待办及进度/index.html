@@ -110,19 +110,16 @@
 
 
 
-<meta name="description" content="Model PCA Size Threshold Score     Mirror 192 0.64 99.42%   Mirror Concat 192 0.65 99.42%   Mirror Add/Average 184 0.64 99.47%   Mirror Max 144 0.65 99.43%   Mirror Min 168 0.65 99.48%   Mirror Avg">
+<meta name="description" content="step1:Mirror face相关   Model PCA Size Threshold Score     Mirror 192 0.64 99.42%   Mirror Concat 192 0.65 99.42%   Mirror Add/Average 184 0.64 99.47%   Mirror Max 144 0.65 99.43%   Mirror Min 168 0.65">
 <meta property="og:type" content="article">
 <meta property="og:title" content="待办及进度">
 <meta property="og:url" content="calyp.github.io/2017/06/02/待办及进度/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="Model PCA Size Threshold Score     Mirror 192 0.64 99.42%   Mirror Concat 192 0.65 99.42%   Mirror Add/Average 184 0.64 99.47%   Mirror Max 144 0.65 99.43%   Mirror Min 168 0.65 99.48%   Mirror Avg">
-<meta property="og:image" content="c:/Users/lc/Desktop/test_crop/all/figure.png">
-<meta property="og:image" content="c:/Users/lc/Desktop/test_crop/all/figure2.png">
-<meta property="og:updated_time" content="2017-06-16T02:33:59.782Z">
+<meta property="og:description" content="step1:Mirror face相关   Model PCA Size Threshold Score     Mirror 192 0.64 99.42%   Mirror Concat 192 0.65 99.42%   Mirror Add/Average 184 0.64 99.47%   Mirror Max 144 0.65 99.43%   Mirror Min 168 0.65">
+<meta property="og:updated_time" content="2018-02-03T13:18:52.579Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="待办及进度">
-<meta name="twitter:description" content="Model PCA Size Threshold Score     Mirror 192 0.64 99.42%   Mirror Concat 192 0.65 99.42%   Mirror Add/Average 184 0.64 99.47%   Mirror Max 144 0.65 99.43%   Mirror Min 168 0.65 99.48%   Mirror Avg">
-<meta name="twitter:image" content="c:/Users/lc/Desktop/test_crop/all/figure.png">
+<meta name="twitter:description" content="step1:Mirror face相关   Model PCA Size Threshold Score     Mirror 192 0.64 99.42%   Mirror Concat 192 0.65 99.42%   Mirror Add/Average 184 0.64 99.47%   Mirror Max 144 0.65 99.43%   Mirror Min 168 0.65">
 
 
 
@@ -370,7 +367,7 @@
       
 
       
-        <table>
+        <h1 id="step1-Mirror-face相关"><a href="#step1-Mirror-face相关" class="headerlink" title="step1:Mirror face相关"></a>step1:Mirror face相关</h1><table>
 <thead>
 <tr>
 <th>Model</th>
@@ -418,7 +415,7 @@
 </tr>
 </tbody>
 </table>
-<table>
+<h1 id="step2-单眼Patch-model"><a href="#step2-单眼Patch-model" class="headerlink" title="step2:单眼Patch model"></a>step2:单眼Patch model</h1><table>
 <thead>
 <tr>
 <th>eye_width</th>
@@ -484,8 +481,7 @@
 </tr>
 </tbody>
 </table>
-<p><img src="C:\Users\lc\Desktop\test_crop\all\figure.png" alt="figure"></p>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>1.对于人脸关键点数据中，[eye_left_x,eye_left_y,eye_right_x,eye_right_y…],在进行眼睛宽度估算时，利用eye_width=(eye_right_x-eye_elft_x)<em>0.78,所以crop后左眼的最左边的坐标公式为eye_left_x-0.5</em>eye_width，有一种情况没考虑到就是eye_left_x小于0.5*eye_width，所以要加一个判断语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if eye_width*0.5&gt;eye_left_x:</div><div class="line">            eye_width=eye_left_x*2</div></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1.对于人脸关键点数据中，[eye_left_x,eye_left_y,eye_right_x,eye_right_y…],在进行眼睛宽度估算时，利用eye_width=(eye_right_x-eye_elft_x)<em>0.78,所以crop后左眼的最左边的坐标公式为eye_left_x-0.5</em>eye_width，有一种情况没考虑到就是eye_left_x小于0.5*eye_width，所以要加一个判断语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if eye_width*0.5&gt;eye_left_x:</div><div class="line">            eye_width=eye_left_x*2</div></pre></td></tr></table></figure></p>
 <p>导致眼睛宽度估算分布就不太准确，最终导致在mscelebv1_crop数据上，最终符合要求的只有731750张</p>
 <p>重新生成眼睛宽度估算文件，其分布如下</p>
 <table>
@@ -560,8 +556,657 @@
 </tr>
 </tbody>
 </table>
-<p><img src="C:\Users\lc\Desktop\test_crop\all\figure2.png" alt="figure2"></p>
 <p>2.tripletloss在100次迭代时，loss=nan，原因是初始化的base_lr过大，调小即可<br>3.test的accuracy一直为0：想到了在清洗数据的时候，有的人物并没有参与，也就是最开始直接用小蔓师兄的标签不行，最后一层的输出不等于我现在数据中的样本类别数。。得自己重新生成，首先要将空目录删除，确定有多少类别，然后label从0开始重新生成。<br>最后发现我的类别应该是90481.而最后一个全连接层的num_output=90526</p>
+<p><u>17个小时，迭代12万次，26.5%的准确率，loss=5.5。</u></p>
+<h1 id="step3-双眼patch-model"><a href="#step3-双眼patch-model" class="headerlink" title="step3:双眼patch model"></a>step3:双眼patch model</h1><p>生成双眼宽度估算文件，其分布如下</p>
+<table>
+<thead>
+<tr>
+<th>eye_width</th>
+<th>num</th>
+<th>eye_width</th>
+<th>num</th>
+<th>eye_width</th>
+<th>num</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0~10</td>
+<td>30</td>
+<td>100~110</td>
+<td>18,8771</td>
+<td>200~210</td>
+<td>383</td>
+</tr>
+<tr>
+<td>10~20</td>
+<td>5888</td>
+<td>110~120</td>
+<td>8,8508</td>
+<td>210~220</td>
+<td>196</td>
+</tr>
+<tr>
+<td>20~30</td>
+<td>11,4595</td>
+<td>120~130</td>
+<td>4,6243</td>
+<td>220~230</td>
+<td>100</td>
+</tr>
+<tr>
+<td>30~40</td>
+<td>35,5451</td>
+<td>130~140</td>
+<td>2,4982</td>
+<td>230~240</td>
+<td>52</td>
+</tr>
+<tr>
+<td>40~50</td>
+<td>42,6729</td>
+<td>140~150</td>
+<td>1,2749</td>
+<td>240~250</td>
+<td>33</td>
+</tr>
+<tr>
+<td>50~60</td>
+<td>49,1312</td>
+<td>150~160</td>
+<td>6714</td>
+<td>250~260</td>
+<td>15</td>
+</tr>
+<tr>
+<td>60~70</td>
+<td>69,0394</td>
+<td>160~170</td>
+<td>3413</td>
+<td>260~270</td>
+<td>3</td>
+</tr>
+<tr>
+<td>70~80</td>
+<td>104,9353</td>
+<td>170~180</td>
+<td>1909</td>
+<td>270~280</td>
+<td>2</td>
+</tr>
+<tr>
+<td>80~90</td>
+<td>100,6618</td>
+<td>180~190</td>
+<td>1091</td>
+<td>280~290</td>
+<td>0</td>
+</tr>
+<tr>
+<td>90~100</td>
+<td>47,7219</td>
+<td>190~200</td>
+<td>622</td>
+<td>290~300</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>筛选crop后，宽度在20~130区间的图片，共90523个类别，4932655张。</p>
+<p>train.txt：3982004 </p>
+<p>val.txt：950661 </p>
+<p><u>18万次迭代之后，准确率只有66%左右。</u></p>
+<h1 id="step4-crop对齐后的图片的眼睛，训练单眼模型"><a href="#step4-crop对齐后的图片的眼睛，训练单眼模型" class="headerlink" title="step4:crop对齐后的图片的眼睛，训练单眼模型"></a>step4:crop对齐后的图片的眼睛，训练单眼模型</h1><p>数据集大小：5044507(90525个类)（”/home/yf/caffe-rc5-triplet/examples/triplet-face/clean.txt”，”/home/yf/data/msclean”）</p>
+<pre><code>&quot;ref_points&quot;: [
+        30.2946, 51.6963, 
+     65.5318, 51.5014, 
+     48.0252, 71.7366,
+     33.5493, 92.3655, 
+     62.7299, 92.2041
+ ]
+
+
+  eye_width=(ref_points[2]-ref_points[0])*0.8
+     eye_height=eye_width
+     x1=ref_points[0]-0.5*eye_width=16
+     x2=ref_points[0]+0.5*eye_width=44
+     y1=ref_points[1]-0.5*eye_height=37
+     y2=ref_points[1]+0.5*eye_height=65
+</code></pre><p>train:4071324 张</p>
+<p>val:973183张</p>
+<h1 id="step5-crop对齐后的图片的眼睛，训练双眼模型"><a href="#step5-crop对齐后的图片的眼睛，训练双眼模型" class="headerlink" title="step5:crop对齐后的图片的眼睛，训练双眼模型"></a>step5:crop对齐后的图片的眼睛，训练双眼模型</h1><p>数据集大小：5044507(90525个类)（”/home/yf/caffe-rc5-triplet/examples/triplet-face/clean.txt”，”/home/yf/data/msclean”）</p>
+<pre><code>   &quot;ref_points&quot;: [
+       30.2946, 51.6963, 
+    65.5318, 51.5014, 
+    48.0252, 71.7366,
+    33.5493, 92.3655, 
+    62.7299, 92.2041
+]
+     eye_width=(ref_points[2]-ref_points[0])*0.8
+    eye_height=eye_width
+    x1=ref_points[0]-0.5*eye_width=16
+    x2=ref_points[2]+0.5*eye_width=79
+    y1=ref_points[1]-0.5*eye_height=37
+    y2=ref_points[1]+0.5*eye_height=65
+</code></pre><p><u>迭代16万次，精度为72.73%，loss=2.52</u></p>
+<p><u>在lfw上测试，精度最高达到77.04%</u></p>
+<h1 id="step6-Center-face-dropout-finetune-on-softmax"><a href="#step6-Center-face-dropout-finetune-on-softmax" class="headerlink" title="step6:Center face+dropout+finetune on softmax"></a>step6:Center face+dropout+finetune on softmax</h1><p>在msclean测试集上达到93.53% </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Model</th>
+<th>PCA_Size</th>
+<th>Threshold</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">dropcenter</td>
+<td>168</td>
+<td>0.64</td>
+<td>99.42%</td>
+</tr>
+<tr>
+<td style="text-align:left">dropcenter_mirror</td>
+<td>136</td>
+<td>0.64</td>
+<td>99.38%</td>
+</tr>
+<tr>
+<td style="text-align:left">dropcenter +dropcenter_mirror+Min</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.45%</td>
+</tr>
+<tr>
+<td style="text-align:left">dropcenter+dropcenter_mirror+ Add</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.45%</td>
+</tr>
+<tr>
+<td style="text-align:left">center +dropcenter +Min</td>
+<td>400</td>
+<td>0.64</td>
+<td>99.40%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Min</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.45%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Add</td>
+<td>160</td>
+<td>0.64</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Max</td>
+<td>160</td>
+<td>0.64</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Concate</td>
+<td>192</td>
+<td>0.65</td>
+<td>99.47%</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>PCA Size</th>
+<th>Threshold</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>center_min_mirror+dropcenter+Concate</td>
+<td>192</td>
+<td>0.65</td>
+<td>99.47%</td>
+</tr>
+<tr>
+<td>center_min_mirror+dropcenter+Min</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.42%</td>
+</tr>
+<tr>
+<td>center_min_mirror+dropcenter+Add</td>
+<td>136</td>
+<td>0.64</td>
+<td>99.47%</td>
+</tr>
+<tr>
+<td>eye_model</td>
+<td>160</td>
+<td>0.57</td>
+<td>77.04%</td>
+</tr>
+<tr>
+<td>eyemodel+center+Con</td>
+<td>208</td>
+<td>0.66</td>
+<td>74.80%</td>
+</tr>
+<tr>
+<td>三模型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>center+center_min_mirror+dropoutcenter+Concate</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td>center+softmax+dropoutcenter+Concate</td>
+<td>168</td>
+<td>0.66</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td>center+softmax+dropoutcenter+Add</td>
+<td>496</td>
+<td>0.65</td>
+<td>99.42%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="step7-balance"><a href="#step7-balance" class="headerlink" title="step7:balance"></a>step7:balance</h1><h2 id="step7-1-减小过采样的数量，防止过拟合"><a href="#step7-1-减小过采样的数量，防止过拟合" class="headerlink" title="step7.1:减小过采样的数量，防止过拟合"></a>step7.1:减小过采样的数量，防止过拟合</h2><p>对/home/yf/data/clean.txt中每种类别进行统计各有多少个数：</p>
+<table>
+<thead>
+<tr>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;10</td>
+<td>1213</td>
+<td>10~20</td>
+<td>11617</td>
+</tr>
+<tr>
+<td>20~30</td>
+<td>10868</td>
+<td>30~40</td>
+<td>9692</td>
+</tr>
+<tr>
+<td>40~50</td>
+<td>9020</td>
+<td>50~60</td>
+<td>8426</td>
+</tr>
+<tr>
+<td>60~70</td>
+<td>8443</td>
+<td>70~80</td>
+<td>8783</td>
+</tr>
+<tr>
+<td>80~90</td>
+<td>8762</td>
+<td>90~100</td>
+<td>7317</td>
+</tr>
+<tr>
+<td>100~110</td>
+<td>4277</td>
+<td>110~120</td>
+<td>1753</td>
+</tr>
+<tr>
+<td>120~130</td>
+<td>354</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>类别总数共90525。由上图可知，类别严重不均衡，之前处理类别不均衡的方法主要是欠抽样和过抽样结合，对于多数类样本丢弃一部分样本，对于少数类样本复制生成，最后的训练数据分布如下：</p>
+<table>
+<thead>
+<tr>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>70~80</td>
+<td>3673</td>
+<td>80~90</td>
+<td>19068</td>
+</tr>
+<tr>
+<td>90~100</td>
+<td>27069</td>
+<td>100~110</td>
+<td>40715</td>
+</tr>
+</tbody>
+</table>
+<p>由于少数类占了大多数，但是重复太多，可能导致过拟合问题，于是将每个类别的图片张数减去30，重新生成balance的训练数据，并训练模型。</p>
+<p><u>迭代17万次后，msdata测试集上准确率达到92.28%，loss=0.27</u></p>
+<p><u>lfw上精度为99.18%</u></p>
+<p><u>mirror:99.27%</u></p>
+<p><u>add:99.27%</u></p>
+<h2 id="step7-2-EasyEmsemble法均衡类别"><a href="#step7-2-EasyEmsemble法均衡类别" class="headerlink" title="step7.2:EasyEmsemble法均衡类别"></a>step7.2:EasyEmsemble法均衡类别</h2><p>step7.1的方法属于欠抽样和过抽样结合：</p>
+<ul>
+<li>对于欠抽样算法，将多数类样本删除有可能会导致分类器<strong>丢失有关多数类的重要信息</strong>。</li>
+<li>对于过抽样算法，虽然只是简单地将复制后的数据添加到原始数据集中，且某些样本的多个实例都是“<strong>并列的</strong>”，但这样也可能会导致分类器学习出现<strong>过拟合现象</strong>，对于同一个样本的多个复本产生多个规则条例，这就使得<strong>规则过于具体化</strong>；虽然在这种情况下，分类器的训练精度会很高，但在位置样本的分类性能就会非常不理想。</li>
+</ul>
+<p><strong>EasyEnsemble 核心思想是：</strong></p>
+<ul>
+<li><p>首先通过从多数类中<strong>独立随机</strong>抽取出若干子集</p>
+</li>
+<li><p>将每个子集与少数类数据<strong>联合</strong>起来<strong>训练</strong>生成多个基分类器</p>
+</li>
+<li><p>最终将这些基分类器<strong>组合形成</strong>一个集成学习系统</p>
+<p>设立一个阈值50，对于类别样本数超过50的，将其分写到两个不同的文件；对于类别样本数不超过50的，利用过采样进行增添，所以最终得到两个有交集的训练集A,B，两个训练集的样本数都是</p>
+<p>90525*50=4526250</p>
+</li>
+</ul>
+<p><u>训练两个model，然后提取特征，对特征进行融合。</u></p>
+<table>
+<thead>
+<tr>
+<th>Model(acc/loss)</th>
+<th>Pca Size</th>
+<th>Threshold</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>model1(90.75%/0.41)</td>
+<td>176</td>
+<td>0.64</td>
+<td>99.05%</td>
+</tr>
+<tr>
+<td>model1(92.14%/0.26)</td>
+<td>200</td>
+<td>0.62</td>
+<td>99.28%</td>
+</tr>
+<tr>
+<td>model1(92.14%/0.26) Mirror</td>
+<td>280</td>
+<td>0.63</td>
+<td>99.32%</td>
+</tr>
+<tr>
+<td>model1(92.14%/0.26) Add Mirror</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.30%</td>
+</tr>
+<tr>
+<td>model2(92.56%/0.41)</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.27%</td>
+</tr>
+<tr>
+<td>model2(92.56%/0.41) Mirror</td>
+<td>192</td>
+<td>0.63</td>
+<td>99.35%</td>
+</tr>
+<tr>
+<td>model2(92.56%/0.41) Add Mirror</td>
+<td>192</td>
+<td>0.64</td>
+<td>99.32%</td>
+</tr>
+<tr>
+<td>model1 add model2</td>
+<td>152</td>
+<td>0.64</td>
+<td>99.33%</td>
+</tr>
+<tr>
+<td>model1 mirror add model2 mirror</td>
+<td>136</td>
+<td>0.65</td>
+<td>99.37%</td>
+</tr>
+<tr>
+<td>model1 add model2 mirror</td>
+<td>152</td>
+<td>0.64</td>
+<td>99.37%</td>
+</tr>
+<tr>
+<td>model1_add_mirror add model2_add_mirror</td>
+<td>152</td>
+<td>0.64</td>
+<td>99.38%</td>
+</tr>
+<tr>
+<td>model1_add_mirror concate model2_add_mirror</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.32%</td>
+</tr>
+<tr>
+<td>model1 mirror min model2 mirror</td>
+<td>168</td>
+<td>0.64</td>
+<td>99.37%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="step8-UMDFaces"><a href="#step8-UMDFaces" class="headerlink" title="step8:UMDFaces"></a>step8:UMDFaces</h1><p>对UMDFaces数据集进行人脸对齐处理</p>
+<p>batch1:175,534(3554类)</p>
+<p>batch2:115,126(2590类)</p>
+<p>batch3:77,228(2133类)</p>
+<p>frames:3,735,475(3106类)</p>
+<p>提取4个数据集的类别名称，经过处理分析后发现frames的类别属于batch1类别的子集，将3个batch与frames的数据集整合到一个数据集下，因为当静态图片和视频帧进行结合后训练的模型往往既能兼顾个体之间的差异（静态图片特征）也能学习到同一个个体的姿态变化（视频帧特征），要注意的一点就是对于frames和batch1中同一个类别的要放在一个目录下，并重新生成类别标签。</p>
+<p>数据总量:4103363(8276个类别)</p>
+<p>数据整理已经完成，接下来是在这个数据集上进行metric learning的训练。</p>
+<p>train:3286012<br>val:817351</p>
+<h1 id="step9-Megaface测试"><a href="#step9-Megaface测试" class="headerlink" title="step9:Megaface测试"></a>step9:Megaface测试</h1><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dataset</th>
+<th>Score(Megaface/LFW)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>center-face</td>
+<td>FaceScrub Set1/LFW</td>
+<td>67.32%/99.42%</td>
+</tr>
+<tr>
+<td>balance-reduced</td>
+<td>FaceScrub Set1/LFW</td>
+<td>70.99%/99.18%</td>
+</tr>
+<tr>
+<td>easyensemble</td>
+<td>FaceScrub Set1</td>
+<td>73.91%/99.33%</td>
+</tr>
+<tr>
+<td>easyensemble  concat addmirror</td>
+<td>FaceScrub Set1</td>
+<td>74.21%/99.37%</td>
+</tr>
+<tr>
+<td>balance-cent-soft</td>
+<td>FaceScrub Set1/LFW</td>
+<td>74.47%/99.33%</td>
+</tr>
+<tr>
+<td>balance-cent-soft concat mirror</td>
+<td>FaceScrub Set1</td>
+<td>75.65%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step9-1-Megaface测试（续）"><a href="#step9-1-Megaface测试（续）" class="headerlink" title="step9.1:Megaface测试（续）"></a>step9.1:Megaface测试（续）</h2><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dataset</th>
+<th>Score(Megaface/LFW)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dropout_center Concat mirror</td>
+<td>FaceScrub Set1/LFW</td>
+<td>69.34%/99.47%</td>
+</tr>
+<tr>
+<td>normface easyensemble model1 Concart mirror</td>
+<td>FaceScrub Set1/LFW</td>
+<td>70.32%</td>
+</tr>
+<tr>
+<td>normface easyensemble 2models Concat mirror</td>
+<td>FaceScrub Set1</td>
+<td>70.49%</td>
+</tr>
+<tr>
+<td>balance concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>78.84%</td>
+</tr>
+<tr>
+<td>easyensemble concat addmirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>75.92%</td>
+</tr>
+<tr>
+<td>jitter_center_iter_190000 concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>77.69%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>83.13%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 only mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>82.08%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 add mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>82.87%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_184000 concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>83.16%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 concat mirror</td>
+<td>FaceScrub(python_mtcnn)</td>
+<td>78.33%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_184000 concat mirror(matlab align)</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>79.05%</td>
+</tr>
+<tr>
+<td>normface_jitter_iter_124000 concat mirror(python align)</td>
+<td>FaceScrub(python_mtcnn)</td>
+<td>76.50%</td>
+</tr>
+<tr>
+<td>normface_jitter_iter124000 cancat mirror(python align)</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>78.92%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="step-10-MTCNN-matlab-人脸检测及对齐"><a href="#step-10-MTCNN-matlab-人脸检测及对齐" class="headerlink" title="step 10:MTCNN(matlab)人脸检测及对齐"></a>step 10:MTCNN(matlab)人脸检测及对齐</h1><h2 id="step-10-1：对齐Megaface和FaceScrub"><a href="#step-10-1：对齐Megaface和FaceScrub" class="headerlink" title="step 10.1：对齐Megaface和FaceScrub"></a>step 10.1：对齐Megaface和FaceScrub</h2><p>主要是Megaface数据集（1028062张）,FaceScrub数据集(91712张)，其中FaceScrub数据集中通过mtcnn（/home/yf/align/align_megaface.m）检测到的有89751张，剩余的1961张需要利用数据集中提供的3个关键点进行对齐，首先需要获取未检测到的图片的路径，然后利用python 脚本(/home/yf/megaface/devkit/templatelists/analysis/analysis_json.py)解析对应的存储该图片中人脸关键点的json文件，最后在利用matlab脚本(/home/yf/align/for_not_detect/align_megaface.m)进行批量对齐。Megaface数据集中未检测到的数据集同样处理。</p>
+<p><strong>问题</strong>：</p>
+<p>在进行了41万次对齐后，出现了imread的错误，然后将从目录读取路径改成了从存储图片路径的文件中(/home/yf/megaface/tests/MegaFace_align_list_image.txt)直接获取路径，并输出每次进行处理的文件名，重新进行对齐操作，然后重现了这个错误，最后比对MegaFace_align_list_image.txt的下一张图片，发现有张图片是输入为空的。</p>
+<h2 id="step-10-2-对齐msceleb数据"><a href="#step-10-2-对齐msceleb数据" class="headerlink" title="step 10.2:对齐msceleb数据"></a>step 10.2:对齐msceleb数据</h2><p>重新对齐msceleb数据集用于训练。</p>
+<h1 id="step-11-Normface训练"><a href="#step-11-Normface训练" class="headerlink" title="step 11:Normface训练"></a>step 11:Normface训练</h1><p>Normface(paper:<a href="https://arxiv.org/pdf/1704.06369.pdf" target="_blank" rel="external">NormFace: L2 Hypersphere Embedding for Face Verification</a>)</p>
+<h2 id="step-11-1-训练EasyEnsemble模型"><a href="#step-11-1-训练EasyEnsemble模型" class="headerlink" title="step 11.1:训练EasyEnsemble模型"></a>step 11.1:训练EasyEnsemble模型</h2><p>model1在测试集上的准确率为92.88%，model2在测试集上的准确率为92.85%。</p>
+<p>暂时只测了单个的model1 concate mirror在Megaface(还是原始python版mtcnn对齐的)上的准确率只有70.32%。下周继续测试两个模型的效果。</p>
+<h2 id="step-11-2-训练Balance模型"><a href="#step-11-2-训练Balance模型" class="headerlink" title="step 11.2:训练Balance模型"></a>step 11.2:训练Balance模型</h2><p>刚生成完训练的数据集，下周开始训练。</p>
+<h1 id="step-12-Image-Jitter"><a href="#step-12-Image-Jitter" class="headerlink" title="step 12:Image Jitter"></a>step 12:Image Jitter</h1><p>对图片增加随机扰动，包括缩放、角度变换、镜像操作，主要还是msceleb数据集(/home/yf/data/msclean)上进行，由于该数据集类别不均衡，所以对于样本数较少的类别可以采用这种办法增加样本容量。最终将每个类别的样本数控制在80~160之间。</p>
+<p>10240892</p>
+<p>train:9257534</p>
+<p>val:983342</p>
+<p>正在生成训练的数据集lmdb。</p>
+<p>jitter_center_iter_190000 concat mirror  FaceScrub(matlab_mtcnn)  77.69%  </p>
+<p>jitter_softmax_iter_180000 concat mirror  FaceScrub(matlab_mtcnn)  83.18%</p>
+<p>jitter_softmax_iter_180000 only mirror  FaceScrub(matlab_mtcnn)  82.08%</p>
+<p>jitter_softmax_iter_180000 add mirror  FaceScrub(matlab_mtcnn)  82.87%</p>
+<p>jitter_softmax_iter_184000 concat mirror  FaceScrub(matlab_mtcnn)  83.16%</p>
+<h1 id="step-13-Gender-test"><a href="#step-13-Gender-test" class="headerlink" title="step 13:Gender test"></a>step 13:Gender test</h1><h3 id="1-0"><a href="#1-0" class="headerlink" title="1.0"></a>1.0</h3><p>VGG16在lfw上准确率90.04%，在imdb(15590测试样本)上准确率90.92%</p>
+<p>model training:female(69847),male(86061)</p>
+<p>train:124728</p>
+<p>val:15590</p>
+<p>test:15590</p>
+<h3 id="2-0"><a href="#2-0" class="headerlink" title="2.0"></a>2.0</h3><p>网络：AlexNet 在清理后的数据集上，迭代29500次后，训练准确率为98.16%，loss=0.55</p>
+<p>在测试集上达到98.11%（15127/15418)</p>
+<h1 id="Todo1"><a href="#Todo1" class="headerlink" title="Todo1"></a>Todo1</h1><ul>
+<li>[x] Create umdfaces–&gt;lmdb</li>
+<li>[x] EasyEnsemble train and test</li>
+<li>[x] Use matcaffe for metric learning</li>
+<li>[ ] Megaface test<pre><code>- - [x] center face
+  - [x] balance-cent-soft
+  - [x] reduced
+  - [x] mirror or concatenate
+  - [x] EasyEnsemble
+</code></pre></li>
+</ul>
+<ul>
+<li><p>[x] Paper reading:One-shot face recognition by promoting underrepresented classes</p>
+<pre><code>​
+</code></pre></li>
+</ul>
+<h1 id="Todo2"><a href="#Todo2" class="headerlink" title="Todo2"></a>Todo2</h1><ul>
+<li><p>[ ] jitter model training(softmax first)</p>
+</li>
+<li><p>[ ] balance model retrain on normface(include center loss)</p>
+</li>
+<li><p>[ ] aligned by matlab_mtcnn megaface(balance model 75.65% version)</p>
+</li>
+<li><p>[ ] gender classfication model training</p>
+<pre><code>- check the dataset (detect and crop by matlab_mtcnn)
+
+- generate lmdb
+
+- choose a model(ResNet?)
+
+  ​
+</code></pre></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://github.com/happynear/FaceVerification" target="_blank" rel="external">happynear-face-verification</a></p>
+<p><a href="https://github.com/davisking/dlib/blob/cbd187fb6109d21406f6a76bb0e9aa0689b1e54a/examples/dnn_face_recognition_ex.cpp" target="_blank" rel="external">dlib-jitter</a></p>
+<p><a href="http://blog.dlib.net" target="_blank" rel="external">dlib-face-verification-blog</a></p>
 
       
     </div>
@@ -682,7 +1327,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -693,7 +1338,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -704,7 +1349,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -793,7 +1438,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#step1-Mirror-face相关"><span class="nav-number">1.</span> <span class="nav-text">step1:Mirror face相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step2-单眼Patch-model"><span class="nav-number">2.</span> <span class="nav-text">step2:单眼Patch model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">2.1.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step3-双眼patch-model"><span class="nav-number">3.</span> <span class="nav-text">step3:双眼patch model</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step4-crop对齐后的图片的眼睛，训练单眼模型"><span class="nav-number">4.</span> <span class="nav-text">step4:crop对齐后的图片的眼睛，训练单眼模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step5-crop对齐后的图片的眼睛，训练双眼模型"><span class="nav-number">5.</span> <span class="nav-text">step5:crop对齐后的图片的眼睛，训练双眼模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step6-Center-face-dropout-finetune-on-softmax"><span class="nav-number">6.</span> <span class="nav-text">step6:Center face+dropout+finetune on softmax</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step7-balance"><span class="nav-number">7.</span> <span class="nav-text">step7:balance</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step7-1-减小过采样的数量，防止过拟合"><span class="nav-number">7.1.</span> <span class="nav-text">step7.1:减小过采样的数量，防止过拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step7-2-EasyEmsemble法均衡类别"><span class="nav-number">7.2.</span> <span class="nav-text">step7.2:EasyEmsemble法均衡类别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step8-UMDFaces"><span class="nav-number">8.</span> <span class="nav-text">step8:UMDFaces</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step9-Megaface测试"><span class="nav-number">9.</span> <span class="nav-text">step9:Megaface测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step9-1-Megaface测试（续）"><span class="nav-number">9.1.</span> <span class="nav-text">step9.1:Megaface测试（续）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step-10-MTCNN-matlab-人脸检测及对齐"><span class="nav-number">10.</span> <span class="nav-text">step 10:MTCNN(matlab)人脸检测及对齐</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step-10-1：对齐Megaface和FaceScrub"><span class="nav-number">10.1.</span> <span class="nav-text">step 10.1：对齐Megaface和FaceScrub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step-10-2-对齐msceleb数据"><span class="nav-number">10.2.</span> <span class="nav-text">step 10.2:对齐msceleb数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step-11-Normface训练"><span class="nav-number">11.</span> <span class="nav-text">step 11:Normface训练</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step-11-1-训练EasyEnsemble模型"><span class="nav-number">11.1.</span> <span class="nav-text">step 11.1:训练EasyEnsemble模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step-11-2-训练Balance模型"><span class="nav-number">11.2.</span> <span class="nav-text">step 11.2:训练Balance模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step-12-Image-Jitter"><span class="nav-number">12.</span> <span class="nav-text">step 12:Image Jitter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step-13-Gender-test"><span class="nav-number">13.</span> <span class="nav-text">step 13:Gender test</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-0"><span class="nav-number">13.0.1.</span> <span class="nav-text">1.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-0"><span class="nav-number">13.0.2.</span> <span class="nav-text">2.0</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Todo1"><span class="nav-number">14.</span> <span class="nav-text">Todo1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Todo2"><span class="nav-number">15.</span> <span class="nav-text">Todo2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">15.0.1.</span> <span class="nav-text">参考链接</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -816,7 +1461,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

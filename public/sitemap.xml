@@ -2,23 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>calyp.github.io/2017/06/28/FaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
+    <loc>calyp.github.io/2018/01/29/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%9B%9E%E9%A1%BE/</loc>
     
-    <lastmod>2017-06-28T02:34:07.173Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/06/17/Caffe%E8%B0%83%E5%8F%82/</loc>
-    
-    <lastmod>2017-06-17T02:24:49.318Z</lastmod>
+    <lastmod>2018-02-05T09:10:20.415Z</lastmod>
     
   </url>
   
   <url>
     <loc>calyp.github.io/2017/06/02/%E5%BE%85%E5%8A%9E%E5%8F%8A%E8%BF%9B%E5%BA%A6/</loc>
     
-    <lastmod>2017-06-16T02:33:59.782Z</lastmod>
+    <lastmod>2018-02-03T13:18:52.579Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/09/21/%E8%A1%8C%E4%BA%BA%E6%A3%80%E6%B5%8B/</loc>
+    
+    <lastmod>2017-09-21T11:46:56.052Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/01/%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    
+    <lastmod>2017-09-11T03:24:37.234Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/17/Caffe%E8%B0%83%E5%8F%82/</loc>
+    
+    <lastmod>2017-07-27T01:53:11.297Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/07/17/%E6%96%87%E6%A1%A3%E5%BD%92%E7%B1%BB/</loc>
+    
+    <lastmod>2017-07-17T07:40:50.206Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/07/04/DeepID3%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2017-07-04T06:33:10.490Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/29/Center-loss%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2017-06-30T12:19:30.937Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/28/FaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2017-06-28T13:23:36.661Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/02/Hexo%E7%9B%B8%E5%85%B3/</loc>
+    
+    <lastmod>2017-06-28T12:28:10.590Z</lastmod>
     
   </url>
   
@@ -30,23 +79,9 @@
   </url>
   
   <url>
-    <loc>calyp.github.io/2017/06/01/%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
-    
-    <lastmod>2017-06-08T01:58:50.356Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>calyp.github.io/2017/06/02/Triplet%20loss/</loc>
     
     <lastmod>2017-06-02T13:09:42.119Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/06/02/Hexo%E7%9B%B8%E5%85%B3/</loc>
-    
-    <lastmod>2017-06-02T08:25:37.278Z</lastmod>
     
   </url>
   

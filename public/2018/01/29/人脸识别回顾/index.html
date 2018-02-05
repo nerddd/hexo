@@ -1,0 +1,955 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="人脸识别," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Calyp" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。 构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1） 数据均衡：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如ji">
+<meta name="keywords" content="人脸识别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人脸识别回顾">
+<meta property="og:url" content="calyp.github.io/2018/01/29/人脸识别回顾/index.html">
+<meta property="og:site_name" content="Calyp">
+<meta property="og:description" content="数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。 构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1） 数据均衡：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如ji">
+<meta property="og:updated_time" content="2018-02-05T09:10:20.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="人脸识别回顾">
+<meta name="twitter:description" content="数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。 构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1） 数据均衡：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如ji">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="calyp.github.io/2018/01/29/人脸识别回顾/"/>
+
+
+
+
+
+  <title>人脸识别回顾 | Calyp</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Calyp</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Study</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="calyp.github.io/2018/01/29/人脸识别回顾/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Calyp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/images.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Calyp">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">人脸识别回顾</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-29T09:47:23+08:00">
+                2018-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h1><p><strong>数据清洗</strong>：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。</p>
+<p><strong>构造验证集</strong>:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1）</p>
+<p><strong>数据均衡</strong>：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如jitter操作）少数部分的样本, 使之和多数部分差不多数量； 方式二: 砍掉一些多数部分, 使两者数量差不多</p>
+<p><strong>数据扩充</strong>：对于一些样本数据比较少的数据集，为了更好的训练网络，有时候需要人为增加一些训练样本，比如随机的剪裁、缩放和旋转等。</p>
+<p><strong>预处理</strong>：常见的就是减均值、除方差。</p>
+<h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><p>####1. 模型选择：</p>
+<p>根据具体任务和数据集规模选择合适的网络结构，对于分类任务来说，如果数据集的规模不大，则网络的层数不应太深，结构也不应太复杂。</p>
+<p>####2. 激励函数的选择</p>
+<ul>
+<li><p><strong>sigmoid函数</strong>：取值范围为(0,1)，可以将一个实数映射到(0,1)的区间，可以用来做二分类，在特征相差比较复杂或是相差不是特别大时效果比较好，缺点是：激活函数计算量大，反向传播求梯度时，求导涉及除法，反向传播时，很容易出现梯度消失的情况</p>
+</li>
+<li><p><strong>Tanh函数</strong>：取值范围为[-1,1]，在特征相差明显时的效果会很好，在循环过程中会不断扩大特征效果，与sigmoid的区别是,tanh是0均值的，因此实际应用中，tanh会比sigmoid更好。</p>
+</li>
+<li><p><strong>ReLU函数</strong>：使用ReLU得到的SGD的收敛速度会比sigmoid/tanh快很多，缺点是训练的时候很”脆弱”，很容易就”die”了例如，一个非常大的梯度流过一个 ReLU 神经元，更新过参数之后，这个神经元再也不会对任何数据有激活现象了，那么这个神经元的梯度就永远都会是 0.如果 learning rate 很大，那么很有可能网络中的 40% 的神经元都”dead”了。</p>
+<p>选择的时候，就是根据各个函数的优缺点来配置，例如：</p>
+<p>如果使用 ReLU，要小心设置 learning rate，注意不要让网络出现很多 “dead” 神经元，如果不好解决，可以试试 Leaky ReLU、PReLU 或者 Maxout.</p>
+<p><strong>详细细节请参看</strong>：<a href="https://www.jianshu.com/p/22d9720dbf1a" target="_blank" rel="external">常用激活函数比较</a></p>
+<p>​</p>
+</li>
+</ul>
+<p>####3. 卷积tricks</p>
+<p>图片输入是2的幂次方，例如32、64、96、224等。</p>
+<p>卷积核大小是3<em>3或者5</em>5。</p>
+<p>输入图片上下左右需要用0补充，即padding，且假如卷积核大小是5，那么padding就是2（图片左右上下都补充2）；卷积核大小是3，padding大小就是1。</p>
+<p>####4. pooling层tricks</p>
+<p>poolin层也能防止过拟合，使用overlapped pooling，即用来池化的数据有重叠，但是pooling的大小不要超过3。max pooling比avg pooling效果会好一些。avg-global pooling进入全卷积时代。</p>
+<h4 id="5-Loss函数的选择"><a href="#5-Loss函数的选择" class="headerlink" title="5. Loss函数的选择"></a>5. Loss函数的选择</h4><ul>
+<li><p><strong>softmax loss</strong></p>
+</li>
+<li><p>contrastive loss</p>
+</li>
+<li><p>triplet loss</p>
+</li>
+<li><p><strong>center loss</strong></p>
+<p><strong>triplet loss比softmax的优势</strong></p>
+<ul>
+<li>在于softmax不直接，（三元组直接优化距离），因而性能也不好。</li>
+<li>softmax产生的特征表示向量都很大，一般超过1000维。</li>
+<li>利用triplet loss的metric learning目的在于减小类内的L2距离，同时增大类间的距离</li>
+</ul>
+<p><strong>center loss VS triplet loss</strong></p>
+<ul>
+<li>triplet loss:dramatic data expansion</li>
+<li>center loss:more directly and efficiently</li>
+</ul>
+</li>
+</ul>
+<h1 id="神经网络的设计模式"><a href="#神经网络的设计模式" class="headerlink" title="神经网络的设计模式"></a>神经网络的设计模式</h1><ol>
+<li><p><strong>Architectural Structure follows the Application</strong>（架构遵循应用）</p>
+<p>应该根据自己的应用场景选择合适的网络架构。</p>
+</li>
+<li><p><strong>Proliferate Paths</strong>（路径扩增）</p>
+<p>每年ImageNet Challenge的赢家都比上一年的冠军使用更加深层的网络。从AlexNet 到Inception到Resnets，Smith和他的团队也观察到“网络的路径数量成倍增长”的趋势，ResNet可以是不同长度的网络的指数集合。</p>
+</li>
+<li><p><strong>Strive for Simplicity</strong>（简洁原则）</p>
+<p>更大的并不一定是更好的。在名为“Bigger is not necessarily better”的论文中，Springenberg 等人演示了如何用更少的单元实现最先进的结果。</p>
+</li>
+<li><p><strong>Increase Symmetry</strong> （增加对称性）</p>
+<p>无论是在建筑上，还是在生物上，对称性被认为是质量和工艺的标志。Smith 将 FractalNet 的优雅归功于网络的对称性。</p>
+</li>
+<li><p><strong>Pyramid Shape</strong> （金字塔型）</p>
+<p>在表征能力和减少冗余或者无用信息之间权衡。CNNs通常会降低激活函数的采样，并会增加从输入层到最终层之间的连接通道。</p>
+</li>
+<li><p><strong>Over-train</strong> （过训练）</p>
+<p>另一个权衡是训练准确率和泛化能力。用正则化的方法类似 drop-out 或 drop-path进行提升泛化能力，这是神经网络的重要优势。用比实际用例更难的问题训练你的网络，以提高泛化性能。</p>
+</li>
+<li><p><strong>Cover the Problem Space</strong> （覆盖问题空间）</p>
+<p>为了扩大你的训练数据和提升泛化能力，要使用噪声和人工增加训练集的大小，例如随机旋转、裁剪和一些图像操作。</p>
+</li>
+<li><p><strong>Incremental Feature Construction</strong> （递增的功能结构）</p>
+<p>当架构变得成功时，它们会简化每一层的“工作”。在非常深的神经网络中，每个 层只会递增地修改输入。在ResNets中，每一层的输出可能类似于输入。所以，在实践中，请在ResNet中使用短的跳过长度。</p>
+</li>
+<li><p><strong>Normalize Layer Inputs</strong> （规范化层输入）</p>
+<p>标准化是可以使计算层的工作变得更加容易的一条捷径，并且在实际中可以提升训练的准确性。批量标准化的发明者认为标准化发挥作用的原因在于处理内部的协变量，但Smith 认为，“标准化把所有层的输入样本放在了一个平等的基础上（类似于单位转换），这允许反向传播可以更有效地训练”。</p>
+</li>
+<li><p><strong>Input Transition</strong> （输入转换）</p>
+<p>研究表明，在Wide ResNets中,性能随着通道数量的增加而提升，但是要权衡训练成本与准确性。AlexNet，VGG，Inception和ResNets都是在第一层中进行输入变换，以保证多种方式检查输入数据。</p>
+</li>
+<li><p><strong>Available Resources Guide Layer Widths</strong> （可用资源决定层宽度）</p>
+<p>可供选择的输出数量并不明显，相应的是，这取决于您的硬件功能和所需的准确性。</p>
+</li>
+<li><p><strong>Summation Joining</strong> （求和连接）</p>
+<p>Summation是一种流行的合并分支的方式。在 ResNets 中，使用求和作为连接机制可以让每一个分支都能计算残差和整体近似。如果输入跳跃连接始终存在，那么Summation会让每一层学到正确地东西（例如：输入的差别）。在任何分支都可以被丢弃的网络（例如 FractalNet）中，你应该使用这种方式保持输出的平滑。</p>
+</li>
+<li><p><strong>Down-sampling Transition</strong> （下采样变换）</p>
+<p>在汇聚的时候，利用级联连接来增加输出的数量。当使用大于1的步幅时，这会同时处理加入并增加通道的数量。</p>
+</li>
+<li><p><strong>Maxout for Competition </strong> （用于竞争的Maxout）</p>
+<p>Maxout 用在只需要选择一个激活函数的局部竞争网络中。用的方法包含所有的激活函数，不同之处在于 maxout 只选择一个“胜出者”。Maxout 的一个明显的用例是每个分支具有不同大小的内核，而 Maxout 可以尺度不变。</p>
+</li>
+</ol>
+<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><p>###1. loss为nan(83.3365)  [标签错误、学习率太大]</p>
+<p><strong>梯度爆炸</strong></p>
+<p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
+<p><strong>现象：</strong>观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。</p>
+<p><strong>措施</strong>： </p>
+<ol>
+<li>减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的loss_weight，而非是减小通用的base_lr。 </li>
+<li>设置clip gradient，用于限制过大的diff</li>
+</ol>
+<p><strong>不当的损失函数</strong></p>
+<p><strong>原因</strong>：有时候损失层中loss的计算可能导致NaN的出现。比如，给InfogainLoss层（信息熵损失）输入没有归一化的值，使用带有bug的自定义损失层等等。</p>
+<p><strong>现象</strong>：观测训练产生的log时一开始并不能看到异常，loss也在逐步的降低，但突然之间NaN就出现了。</p>
+<p><strong>措施</strong>：看看你是否能重现这个错误，在loss layer中加入一些输出以进行调试。</p>
+<p>示例：有一次我使用的loss归一化了batch中label错误的次数。如果某个label从未在batch中出现过，loss就会变成NaN。在这种情况下，可以用足够大的batch来尽量避免这个错误。</p>
+<p><strong>不当的输入</strong></p>
+<p><strong>原因</strong>：输入中就含有NaN。</p>
+<p><strong>现象</strong>：每当学习的过程中碰到这个错误的输入，就会变成NaN。观察log的时候也许不能察觉任何异常，loss逐步的降低，但突然间就变成NaN了。</p>
+<p><strong>措施</strong>：重整你的数据集，确保训练集和验证集里面没有损坏的图片。调试中你可以使用一个简单的网络来读取输入层，有一个缺省的loss，并过一遍所有输入，如果其中有错误的输入，这个缺省的层也会产生NaN。</p>
+<p><strong>案例</strong>：有一次公司需要训练一个模型，把标注好的图片放在了七牛上，拉下来的时候发生了dns劫持，有一张图片被换成了淘宝的购物二维码，且这个二维码格式与原图的格式不符合，因此成为了一张“损坏”图片。每次训练遇到这个图片的时候就会产生NaN。良好的习惯是，你有一个检测性的网络，每次训练目标网络之前把所有的样本在这个检测性的网络里面过一遍，去掉非法值。</p>
+<p><strong>池化层中步长比核的尺寸大</strong></p>
+<p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###2. 避免overfitting</p>
+<ul>
+<li><p>simpler model structure</p>
+</li>
+<li><p>regularization</p>
+</li>
+<li><p>data augmentation</p>
+</li>
+<li><p>dropall(dropout+drop-path)</p>
+</li>
+<li><p>Bootstrap/Bagging</p>
+</li>
+<li><p>ensemble</p>
+</li>
+<li><p>early stopping</p>
+</li>
+<li><p>utilize invariance</p>
+</li>
+<li><p>Bayesian</p>
+<p>​</p>
+</li>
+</ul>
+<h1 id="人脸识别流程"><a href="#人脸识别流程" class="headerlink" title="人脸识别流程"></a>人脸识别流程</h1><p><strong>一般流程</strong>:数据准备-&gt;人脸检测-&gt;人脸对齐-&gt;生成数据文件-&gt;训练模型-&gt;调参-&gt;model</p>
+<p><strong>tricks</strong>:</p>
+<ul>
+<li>在数据准备阶段，可以采用jitter等操作对样本数量较少的种类进行扩充，弥补类别不均衡造成的影响</li>
+<li>在生成模型阶段，可以采用ensemble的方式对多个模型进行融合，比如mirror。</li>
+</ul>
+<p><strong>参考及致谢</strong></p>
+<p><a href="https://stackoverflow.com/questions/33962226/common-causes-of-nans-during-training" target="_blank" rel="external">Common causes of nans during training</a></p>
+<p><a href="https://www.jianshu.com/p/22d9720dbf1a" target="_blank" rel="external">常用激活函数比较</a></p>
+<p><a href="https://chenrudan.github.io/blog/2015/08/04/dl5tricks.html" target="_blank" rel="external">深度学习之五常见tricks</a></p>
+<p>《Deep convolutional neural network design patterns 》</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/人脸识别/" rel="tag"># 人脸识别</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/21/行人检测/" rel="next" title="行人检测">
+                <i class="fa fa-chevron-left"></i> 行人检测
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/images.jpg"
+               alt="Calyp" />
+          <p class="site-author-name" itemprop="name">Calyp</p>
+           
+              <p class="site-description motion-element" itemprop="description">学习博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nerddd/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5048688311/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Other">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Other
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/atom.xml" title="Feed" target="_blank">Feed</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/sitemap.xml" title="SiteMap" target="_blank">SiteMap</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练模型"><span class="nav-number">2.</span> <span class="nav-text">训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Loss函数的选择"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">5. Loss函数的选择</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络的设计模式"><span class="nav-number">3.</span> <span class="nav-text">神经网络的设计模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Caffe调参"><span class="nav-number">4.</span> <span class="nav-text">Caffe调参</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#人脸识别流程"><span class="nav-number">5.</span> <span class="nav-text">人脸识别流程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Calyp</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

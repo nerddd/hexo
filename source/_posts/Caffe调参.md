@@ -62,7 +62,7 @@ mathjax:
     }
 ```
 
-## 致谢
+**致谢**
 
 *http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training*
 

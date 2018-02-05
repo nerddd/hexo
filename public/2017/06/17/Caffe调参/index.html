@@ -117,7 +117,7 @@
 <meta property="og:url" content="calyp.github.io/2017/06/17/Caffe调参/index.html">
 <meta property="og:site_name" content="Calyp">
 <meta property="og:description" content="loss为nan梯度爆炸 原因：梯度变得非常大，使得学习过程难以继续 现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。 措施：   减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的lo">
-<meta property="og:updated_time" content="2017-06-17T02:24:49.318Z">
+<meta property="og:updated_time" content="2017-07-27T01:53:11.297Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Caffe调参">
 <meta name="twitter:description" content="loss为nan梯度爆炸 原因：梯度变得非常大，使得学习过程难以继续 现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。 措施：   减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的lo">
@@ -413,7 +413,8 @@
 <p><strong>池化层中步长比核的尺寸大</strong></p>
 <p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p><em><a href="http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training" target="_blank" rel="external">http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training</a></em></p>
+<p><strong>致谢</strong></p>
+<p><em><a href="http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training" target="_blank" rel="external">http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training</a></em></p>
 <h1 id="Accuracy一直为0"><a href="#Accuracy一直为0" class="headerlink" title="Accuracy一直为0"></a>Accuracy一直为0</h1><p>考虑标签是否从0开始递增</p>
 
       
@@ -543,7 +544,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -554,7 +555,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -565,7 +566,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -654,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#loss为nan"><span class="nav-number">1.</span> <span class="nav-text">loss为nan</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#致谢"><span class="nav-number">1.1.</span> <span class="nav-text">致谢</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Accuracy一直为0"><span class="nav-number">2.</span> <span class="nav-text">Accuracy一直为0</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#loss为nan"><span class="nav-number">1.</span> <span class="nav-text">loss为nan</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Accuracy一直为0"><span class="nav-number">2.</span> <span class="nav-text">Accuracy一直为0</span></a></li></ol></div>
             
 
           </div>
@@ -677,7 +678,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

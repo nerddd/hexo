@@ -117,10 +117,12 @@
 <meta property="og:url" content="calyp.github.io/2017/06/28/FaceNet论文笔记/index.html">
 <meta property="og:site_name" content="Calyp">
 <meta property="og:description" content="原文链接:FaceNet:A unified embedding for face recognition and clustering 简介FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。FaceNet在LFW数据集上的准确率为99.63%，在YouTube Faces 数据集上准确率为95">
-<meta property="og:updated_time" content="2017-06-28T02:34:07.173Z">
+<meta property="og:image" content="calyp.github.io/2017/06/28/FaceNet论文笔记/pictures/facenet_triplet1.png">
+<meta property="og:updated_time" content="2017-06-28T13:23:36.661Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FaceNet论文笔记">
 <meta name="twitter:description" content="原文链接:FaceNet:A unified embedding for face recognition and clustering 简介FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。FaceNet在LFW数据集上的准确率为99.63%，在YouTube Faces 数据集上准确率为95">
+<meta name="twitter:image" content="calyp.github.io/2017/06/28/FaceNet论文笔记/pictures/facenet_triplet1.png">
 
 
 
@@ -393,7 +395,23 @@
         <p><em>原文链接</em>:<a href="https://arxiv.org/abs/1503.03832" target="_blank" rel="external">FaceNet:A unified embedding for face recognition and clustering</a></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。FaceNet在LFW数据集上的准确率为99.63%，在YouTube Faces 数据集上准确率为95.12%。</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>FaceNet采用的是通过卷积神经网络学习将图像映射到欧几里得空间，空间距离之间和图片相似度相关：同一个人的不同图像的空间距离很小，不同人的图像的空间距离较大，只要该映射确定下来，相关的人脸识别任务就变得简单。</p>
-<p>当前存在的基于深度神经网络的人脸识别模型使用了分类层：中间层为人脸图像的向量映射，然后以分类层作为输出层，这类方法的缺点就是不直接和效率不高。与当前方法不同，FaceNet直接使用基于triplets的LMNN（最大边界近邻分类）的loss函数训练神经网络，网络直接输出为128维度的向量空间。</p>
+<p>当前存在的基于深度神经网络的人脸识别模型使用了分类层：中间层为人脸图像的向量映射，然后以分类层作为输出层，这类方法的缺点就是不直接和效率不高。与当前方法不同，FaceNet直接使用基于triplets的LMNN（最大边界近邻分类）的loss函数训练神经网络，网络直接输出为128维度的向量空间。选取的triplets包含两个匹配脸部缩略图（为紧密裁剪的脸部区域，不用使用2d、3d对齐以及放大转换等预处理）和一个非匹配的脸部缩略图，loss函数目标是通过距离边界区分正负类。</p>
+<p>本文中，探索了两类深度卷积神经网络，第一类为Zeiler&amp;Fergus研究中使用的神经网络，包含多个交错的卷积层、非线性激励函数，局部相应归一化和最大池化层。我们额外的添加了一些1x1xd的卷积层。第二种结构是基于Inception model，这种网络利用了一些不同的卷积层和池化层并行和级联响应。我们发现这些模型可以减小20倍以上的参数数量，并且可能会减少FLOPS数量。</p>
+<p>triplet loss的启发是传统loss函数趋向于将有一类特征的人脸图像映射到同一个空间，而triplet loss尝试将一个个体的人脸图像和其他人脸图像分开。</p>
+<p><img src=".\pictures\facenet_triplet1.png" alt="facenet_triplet1"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>三元组的目标函数并不是这篇论文首创，我在之前的一些Hash索引的论文中也见过相似的应用。可见，并不是所有的学习特征的模型都必须用softmax。用其他的效果也会好。</li>
+<li>三元组比softmax的优势在于<ul>
+<li>softmax不直接，（三元组直接优化距离），因而性能也不好。</li>
+<li>softmax产生的特征表示向量都很大，一般超过1000维。</li>
+</ul>
+</li>
+<li>FaceNet并没有像DeepFace和DeepID那样需要对齐。</li>
+<li>FaceNet得到最终表示后不用像DeepID那样需要再训练模型进行分类，直接计算距离就好了，简单而有效。</li>
+<li>论文并未探讨二元对的有效性，直接使用的三元对。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://zhuanlan.zhihu.com/p/24837264" target="_blank" rel="external">谷歌人脸识别系统FaceNet解析</a></p>
+<p><a href="http://blog.csdn.net/stdcoutzyx/article/details/46687471" target="_blank" rel="external">FaceNet–Google的人脸识别</a></p>
 
       
     </div>
@@ -445,6 +463,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/29/Center-loss笔记/" rel="prev" title="Center loss笔记">
+                Center loss笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -516,7 +538,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -527,7 +549,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -538,7 +560,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -627,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
@@ -650,7 +672,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

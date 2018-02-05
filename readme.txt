@@ -1,3 +1,8 @@
+#hexo本地相关
+hexo g -d
+hexo s (-p 3000)
+hexo clean(清缓存）
+
 git add .
 git commit -m "add blog or theme"
 git push -u origin master

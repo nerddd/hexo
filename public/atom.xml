@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="calyp.github.io/"/>
-  <updated>2017-06-28T02:34:07.173Z</updated>
+  <updated>2018-02-05T09:10:20.415Z</updated>
   <id>calyp.github.io/</id>
   
   <author>
@@ -16,16 +16,280 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>人脸识别回顾</title>
+    <link href="calyp.github.io/2018/01/29/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%9B%9E%E9%A1%BE/"/>
+    <id>calyp.github.io/2018/01/29/人脸识别回顾/</id>
+    <published>2018-01-29T01:47:23.000Z</published>
+    <updated>2018-02-05T09:10:20.415Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h1><p><strong>数据清洗</strong>：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。</p>
+<p><strong>构造验证集</strong>:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1）</p>
+<p><strong>数据均衡</strong>：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如jitter操作）少数部分的样本, 使之和多数部分差不多数量； 方式二: 砍掉一些多数部分, 使两者数量差不多</p>
+<p><strong>数据扩充</strong>：对于一些样本数据比较少的数据集，为了更好的训练网络，有时候需要人为增加一些训练样本，比如随机的剪裁、缩放和旋转等。</p>
+<p><strong>预处理</strong>：常见的就是减均值、除方差。</p>
+<h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><p>####1. 模型选择：</p>
+<p>根据具体任务和数据集规模选择合适的网络结构，对于分类任务来说，如果数据集的规模不大，则网络的层数不应太深，结构也不应太复杂。</p>
+<p>####2. 激励函数的选择</p>
+<ul>
+<li><p><strong>sigmoid函数</strong>：取值范围为(0,1)，可以将一个实数映射到(0,1)的区间，可以用来做二分类，在特征相差比较复杂或是相差不是特别大时效果比较好，缺点是：激活函数计算量大，反向传播求梯度时，求导涉及除法，反向传播时，很容易出现梯度消失的情况</p>
+</li>
+<li><p><strong>Tanh函数</strong>：取值范围为[-1,1]，在特征相差明显时的效果会很好，在循环过程中会不断扩大特征效果，与sigmoid的区别是,tanh是0均值的，因此实际应用中，tanh会比sigmoid更好。</p>
+</li>
+<li><p><strong>ReLU函数</strong>：使用ReLU得到的SGD的收敛速度会比sigmoid/tanh快很多，缺点是训练的时候很”脆弱”，很容易就”die”了例如，一个非常大的梯度流过一个 ReLU 神经元，更新过参数之后，这个神经元再也不会对任何数据有激活现象了，那么这个神经元的梯度就永远都会是 0.如果 learning rate 很大，那么很有可能网络中的 40% 的神经元都”dead”了。</p>
+<p>选择的时候，就是根据各个函数的优缺点来配置，例如：</p>
+<p>如果使用 ReLU，要小心设置 learning rate，注意不要让网络出现很多 “dead” 神经元，如果不好解决，可以试试 Leaky ReLU、PReLU 或者 Maxout.</p>
+<p><strong>详细细节请参看</strong>：<a href="https://www.jianshu.com/p/22d9720dbf1a" target="_blank" rel="external">常用激活函数比较</a></p>
+<p>​</p>
+</li>
+</ul>
+<p>####3. 卷积tricks</p>
+<p>图片输入是2的幂次方，例如32、64、96、224等。</p>
+<p>卷积核大小是3<em>3或者5</em>5。</p>
+<p>输入图片上下左右需要用0补充，即padding，且假如卷积核大小是5，那么padding就是2（图片左右上下都补充2）；卷积核大小是3，padding大小就是1。</p>
+<p>####4. pooling层tricks</p>
+<p>poolin层也能防止过拟合，使用overlapped pooling，即用来池化的数据有重叠，但是pooling的大小不要超过3。max pooling比avg pooling效果会好一些。avg-global pooling进入全卷积时代。</p>
+<h4 id="5-Loss函数的选择"><a href="#5-Loss函数的选择" class="headerlink" title="5. Loss函数的选择"></a>5. Loss函数的选择</h4><ul>
+<li><p><strong>softmax loss</strong></p>
+</li>
+<li><p>contrastive loss</p>
+</li>
+<li><p>triplet loss</p>
+</li>
+<li><p><strong>center loss</strong></p>
+<p><strong>triplet loss比softmax的优势</strong></p>
+<ul>
+<li>在于softmax不直接，（三元组直接优化距离），因而性能也不好。</li>
+<li>softmax产生的特征表示向量都很大，一般超过1000维。</li>
+<li>利用triplet loss的metric learning目的在于减小类内的L2距离，同时增大类间的距离</li>
+</ul>
+<p><strong>center loss VS triplet loss</strong></p>
+<ul>
+<li>triplet loss:dramatic data expansion</li>
+<li>center loss:more directly and efficiently</li>
+</ul>
+</li>
+</ul>
+<h1 id="神经网络的设计模式"><a href="#神经网络的设计模式" class="headerlink" title="神经网络的设计模式"></a>神经网络的设计模式</h1><ol>
+<li><p><strong>Architectural Structure follows the Application</strong>（架构遵循应用）</p>
+<p>应该根据自己的应用场景选择合适的网络架构。</p>
+</li>
+<li><p><strong>Proliferate Paths</strong>（路径扩增）</p>
+<p>每年ImageNet Challenge的赢家都比上一年的冠军使用更加深层的网络。从AlexNet 到Inception到Resnets，Smith和他的团队也观察到“网络的路径数量成倍增长”的趋势，ResNet可以是不同长度的网络的指数集合。</p>
+</li>
+<li><p><strong>Strive for Simplicity</strong>（简洁原则）</p>
+<p>更大的并不一定是更好的。在名为“Bigger is not necessarily better”的论文中，Springenberg 等人演示了如何用更少的单元实现最先进的结果。</p>
+</li>
+<li><p><strong>Increase Symmetry</strong> （增加对称性）</p>
+<p>无论是在建筑上，还是在生物上，对称性被认为是质量和工艺的标志。Smith 将 FractalNet 的优雅归功于网络的对称性。</p>
+</li>
+<li><p><strong>Pyramid Shape</strong> （金字塔型）</p>
+<p>在表征能力和减少冗余或者无用信息之间权衡。CNNs通常会降低激活函数的采样，并会增加从输入层到最终层之间的连接通道。</p>
+</li>
+<li><p><strong>Over-train</strong> （过训练）</p>
+<p>另一个权衡是训练准确率和泛化能力。用正则化的方法类似 drop-out 或 drop-path进行提升泛化能力，这是神经网络的重要优势。用比实际用例更难的问题训练你的网络，以提高泛化性能。</p>
+</li>
+<li><p><strong>Cover the Problem Space</strong> （覆盖问题空间）</p>
+<p>为了扩大你的训练数据和提升泛化能力，要使用噪声和人工增加训练集的大小，例如随机旋转、裁剪和一些图像操作。</p>
+</li>
+<li><p><strong>Incremental Feature Construction</strong> （递增的功能结构）</p>
+<p>当架构变得成功时，它们会简化每一层的“工作”。在非常深的神经网络中，每个 层只会递增地修改输入。在ResNets中，每一层的输出可能类似于输入。所以，在实践中，请在ResNet中使用短的跳过长度。</p>
+</li>
+<li><p><strong>Normalize Layer Inputs</strong> （规范化层输入）</p>
+<p>标准化是可以使计算层的工作变得更加容易的一条捷径，并且在实际中可以提升训练的准确性。批量标准化的发明者认为标准化发挥作用的原因在于处理内部的协变量，但Smith 认为，“标准化把所有层的输入样本放在了一个平等的基础上（类似于单位转换），这允许反向传播可以更有效地训练”。</p>
+</li>
+<li><p><strong>Input Transition</strong> （输入转换）</p>
+<p>研究表明，在Wide ResNets中,性能随着通道数量的增加而提升，但是要权衡训练成本与准确性。AlexNet，VGG，Inception和ResNets都是在第一层中进行输入变换，以保证多种方式检查输入数据。</p>
+</li>
+<li><p><strong>Available Resources Guide Layer Widths</strong> （可用资源决定层宽度）</p>
+<p>可供选择的输出数量并不明显，相应的是，这取决于您的硬件功能和所需的准确性。</p>
+</li>
+<li><p><strong>Summation Joining</strong> （求和连接）</p>
+<p>Summation是一种流行的合并分支的方式。在 ResNets 中，使用求和作为连接机制可以让每一个分支都能计算残差和整体近似。如果输入跳跃连接始终存在，那么Summation会让每一层学到正确地东西（例如：输入的差别）。在任何分支都可以被丢弃的网络（例如 FractalNet）中，你应该使用这种方式保持输出的平滑。</p>
+</li>
+<li><p><strong>Down-sampling Transition</strong> （下采样变换）</p>
+<p>在汇聚的时候，利用级联连接来增加输出的数量。当使用大于1的步幅时，这会同时处理加入并增加通道的数量。</p>
+</li>
+<li><p><strong>Maxout for Competition </strong> （用于竞争的Maxout）</p>
+<p>Maxout 用在只需要选择一个激活函数的局部竞争网络中。用的方法包含所有的激活函数，不同之处在于 maxout 只选择一个“胜出者”。Maxout 的一个明显的用例是每个分支具有不同大小的内核，而 Maxout 可以尺度不变。</p>
+</li>
+</ol>
+<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><p>###1. loss为nan(83.3365)  [标签错误、学习率太大]</p>
+<p><strong>梯度爆炸</strong></p>
+<p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
+<p><strong>现象：</strong>观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。</p>
+<p><strong>措施</strong>： </p>
+<ol>
+<li>减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的loss_weight，而非是减小通用的base_lr。 </li>
+<li>设置clip gradient，用于限制过大的diff</li>
+</ol>
+<p><strong>不当的损失函数</strong></p>
+<p><strong>原因</strong>：有时候损失层中loss的计算可能导致NaN的出现。比如，给InfogainLoss层（信息熵损失）输入没有归一化的值，使用带有bug的自定义损失层等等。</p>
+<p><strong>现象</strong>：观测训练产生的log时一开始并不能看到异常，loss也在逐步的降低，但突然之间NaN就出现了。</p>
+<p><strong>措施</strong>：看看你是否能重现这个错误，在loss layer中加入一些输出以进行调试。</p>
+<p>示例：有一次我使用的loss归一化了batch中label错误的次数。如果某个label从未在batch中出现过，loss就会变成NaN。在这种情况下，可以用足够大的batch来尽量避免这个错误。</p>
+<p><strong>不当的输入</strong></p>
+<p><strong>原因</strong>：输入中就含有NaN。</p>
+<p><strong>现象</strong>：每当学习的过程中碰到这个错误的输入，就会变成NaN。观察log的时候也许不能察觉任何异常，loss逐步的降低，但突然间就变成NaN了。</p>
+<p><strong>措施</strong>：重整你的数据集，确保训练集和验证集里面没有损坏的图片。调试中你可以使用一个简单的网络来读取输入层，有一个缺省的loss，并过一遍所有输入，如果其中有错误的输入，这个缺省的层也会产生NaN。</p>
+<p><strong>案例</strong>：有一次公司需要训练一个模型，把标注好的图片放在了七牛上，拉下来的时候发生了dns劫持，有一张图片被换成了淘宝的购物二维码，且这个二维码格式与原图的格式不符合，因此成为了一张“损坏”图片。每次训练遇到这个图片的时候就会产生NaN。良好的习惯是，你有一个检测性的网络，每次训练目标网络之前把所有的样本在这个检测性的网络里面过一遍，去掉非法值。</p>
+<p><strong>池化层中步长比核的尺寸大</strong></p>
+<p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###2. 避免overfitting</p>
+<ul>
+<li><p>simpler model structure</p>
+</li>
+<li><p>regularization</p>
+</li>
+<li><p>data augmentation</p>
+</li>
+<li><p>dropall(dropout+drop-path)</p>
+</li>
+<li><p>Bootstrap/Bagging</p>
+</li>
+<li><p>ensemble</p>
+</li>
+<li><p>early stopping</p>
+</li>
+<li><p>utilize invariance</p>
+</li>
+<li><p>Bayesian</p>
+<p>​</p>
+</li>
+</ul>
+<h1 id="人脸识别流程"><a href="#人脸识别流程" class="headerlink" title="人脸识别流程"></a>人脸识别流程</h1><p><strong>一般流程</strong>:数据准备-&gt;人脸检测-&gt;人脸对齐-&gt;生成数据文件-&gt;训练模型-&gt;调参-&gt;model</p>
+<p><strong>tricks</strong>:</p>
+<ul>
+<li>在数据准备阶段，可以采用jitter等操作对样本数量较少的种类进行扩充，弥补类别不均衡造成的影响</li>
+<li>在生成模型阶段，可以采用ensemble的方式对多个模型进行融合，比如mirror。</li>
+</ul>
+<p><strong>参考及致谢</strong></p>
+<p><a href="https://stackoverflow.com/questions/33962226/common-causes-of-nans-during-training" target="_blank" rel="external">Common causes of nans during training</a></p>
+<p><a href="https://www.jianshu.com/p/22d9720dbf1a" target="_blank" rel="external">常用激活函数比较</a></p>
+<p><a href="https://chenrudan.github.io/blog/2015/08/04/dl5tricks.html" target="_blank" rel="external">深度学习之五常见tricks</a></p>
+<p>《Deep convolutional neural network design patterns 》</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;数据准备&quot;&gt;&lt;a href=&quot;#数据准备&quot; class=&quot;headerlink&quot; title=&quot;数据准备&quot;&gt;&lt;/a&gt;数据准备&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;数据清洗&lt;/strong&gt;：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benc
+    
+    </summary>
+    
+      <category term="深度学习" scheme="calyp.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="人脸识别" scheme="calyp.github.io/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>行人检测</title>
+    <link href="calyp.github.io/2017/09/21/%E8%A1%8C%E4%BA%BA%E6%A3%80%E6%B5%8B/"/>
+    <id>calyp.github.io/2017/09/21/行人检测/</id>
+    <published>2017-09-21T11:46:55.000Z</published>
+    <updated>2017-09-21T11:46:56.052Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>文档归类</title>
+    <link href="calyp.github.io/2017/07/17/%E6%96%87%E6%A1%A3%E5%BD%92%E7%B1%BB/"/>
+    <id>calyp.github.io/2017/07/17/文档归类/</id>
+    <published>2017-07-17T07:40:50.000Z</published>
+    <updated>2017-07-17T07:40:50.206Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DeepID3论文笔记</title>
+    <link href="calyp.github.io/2017/07/04/DeepID3%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    <id>calyp.github.io/2017/07/04/DeepID3论文笔记/</id>
+    <published>2017-07-04T02:34:31.000Z</published>
+    <updated>2017-07-04T06:33:10.490Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>深层的网络由于良好的学习能力，近年来在目标识别领域取得巨大成功，基于此，提出两个非常深的网络架构，DeepID3，这两个架构分别基于VGG net和GoogLeNet通过改进使之用于人脸识别。Joint face identification-verification supervisory signals are added to both intermediate and<br>final feature extraction layers during training.        </p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;摘要&quot;&gt;&lt;a href=&quot;#摘要&quot; class=&quot;headerlink&quot; title=&quot;摘要&quot;&gt;&lt;/a&gt;摘要&lt;/h1&gt;&lt;p&gt;深层的网络由于良好的学习能力，近年来在目标识别领域取得巨大成功，基于此，提出两个非常深的网络架构，DeepID3，这两个架构分别基于VGG 
+    
+    </summary>
+    
+      <category term="论文笔记" scheme="calyp.github.io/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="Face" scheme="calyp.github.io/tags/Face/"/>
+    
+      <category term="笔记" scheme="calyp.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Center loss笔记</title>
+    <link href="calyp.github.io/2017/06/29/Center-loss%E7%AC%94%E8%AE%B0/"/>
+    <id>calyp.github.io/2017/06/29/Center-loss笔记/</id>
+    <published>2017-06-29T09:05:51.000Z</published>
+    <updated>2017-06-30T12:19:30.937Z</updated>
+    
+    <content type="html"><![CDATA[<p>论文：<a href="https://link.springer.com/chapter/10.1007%2F978-3-319-46478-7_31" target="_blank" rel="external">A Discriminative Feature Learning Approach for Deep Face Recognition</a></p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>对于一般的CNN网络，softmax通常作为监督信号来训练深层网络，为了增强提取的特征的可辨别性（discriminative），提出center loss，应对人脸识别任务。center loss同时学习每个类别的深层特征中心和惩罚深层特征和它们对应的类中心的距离（the center loss simultaneously learns a center for deep<br>features of each class and penalizes the distances between the deep features and their corresponding class centers）。将softmax和center loss联合起来，可以训练一个健壮的CNN来获取深层特征的两个关键目标，类内紧凑和类间分散。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>预先收集所有可能的测试身份用于训练是不现实的，所以CNN的标签预测并不总是适用的。经过深层网络获取得到的特征不仅需要可分开性(separable)，更需要识别性(discriminative)和广义性，足够用来识别新的没有遇见过的类。可识别性的特征可以利用最邻近(NN)或k-NN算法很好的分类，就没有必要依赖标签预测了。但是softmax只能产生可分开(separable)特征，结果特征就不足以用以人脸识别。</p>
+<p><img src="https://static.leiphone.com/uploads/new/article/740_740/201612/585bb8742235c.png?imageMogr2/format/jpg/quality/90" alt="Separabale Feature Vs Discriminative Feature"></p>
+<p>因为随机梯度下降(SGD)优化CNN是基于mini-batch，不能很好的反映深层特征的全局分布，由于训练集的庞大，在每次迭代中输入所有的训练样本是不现实的。constractive loss和triplet loss分别作为图像对和三元组的loss函数。然而，与图像样本相比，训练图像对或三元组的数量显著增长，导致收敛缓慢和不稳定性。仔细选择图像对或者三元组，问题可能会部分缓解，但是它增加了计算复杂度，训练过程变得不方便。为了解决这个问题，提出center loss，用于有效的增强特征的可识别性，我们将会得到每个类的深层特征的中心。在训练阶段，我们同时更新中心和最小化特征和它们相应的类中心的距离。CNN同时在softmax loss和center loss的监督下进行训练，通过一个超参来平衡这两个监督信号。直觉上，softmax loss将不同类别的特征分开，center loss有效的将同一类别的特征拉向类的中心，使得类内特征分布变得紧凑。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;论文：&lt;a href=&quot;https://link.springer.com/chapter/10.1007%2F978-3-319-46478-7_31&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Discriminative Feature Lea
+    
+    </summary>
+    
+      <category term="Face" scheme="calyp.github.io/categories/Face/"/>
+    
+    
+      <category term="深度学习，论文笔记" scheme="calyp.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%8C%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>FaceNet论文笔记</title>
     <link href="calyp.github.io/2017/06/28/FaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
     <id>calyp.github.io/2017/06/28/FaceNet论文笔记/</id>
     <published>2017-06-28T02:11:42.000Z</published>
-    <updated>2017-06-28T02:34:07.173Z</updated>
+    <updated>2017-06-28T13:23:36.661Z</updated>
     
     <content type="html"><![CDATA[<p><em>原文链接</em>:<a href="https://arxiv.org/abs/1503.03832" target="_blank" rel="external">FaceNet:A unified embedding for face recognition and clustering</a></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。FaceNet在LFW数据集上的准确率为99.63%，在YouTube Faces 数据集上准确率为95.12%。</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>FaceNet采用的是通过卷积神经网络学习将图像映射到欧几里得空间，空间距离之间和图片相似度相关：同一个人的不同图像的空间距离很小，不同人的图像的空间距离较大，只要该映射确定下来，相关的人脸识别任务就变得简单。</p>
-<p>当前存在的基于深度神经网络的人脸识别模型使用了分类层：中间层为人脸图像的向量映射，然后以分类层作为输出层，这类方法的缺点就是不直接和效率不高。与当前方法不同，FaceNet直接使用基于triplets的LMNN（最大边界近邻分类）的loss函数训练神经网络，网络直接输出为128维度的向量空间。</p>
+<p>当前存在的基于深度神经网络的人脸识别模型使用了分类层：中间层为人脸图像的向量映射，然后以分类层作为输出层，这类方法的缺点就是不直接和效率不高。与当前方法不同，FaceNet直接使用基于triplets的LMNN（最大边界近邻分类）的loss函数训练神经网络，网络直接输出为128维度的向量空间。选取的triplets包含两个匹配脸部缩略图（为紧密裁剪的脸部区域，不用使用2d、3d对齐以及放大转换等预处理）和一个非匹配的脸部缩略图，loss函数目标是通过距离边界区分正负类。</p>
+<p>本文中，探索了两类深度卷积神经网络，第一类为Zeiler&amp;Fergus研究中使用的神经网络，包含多个交错的卷积层、非线性激励函数，局部相应归一化和最大池化层。我们额外的添加了一些1x1xd的卷积层。第二种结构是基于Inception model，这种网络利用了一些不同的卷积层和池化层并行和级联响应。我们发现这些模型可以减小20倍以上的参数数量，并且可能会减少FLOPS数量。</p>
+<p>triplet loss的启发是传统loss函数趋向于将有一类特征的人脸图像映射到同一个空间，而triplet loss尝试将一个个体的人脸图像和其他人脸图像分开。</p>
+<p><img src=".\pictures\facenet_triplet1.png" alt="facenet_triplet1"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>三元组的目标函数并不是这篇论文首创，我在之前的一些Hash索引的论文中也见过相似的应用。可见，并不是所有的学习特征的模型都必须用softmax。用其他的效果也会好。</li>
+<li>三元组比softmax的优势在于<ul>
+<li>softmax不直接，（三元组直接优化距离），因而性能也不好。</li>
+<li>softmax产生的特征表示向量都很大，一般超过1000维。</li>
+</ul>
+</li>
+<li>FaceNet并没有像DeepFace和DeepID那样需要对齐。</li>
+<li>FaceNet得到最终表示后不用像DeepID那样需要再训练模型进行分类，直接计算距离就好了，简单而有效。</li>
+<li>论文并未探讨二元对的有效性，直接使用的三元对。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://zhuanlan.zhihu.com/p/24837264" target="_blank" rel="external">谷歌人脸识别系统FaceNet解析</a></p>
+<p><a href="http://blog.csdn.net/stdcoutzyx/article/details/46687471" target="_blank" rel="external">FaceNet–Google的人脸识别</a></p>
 ]]></content>
     
     <summary type="html">
@@ -46,7 +310,7 @@
     <link href="calyp.github.io/2017/06/17/Caffe%E8%B0%83%E5%8F%82/"/>
     <id>calyp.github.io/2017/06/17/Caffe调参/</id>
     <published>2017-06-17T01:26:12.000Z</published>
-    <updated>2017-06-17T02:24:49.318Z</updated>
+    <updated>2017-07-27T01:53:11.297Z</updated>
     
     <content type="html"><![CDATA[<h1 id="loss为nan"><a href="#loss为nan" class="headerlink" title="loss为nan"></a>loss为nan</h1><p><strong>梯度爆炸</strong></p>
 <p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
@@ -71,7 +335,8 @@
 <p><strong>池化层中步长比核的尺寸大</strong></p>
 <p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p><em><a href="http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training" target="_blank" rel="external">http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training</a></em></p>
+<p><strong>致谢</strong></p>
+<p><em><a href="http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training" target="_blank" rel="external">http://stackoverflow.com/questions/33962226/common-causes-of-NaNs-during-training</a></em></p>
 <h1 id="Accuracy一直为0"><a href="#Accuracy一直为0" class="headerlink" title="Accuracy一直为0"></a>Accuracy一直为0</h1><p>考虑标签是否从0开始递增</p>
 ]]></content>
     
@@ -176,7 +441,7 @@
     <link href="calyp.github.io/2017/06/02/Hexo%E7%9B%B8%E5%85%B3/"/>
     <id>calyp.github.io/2017/06/02/Hexo相关/</id>
     <published>2017-06-02T08:05:45.000Z</published>
-    <updated>2017-06-02T08:25:37.278Z</updated>
+    <updated>2017-06-28T12:28:10.590Z</updated>
     
     <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="Hexo无法正常显示公式"><a href="#Hexo无法正常显示公式" class="headerlink" title="Hexo无法正常显示公式"></a>Hexo无法正常显示公式</h2><p>善用主题(theme)，以我使用的next主题为例，打开/themes/next/_config.yml文件，更改mathjax开关为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># MathJax Support</div><div class="line">mathjax:</div><div class="line">  enable: true</div><div class="line">  per_page: true</div></pre></td></tr></table></figure>
@@ -184,7 +449,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: index.html</div><div class="line">date: 2016-12-28 21:01:30</div><div class="line">tags:</div><div class="line">mathjax: true</div><div class="line">--</div></pre></td></tr></table></figure>
 <p>题外话，可以在/scaffolds/post.md文件中添加mathjax一行，这样每次layout如果是由默认的post 生成新的文章的开头都会有mathjax，可以自己选择true或是false(注意mathjax冒号后面不要掉了空格)，如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">title: &#123;&#123; title &#125;&#125;</div><div class="line">date: &#123;&#123; date &#125;&#125;</div><div class="line">categories: </div><div class="line">tags:</div><div class="line">description: </div><div class="line">mathjax:</div></pre></td></tr></table></figure>
-<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1>]]></content>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p><a href="https://formulahendry.github.io/2016/12/04/hexo-ci/" target="_blank" rel="external">Hexo的版本控制与持续集成</a></p>
+]]></content>
     
     <summary type="html">
     
@@ -204,9 +470,9 @@
     <link href="calyp.github.io/2017/06/02/%E5%BE%85%E5%8A%9E%E5%8F%8A%E8%BF%9B%E5%BA%A6/"/>
     <id>calyp.github.io/2017/06/02/待办及进度/</id>
     <published>2017-06-02T07:15:46.000Z</published>
-    <updated>2017-06-16T02:33:59.782Z</updated>
+    <updated>2018-02-03T13:18:52.579Z</updated>
     
-    <content type="html"><![CDATA[<table>
+    <content type="html"><![CDATA[<h1 id="step1-Mirror-face相关"><a href="#step1-Mirror-face相关" class="headerlink" title="step1:Mirror face相关"></a>step1:Mirror face相关</h1><table>
 <thead>
 <tr>
 <th>Model</th>
@@ -254,7 +520,7 @@
 </tr>
 </tbody>
 </table>
-<table>
+<h1 id="step2-单眼Patch-model"><a href="#step2-单眼Patch-model" class="headerlink" title="step2:单眼Patch model"></a>step2:单眼Patch model</h1><table>
 <thead>
 <tr>
 <th>eye_width</th>
@@ -320,8 +586,7 @@
 </tr>
 </tbody>
 </table>
-<p><img src="C:\Users\lc\Desktop\test_crop\all\figure.png" alt="figure"></p>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>1.对于人脸关键点数据中，[eye_left_x,eye_left_y,eye_right_x,eye_right_y…],在进行眼睛宽度估算时，利用eye_width=(eye_right_x-eye_elft_x)<em>0.78,所以crop后左眼的最左边的坐标公式为eye_left_x-0.5</em>eye_width，有一种情况没考虑到就是eye_left_x小于0.5*eye_width，所以要加一个判断语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if eye_width*0.5&gt;eye_left_x:</div><div class="line">            eye_width=eye_left_x*2</div></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1.对于人脸关键点数据中，[eye_left_x,eye_left_y,eye_right_x,eye_right_y…],在进行眼睛宽度估算时，利用eye_width=(eye_right_x-eye_elft_x)<em>0.78,所以crop后左眼的最左边的坐标公式为eye_left_x-0.5</em>eye_width，有一种情况没考虑到就是eye_left_x小于0.5*eye_width，所以要加一个判断语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if eye_width*0.5&gt;eye_left_x:</div><div class="line">            eye_width=eye_left_x*2</div></pre></td></tr></table></figure></p>
 <p>导致眼睛宽度估算分布就不太准确，最终导致在mscelebv1_crop数据上，最终符合要求的只有731750张</p>
 <p>重新生成眼睛宽度估算文件，其分布如下</p>
 <table>
@@ -396,25 +661,662 @@
 </tr>
 </tbody>
 </table>
-<p><img src="C:\Users\lc\Desktop\test_crop\all\figure2.png" alt="figure2"></p>
 <p>2.tripletloss在100次迭代时，loss=nan，原因是初始化的base_lr过大，调小即可<br>3.test的accuracy一直为0：想到了在清洗数据的时候，有的人物并没有参与，也就是最开始直接用小蔓师兄的标签不行，最后一层的输出不等于我现在数据中的样本类别数。。得自己重新生成，首先要将空目录删除，确定有多少类别，然后label从0开始重新生成。<br>最后发现我的类别应该是90481.而最后一个全连接层的num_output=90526</p>
+<p><u>17个小时，迭代12万次，26.5%的准确率，loss=5.5。</u></p>
+<h1 id="step3-双眼patch-model"><a href="#step3-双眼patch-model" class="headerlink" title="step3:双眼patch model"></a>step3:双眼patch model</h1><p>生成双眼宽度估算文件，其分布如下</p>
+<table>
+<thead>
+<tr>
+<th>eye_width</th>
+<th>num</th>
+<th>eye_width</th>
+<th>num</th>
+<th>eye_width</th>
+<th>num</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0~10</td>
+<td>30</td>
+<td>100~110</td>
+<td>18,8771</td>
+<td>200~210</td>
+<td>383</td>
+</tr>
+<tr>
+<td>10~20</td>
+<td>5888</td>
+<td>110~120</td>
+<td>8,8508</td>
+<td>210~220</td>
+<td>196</td>
+</tr>
+<tr>
+<td>20~30</td>
+<td>11,4595</td>
+<td>120~130</td>
+<td>4,6243</td>
+<td>220~230</td>
+<td>100</td>
+</tr>
+<tr>
+<td>30~40</td>
+<td>35,5451</td>
+<td>130~140</td>
+<td>2,4982</td>
+<td>230~240</td>
+<td>52</td>
+</tr>
+<tr>
+<td>40~50</td>
+<td>42,6729</td>
+<td>140~150</td>
+<td>1,2749</td>
+<td>240~250</td>
+<td>33</td>
+</tr>
+<tr>
+<td>50~60</td>
+<td>49,1312</td>
+<td>150~160</td>
+<td>6714</td>
+<td>250~260</td>
+<td>15</td>
+</tr>
+<tr>
+<td>60~70</td>
+<td>69,0394</td>
+<td>160~170</td>
+<td>3413</td>
+<td>260~270</td>
+<td>3</td>
+</tr>
+<tr>
+<td>70~80</td>
+<td>104,9353</td>
+<td>170~180</td>
+<td>1909</td>
+<td>270~280</td>
+<td>2</td>
+</tr>
+<tr>
+<td>80~90</td>
+<td>100,6618</td>
+<td>180~190</td>
+<td>1091</td>
+<td>280~290</td>
+<td>0</td>
+</tr>
+<tr>
+<td>90~100</td>
+<td>47,7219</td>
+<td>190~200</td>
+<td>622</td>
+<td>290~300</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>筛选crop后，宽度在20~130区间的图片，共90523个类别，4932655张。</p>
+<p>train.txt：3982004 </p>
+<p>val.txt：950661 </p>
+<p><u>18万次迭代之后，准确率只有66%左右。</u></p>
+<h1 id="step4-crop对齐后的图片的眼睛，训练单眼模型"><a href="#step4-crop对齐后的图片的眼睛，训练单眼模型" class="headerlink" title="step4:crop对齐后的图片的眼睛，训练单眼模型"></a>step4:crop对齐后的图片的眼睛，训练单眼模型</h1><p>数据集大小：5044507(90525个类)（”/home/yf/caffe-rc5-triplet/examples/triplet-face/clean.txt”，”/home/yf/data/msclean”）</p>
+<pre><code>&quot;ref_points&quot;: [
+        30.2946, 51.6963, 
+     65.5318, 51.5014, 
+     48.0252, 71.7366,
+     33.5493, 92.3655, 
+     62.7299, 92.2041
+ ]
+
+
+  eye_width=(ref_points[2]-ref_points[0])*0.8
+     eye_height=eye_width
+     x1=ref_points[0]-0.5*eye_width=16
+     x2=ref_points[0]+0.5*eye_width=44
+     y1=ref_points[1]-0.5*eye_height=37
+     y2=ref_points[1]+0.5*eye_height=65
+</code></pre><p>train:4071324 张</p>
+<p>val:973183张</p>
+<h1 id="step5-crop对齐后的图片的眼睛，训练双眼模型"><a href="#step5-crop对齐后的图片的眼睛，训练双眼模型" class="headerlink" title="step5:crop对齐后的图片的眼睛，训练双眼模型"></a>step5:crop对齐后的图片的眼睛，训练双眼模型</h1><p>数据集大小：5044507(90525个类)（”/home/yf/caffe-rc5-triplet/examples/triplet-face/clean.txt”，”/home/yf/data/msclean”）</p>
+<pre><code>   &quot;ref_points&quot;: [
+       30.2946, 51.6963, 
+    65.5318, 51.5014, 
+    48.0252, 71.7366,
+    33.5493, 92.3655, 
+    62.7299, 92.2041
+]
+     eye_width=(ref_points[2]-ref_points[0])*0.8
+    eye_height=eye_width
+    x1=ref_points[0]-0.5*eye_width=16
+    x2=ref_points[2]+0.5*eye_width=79
+    y1=ref_points[1]-0.5*eye_height=37
+    y2=ref_points[1]+0.5*eye_height=65
+</code></pre><p><u>迭代16万次，精度为72.73%，loss=2.52</u></p>
+<p><u>在lfw上测试，精度最高达到77.04%</u></p>
+<h1 id="step6-Center-face-dropout-finetune-on-softmax"><a href="#step6-Center-face-dropout-finetune-on-softmax" class="headerlink" title="step6:Center face+dropout+finetune on softmax"></a>step6:Center face+dropout+finetune on softmax</h1><p>在msclean测试集上达到93.53% </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Model</th>
+<th>PCA_Size</th>
+<th>Threshold</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">dropcenter</td>
+<td>168</td>
+<td>0.64</td>
+<td>99.42%</td>
+</tr>
+<tr>
+<td style="text-align:left">dropcenter_mirror</td>
+<td>136</td>
+<td>0.64</td>
+<td>99.38%</td>
+</tr>
+<tr>
+<td style="text-align:left">dropcenter +dropcenter_mirror+Min</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.45%</td>
+</tr>
+<tr>
+<td style="text-align:left">dropcenter+dropcenter_mirror+ Add</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.45%</td>
+</tr>
+<tr>
+<td style="text-align:left">center +dropcenter +Min</td>
+<td>400</td>
+<td>0.64</td>
+<td>99.40%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Min</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.45%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Add</td>
+<td>160</td>
+<td>0.64</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Max</td>
+<td>160</td>
+<td>0.64</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td style="text-align:left">centermirror+dropcenter+Concate</td>
+<td>192</td>
+<td>0.65</td>
+<td>99.47%</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>PCA Size</th>
+<th>Threshold</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>center_min_mirror+dropcenter+Concate</td>
+<td>192</td>
+<td>0.65</td>
+<td>99.47%</td>
+</tr>
+<tr>
+<td>center_min_mirror+dropcenter+Min</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.42%</td>
+</tr>
+<tr>
+<td>center_min_mirror+dropcenter+Add</td>
+<td>136</td>
+<td>0.64</td>
+<td>99.47%</td>
+</tr>
+<tr>
+<td>eye_model</td>
+<td>160</td>
+<td>0.57</td>
+<td>77.04%</td>
+</tr>
+<tr>
+<td>eyemodel+center+Con</td>
+<td>208</td>
+<td>0.66</td>
+<td>74.80%</td>
+</tr>
+<tr>
+<td>三模型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>center+center_min_mirror+dropoutcenter+Concate</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td>center+softmax+dropoutcenter+Concate</td>
+<td>168</td>
+<td>0.66</td>
+<td>99.43%</td>
+</tr>
+<tr>
+<td>center+softmax+dropoutcenter+Add</td>
+<td>496</td>
+<td>0.65</td>
+<td>99.42%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="step7-balance"><a href="#step7-balance" class="headerlink" title="step7:balance"></a>step7:balance</h1><h2 id="step7-1-减小过采样的数量，防止过拟合"><a href="#step7-1-减小过采样的数量，防止过拟合" class="headerlink" title="step7.1:减小过采样的数量，防止过拟合"></a>step7.1:减小过采样的数量，防止过拟合</h2><p>对/home/yf/data/clean.txt中每种类别进行统计各有多少个数：</p>
+<table>
+<thead>
+<tr>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;10</td>
+<td>1213</td>
+<td>10~20</td>
+<td>11617</td>
+</tr>
+<tr>
+<td>20~30</td>
+<td>10868</td>
+<td>30~40</td>
+<td>9692</td>
+</tr>
+<tr>
+<td>40~50</td>
+<td>9020</td>
+<td>50~60</td>
+<td>8426</td>
+</tr>
+<tr>
+<td>60~70</td>
+<td>8443</td>
+<td>70~80</td>
+<td>8783</td>
+</tr>
+<tr>
+<td>80~90</td>
+<td>8762</td>
+<td>90~100</td>
+<td>7317</td>
+</tr>
+<tr>
+<td>100~110</td>
+<td>4277</td>
+<td>110~120</td>
+<td>1753</td>
+</tr>
+<tr>
+<td>120~130</td>
+<td>354</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>类别总数共90525。由上图可知，类别严重不均衡，之前处理类别不均衡的方法主要是欠抽样和过抽样结合，对于多数类样本丢弃一部分样本，对于少数类样本复制生成，最后的训练数据分布如下：</p>
+<table>
+<thead>
+<tr>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+<th>每种类别包含图片张数</th>
+<th>类别数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>70~80</td>
+<td>3673</td>
+<td>80~90</td>
+<td>19068</td>
+</tr>
+<tr>
+<td>90~100</td>
+<td>27069</td>
+<td>100~110</td>
+<td>40715</td>
+</tr>
+</tbody>
+</table>
+<p>由于少数类占了大多数，但是重复太多，可能导致过拟合问题，于是将每个类别的图片张数减去30，重新生成balance的训练数据，并训练模型。</p>
+<p><u>迭代17万次后，msdata测试集上准确率达到92.28%，loss=0.27</u></p>
+<p><u>lfw上精度为99.18%</u></p>
+<p><u>mirror:99.27%</u></p>
+<p><u>add:99.27%</u></p>
+<h2 id="step7-2-EasyEmsemble法均衡类别"><a href="#step7-2-EasyEmsemble法均衡类别" class="headerlink" title="step7.2:EasyEmsemble法均衡类别"></a>step7.2:EasyEmsemble法均衡类别</h2><p>step7.1的方法属于欠抽样和过抽样结合：</p>
+<ul>
+<li>对于欠抽样算法，将多数类样本删除有可能会导致分类器<strong>丢失有关多数类的重要信息</strong>。</li>
+<li>对于过抽样算法，虽然只是简单地将复制后的数据添加到原始数据集中，且某些样本的多个实例都是“<strong>并列的</strong>”，但这样也可能会导致分类器学习出现<strong>过拟合现象</strong>，对于同一个样本的多个复本产生多个规则条例，这就使得<strong>规则过于具体化</strong>；虽然在这种情况下，分类器的训练精度会很高，但在位置样本的分类性能就会非常不理想。</li>
+</ul>
+<p><strong>EasyEnsemble 核心思想是：</strong></p>
+<ul>
+<li><p>首先通过从多数类中<strong>独立随机</strong>抽取出若干子集</p>
+</li>
+<li><p>将每个子集与少数类数据<strong>联合</strong>起来<strong>训练</strong>生成多个基分类器</p>
+</li>
+<li><p>最终将这些基分类器<strong>组合形成</strong>一个集成学习系统</p>
+<p>设立一个阈值50，对于类别样本数超过50的，将其分写到两个不同的文件；对于类别样本数不超过50的，利用过采样进行增添，所以最终得到两个有交集的训练集A,B，两个训练集的样本数都是</p>
+<p>90525*50=4526250</p>
+</li>
+</ul>
+<p><u>训练两个model，然后提取特征，对特征进行融合。</u></p>
+<table>
+<thead>
+<tr>
+<th>Model(acc/loss)</th>
+<th>Pca Size</th>
+<th>Threshold</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>model1(90.75%/0.41)</td>
+<td>176</td>
+<td>0.64</td>
+<td>99.05%</td>
+</tr>
+<tr>
+<td>model1(92.14%/0.26)</td>
+<td>200</td>
+<td>0.62</td>
+<td>99.28%</td>
+</tr>
+<tr>
+<td>model1(92.14%/0.26) Mirror</td>
+<td>280</td>
+<td>0.63</td>
+<td>99.32%</td>
+</tr>
+<tr>
+<td>model1(92.14%/0.26) Add Mirror</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.30%</td>
+</tr>
+<tr>
+<td>model2(92.56%/0.41)</td>
+<td>128</td>
+<td>0.64</td>
+<td>99.27%</td>
+</tr>
+<tr>
+<td>model2(92.56%/0.41) Mirror</td>
+<td>192</td>
+<td>0.63</td>
+<td>99.35%</td>
+</tr>
+<tr>
+<td>model2(92.56%/0.41) Add Mirror</td>
+<td>192</td>
+<td>0.64</td>
+<td>99.32%</td>
+</tr>
+<tr>
+<td>model1 add model2</td>
+<td>152</td>
+<td>0.64</td>
+<td>99.33%</td>
+</tr>
+<tr>
+<td>model1 mirror add model2 mirror</td>
+<td>136</td>
+<td>0.65</td>
+<td>99.37%</td>
+</tr>
+<tr>
+<td>model1 add model2 mirror</td>
+<td>152</td>
+<td>0.64</td>
+<td>99.37%</td>
+</tr>
+<tr>
+<td>model1_add_mirror add model2_add_mirror</td>
+<td>152</td>
+<td>0.64</td>
+<td>99.38%</td>
+</tr>
+<tr>
+<td>model1_add_mirror concate model2_add_mirror</td>
+<td>128</td>
+<td>0.65</td>
+<td>99.32%</td>
+</tr>
+<tr>
+<td>model1 mirror min model2 mirror</td>
+<td>168</td>
+<td>0.64</td>
+<td>99.37%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="step8-UMDFaces"><a href="#step8-UMDFaces" class="headerlink" title="step8:UMDFaces"></a>step8:UMDFaces</h1><p>对UMDFaces数据集进行人脸对齐处理</p>
+<p>batch1:175,534(3554类)</p>
+<p>batch2:115,126(2590类)</p>
+<p>batch3:77,228(2133类)</p>
+<p>frames:3,735,475(3106类)</p>
+<p>提取4个数据集的类别名称，经过处理分析后发现frames的类别属于batch1类别的子集，将3个batch与frames的数据集整合到一个数据集下，因为当静态图片和视频帧进行结合后训练的模型往往既能兼顾个体之间的差异（静态图片特征）也能学习到同一个个体的姿态变化（视频帧特征），要注意的一点就是对于frames和batch1中同一个类别的要放在一个目录下，并重新生成类别标签。</p>
+<p>数据总量:4103363(8276个类别)</p>
+<p>数据整理已经完成，接下来是在这个数据集上进行metric learning的训练。</p>
+<p>train:3286012<br>val:817351</p>
+<h1 id="step9-Megaface测试"><a href="#step9-Megaface测试" class="headerlink" title="step9:Megaface测试"></a>step9:Megaface测试</h1><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dataset</th>
+<th>Score(Megaface/LFW)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>center-face</td>
+<td>FaceScrub Set1/LFW</td>
+<td>67.32%/99.42%</td>
+</tr>
+<tr>
+<td>balance-reduced</td>
+<td>FaceScrub Set1/LFW</td>
+<td>70.99%/99.18%</td>
+</tr>
+<tr>
+<td>easyensemble</td>
+<td>FaceScrub Set1</td>
+<td>73.91%/99.33%</td>
+</tr>
+<tr>
+<td>easyensemble  concat addmirror</td>
+<td>FaceScrub Set1</td>
+<td>74.21%/99.37%</td>
+</tr>
+<tr>
+<td>balance-cent-soft</td>
+<td>FaceScrub Set1/LFW</td>
+<td>74.47%/99.33%</td>
+</tr>
+<tr>
+<td>balance-cent-soft concat mirror</td>
+<td>FaceScrub Set1</td>
+<td>75.65%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step9-1-Megaface测试（续）"><a href="#step9-1-Megaface测试（续）" class="headerlink" title="step9.1:Megaface测试（续）"></a>step9.1:Megaface测试（续）</h2><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dataset</th>
+<th>Score(Megaface/LFW)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dropout_center Concat mirror</td>
+<td>FaceScrub Set1/LFW</td>
+<td>69.34%/99.47%</td>
+</tr>
+<tr>
+<td>normface easyensemble model1 Concart mirror</td>
+<td>FaceScrub Set1/LFW</td>
+<td>70.32%</td>
+</tr>
+<tr>
+<td>normface easyensemble 2models Concat mirror</td>
+<td>FaceScrub Set1</td>
+<td>70.49%</td>
+</tr>
+<tr>
+<td>balance concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>78.84%</td>
+</tr>
+<tr>
+<td>easyensemble concat addmirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>75.92%</td>
+</tr>
+<tr>
+<td>jitter_center_iter_190000 concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>77.69%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>83.13%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 only mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>82.08%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 add mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>82.87%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_184000 concat mirror</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>83.16%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_180000 concat mirror</td>
+<td>FaceScrub(python_mtcnn)</td>
+<td>78.33%</td>
+</tr>
+<tr>
+<td>jitter_softmax_iter_184000 concat mirror(matlab align)</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>79.05%</td>
+</tr>
+<tr>
+<td>normface_jitter_iter_124000 concat mirror(python align)</td>
+<td>FaceScrub(python_mtcnn)</td>
+<td>76.50%</td>
+</tr>
+<tr>
+<td>normface_jitter_iter124000 cancat mirror(python align)</td>
+<td>FaceScrub(matlab_mtcnn)</td>
+<td>78.92%</td>
+</tr>
+</tbody>
+</table>
+<h1 id="step-10-MTCNN-matlab-人脸检测及对齐"><a href="#step-10-MTCNN-matlab-人脸检测及对齐" class="headerlink" title="step 10:MTCNN(matlab)人脸检测及对齐"></a>step 10:MTCNN(matlab)人脸检测及对齐</h1><h2 id="step-10-1：对齐Megaface和FaceScrub"><a href="#step-10-1：对齐Megaface和FaceScrub" class="headerlink" title="step 10.1：对齐Megaface和FaceScrub"></a>step 10.1：对齐Megaface和FaceScrub</h2><p>主要是Megaface数据集（1028062张）,FaceScrub数据集(91712张)，其中FaceScrub数据集中通过mtcnn（/home/yf/align/align_megaface.m）检测到的有89751张，剩余的1961张需要利用数据集中提供的3个关键点进行对齐，首先需要获取未检测到的图片的路径，然后利用python 脚本(/home/yf/megaface/devkit/templatelists/analysis/analysis_json.py)解析对应的存储该图片中人脸关键点的json文件，最后在利用matlab脚本(/home/yf/align/for_not_detect/align_megaface.m)进行批量对齐。Megaface数据集中未检测到的数据集同样处理。</p>
+<p><strong>问题</strong>：</p>
+<p>在进行了41万次对齐后，出现了imread的错误，然后将从目录读取路径改成了从存储图片路径的文件中(/home/yf/megaface/tests/MegaFace_align_list_image.txt)直接获取路径，并输出每次进行处理的文件名，重新进行对齐操作，然后重现了这个错误，最后比对MegaFace_align_list_image.txt的下一张图片，发现有张图片是输入为空的。</p>
+<h2 id="step-10-2-对齐msceleb数据"><a href="#step-10-2-对齐msceleb数据" class="headerlink" title="step 10.2:对齐msceleb数据"></a>step 10.2:对齐msceleb数据</h2><p>重新对齐msceleb数据集用于训练。</p>
+<h1 id="step-11-Normface训练"><a href="#step-11-Normface训练" class="headerlink" title="step 11:Normface训练"></a>step 11:Normface训练</h1><p>Normface(paper:<a href="https://arxiv.org/pdf/1704.06369.pdf" target="_blank" rel="external">NormFace: L2 Hypersphere Embedding for Face Verification</a>)</p>
+<h2 id="step-11-1-训练EasyEnsemble模型"><a href="#step-11-1-训练EasyEnsemble模型" class="headerlink" title="step 11.1:训练EasyEnsemble模型"></a>step 11.1:训练EasyEnsemble模型</h2><p>model1在测试集上的准确率为92.88%，model2在测试集上的准确率为92.85%。</p>
+<p>暂时只测了单个的model1 concate mirror在Megaface(还是原始python版mtcnn对齐的)上的准确率只有70.32%。下周继续测试两个模型的效果。</p>
+<h2 id="step-11-2-训练Balance模型"><a href="#step-11-2-训练Balance模型" class="headerlink" title="step 11.2:训练Balance模型"></a>step 11.2:训练Balance模型</h2><p>刚生成完训练的数据集，下周开始训练。</p>
+<h1 id="step-12-Image-Jitter"><a href="#step-12-Image-Jitter" class="headerlink" title="step 12:Image Jitter"></a>step 12:Image Jitter</h1><p>对图片增加随机扰动，包括缩放、角度变换、镜像操作，主要还是msceleb数据集(/home/yf/data/msclean)上进行，由于该数据集类别不均衡，所以对于样本数较少的类别可以采用这种办法增加样本容量。最终将每个类别的样本数控制在80~160之间。</p>
+<p>10240892</p>
+<p>train:9257534</p>
+<p>val:983342</p>
+<p>正在生成训练的数据集lmdb。</p>
+<p>jitter_center_iter_190000 concat mirror  FaceScrub(matlab_mtcnn)  77.69%  </p>
+<p>jitter_softmax_iter_180000 concat mirror  FaceScrub(matlab_mtcnn)  83.18%</p>
+<p>jitter_softmax_iter_180000 only mirror  FaceScrub(matlab_mtcnn)  82.08%</p>
+<p>jitter_softmax_iter_180000 add mirror  FaceScrub(matlab_mtcnn)  82.87%</p>
+<p>jitter_softmax_iter_184000 concat mirror  FaceScrub(matlab_mtcnn)  83.16%</p>
+<h1 id="step-13-Gender-test"><a href="#step-13-Gender-test" class="headerlink" title="step 13:Gender test"></a>step 13:Gender test</h1><h3 id="1-0"><a href="#1-0" class="headerlink" title="1.0"></a>1.0</h3><p>VGG16在lfw上准确率90.04%，在imdb(15590测试样本)上准确率90.92%</p>
+<p>model training:female(69847),male(86061)</p>
+<p>train:124728</p>
+<p>val:15590</p>
+<p>test:15590</p>
+<h3 id="2-0"><a href="#2-0" class="headerlink" title="2.0"></a>2.0</h3><p>网络：AlexNet 在清理后的数据集上，迭代29500次后，训练准确率为98.16%，loss=0.55</p>
+<p>在测试集上达到98.11%（15127/15418)</p>
+<h1 id="Todo1"><a href="#Todo1" class="headerlink" title="Todo1"></a>Todo1</h1><ul>
+<li>[x] Create umdfaces–&gt;lmdb</li>
+<li>[x] EasyEnsemble train and test</li>
+<li>[x] Use matcaffe for metric learning</li>
+<li>[ ] Megaface test<pre><code>- - [x] center face
+  - [x] balance-cent-soft
+  - [x] reduced
+  - [x] mirror or concatenate
+  - [x] EasyEnsemble
+</code></pre></li>
+</ul>
+<ul>
+<li><p>[x] Paper reading:One-shot face recognition by promoting underrepresented classes</p>
+<pre><code>​
+</code></pre></li>
+</ul>
+<h1 id="Todo2"><a href="#Todo2" class="headerlink" title="Todo2"></a>Todo2</h1><ul>
+<li><p>[ ] jitter model training(softmax first)</p>
+</li>
+<li><p>[ ] balance model retrain on normface(include center loss)</p>
+</li>
+<li><p>[ ] aligned by matlab_mtcnn megaface(balance model 75.65% version)</p>
+</li>
+<li><p>[ ] gender classfication model training</p>
+<pre><code>- check the dataset (detect and crop by matlab_mtcnn)
+
+- generate lmdb
+
+- choose a model(ResNet?)
+
+  ​
+</code></pre></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://github.com/happynear/FaceVerification" target="_blank" rel="external">happynear-face-verification</a></p>
+<p><a href="https://github.com/davisking/dlib/blob/cbd187fb6109d21406f6a76bb0e9aa0689b1e54a/examples/dnn_face_recognition_ex.cpp" target="_blank" rel="external">dlib-jitter</a></p>
+<p><a href="http://blog.dlib.net" target="_blank" rel="external">dlib-face-verification-blog</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Model&lt;/th&gt;
-&lt;th&gt;PCA Size&lt;/th&gt;
-&lt;th&gt;Threshold&lt;/th&gt;
-&lt;th&gt;Score&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Mirror&lt;/td&gt;
-&lt;td&gt;192&lt;
+      &lt;h1 id=&quot;step1-Mirror-face相关&quot;&gt;&lt;a href=&quot;#step1-Mirror-face相关&quot; class=&quot;headerlink&quot; title=&quot;step1:Mirror face相关&quot;&gt;&lt;/a&gt;step1:Mirror face相关&lt;/h1&gt;&lt;tabl
     
     </summary>
     
@@ -426,7 +1328,7 @@
     <link href="calyp.github.io/2017/06/01/%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
     <id>calyp.github.io/2017/06/01/杂知识点/</id>
     <published>2017-06-01T01:42:05.000Z</published>
-    <updated>2017-06-08T01:58:50.356Z</updated>
+    <updated>2017-09-11T03:24:37.234Z</updated>
     
     <content type="html"><![CDATA[<h1 id="分类与回归"><a href="#分类与回归" class="headerlink" title="分类与回归"></a>分类与回归</h1><p><strong>本节部分转载于穆文发表于知乎的<a href="https://www.zhihu.com/question/21329754/answer/151216012" target="_blank" rel="external">分类与回归区别是什么</a>下面的回答，获得原作者授权</strong></p>
 <p><em>分类与回归的模型本质一样，分类模型可将回归模型的输出离散化，回归模型也可将分类模型的输出连续化。</em></p>
@@ -448,7 +1350,7 @@
 </li>
 <li><p>前馈神经网络（CNN系列）用于分类和回归</p>
 <ul>
-<li>回归：最后一层有m个神经元，每个神经元输出一个标量，m个神经元的三个月抽根烟截图看做向量v，现全部连接到一个神经元上，这个神经元的输出<strong>wv+b</strong>，是一个连续值，处理回归问题，和Linear Regression的思想一样</li>
+<li>回归：最后一层有m个神经元，每个神经元输出一个标量，m个神经元的输出看做向量v，现全部连接到一个神经元上，这个神经元的输出<strong>wv+b</strong>，是一个连续值，处理回归问题，和Linear Regression的思想一样</li>
 <li>分类：将m个神经元最后连接到N个神经元，有N组不同的<strong>wv+b</strong>，进行归一化（比如softmax)，就变成N个类上的概率，如果不用softmax，而是每个wx+b用一个sigmoid，就变成多标签问题</li>
 </ul>
 </li>
@@ -485,11 +1387,18 @@
 <p>$$<br>准确率=\frac{TP+TN}{TP+TF+FN+FP}<br>$$</p>
 <p>$$<br>精确率=\frac{TP}{TP+FP}<br>$$</p>
 <p>$$<br>召回率=\frac{TP}{TP+FN}<br>$$</p>
-<h2 id="卷积计算后的图片尺寸："><a href="#卷积计算后的图片尺寸：" class="headerlink" title="卷积计算后的图片尺寸："></a>卷积计算后的图片尺寸：</h2><p>$$<br>outputsize=\frac{imagesize+2*padding-kernelsize}{stride}<br>$$</p>
-<h2 id="RankBoost"><a href="#RankBoost" class="headerlink" title="RankBoost:"></a>RankBoost:</h2><p>​    RankBoost的思想比较简单，是二元Learning to rank的常规思路：通过构造目标分类    器，使得pair之间的对象存在相对大小关系。通俗点说，把对象组成一对对的pair，比如一组排序r1&gt;r2&gt;r3&gt;r4，那可以构成pair：(r1,r2)(r1,r3),(r1,r4),(r2,r3)(r3,r4),这样的pair是正值，也就是label是1；而余下的pair如(r2,r1)的值应该是-1或0。这样一个排序问题就被巧妙的转换为了分类问题。近来CV界很多又用这种learning to rank的思想做识别问题，先把识别转换为排序问题再转换为分类问题</p>
+<h2 id="卷积计算后的图片尺寸："><a href="#卷积计算后的图片尺寸：" class="headerlink" title="卷积计算后的图片尺寸："></a>卷积计算后的图片尺寸：</h2><p>$$<br>outputsize=\frac{imagesize+2*padding-kernelsize}{stride}+1<br>$$</p>
+<h1 id="RankBoost"><a href="#RankBoost" class="headerlink" title="RankBoost:"></a>RankBoost:</h1><p>​    RankBoost的思想比较简单，是二元Learning to rank的常规思路：通过构造目标分类    器，使得pair之间的对象存在相对大小关系。通俗点说，把对象组成一对对的pair，比如一组排序r1&gt;r2&gt;r3&gt;r4，那可以构成pair：(r1,r2)(r1,r3),(r1,r4),(r2,r3)(r3,r4),这样的pair是正值，也就是label是1；而余下的pair如(r2,r1)的值应该是-1或0。这样一个排序问题就被巧妙的转换为了分类问题。近来CV界很多又用这种learning to rank的思想做识别问题，先把识别转换为排序问题再转换为分类问题</p>
+<h1 id="真阳率，假阳率，AUC，ROC"><a href="#真阳率，假阳率，AUC，ROC" class="headerlink" title="真阳率，假阳率，AUC，ROC"></a>真阳率，假阳率，AUC，ROC</h1><p><img src="http://img.blog.csdn.net/20150919111349931" alt="pic1"></p>
+<p>$真阳率=\frac{a}{a+c}$:含义是检测出来的真阳性样本数除以所有真实阳性样本数。</p>
+<p>$假阳率=\frac{b}{b+d}$:含义是检测出来的假阳性样本数除以所有真实阴性样本数</p>
+<p>ROC曲线就是把假阳率当x轴，真阳率当y轴画一个二维平面直角坐标系。然后不断调整检测方法（或机器学习中的分类器）的阈值，即最终得分高于某个值就是阳性，反之就是阴性，得到不同的真阳率和假阳率数值，然后描点。就可以得到一条ROC曲线。<br>需要注意的是，ROC曲线必定起于（0，0），止于（1，1）。因为，当全都判断为阴性(-)时，就是（0，0）；全部判断为阳性(+)时就是（1，1）。这两点间斜率为1的线段表示随机分类器（对真实的正负样本没有区分能力）。所以一般分类器需要在这条线上方</p>
+<p><img src="http://img.blog.csdn.net/20150919114145488" alt="pic2"></p>
+<p>AUC就是ROC曲线下方的面积，越接近1表示分类器越好。</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://www.zhihu.com/question/21704547/answer/20293255" target="_blank" rel="external">SVM和logistic回归分别在什么情况下使用</a></p>
 <p><a href="http://blog.csdn.net/ybdesire/article/details/54143481" target="_blank" rel="external">SVM和Logistic的区别</a></p>
 <p>[<a href="http://blog.csdn.net/zhang_shuai12/article/details/52716952" target="_blank" rel="external">物体检测中常用的几个概念迁移学习、IOU、NMS理解</a>]</p>
+<p><a href="http://www.cnblogs.com/maybe2030/p/5375175.html" target="_blank" rel="external">机器学习算法常用指标总结</a></p>
 ]]></content>
     
     <summary type="html">
