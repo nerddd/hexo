@@ -1,4 +1,5 @@
 #hexo本地相关
+hexo n name
 hexo g -d
 hexo s (-p 3000)
 hexo clean(清缓存）
