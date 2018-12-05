@@ -66,17 +66,17 @@
 
 
 
-<meta name="description" content="loss为nan梯度爆炸 原因：梯度变得非常大，使得学习过程难以继续 现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。 措施：   减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的lo">
+<meta name="description" content="caffe调参的一些经验">
 <meta name="keywords" content="caffe,调参">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Caffe调参">
 <meta property="og:url" content="calyp.github.io/2017/06/17/Caffe调参/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="loss为nan梯度爆炸 原因：梯度变得非常大，使得学习过程难以继续 现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。 措施：   减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的lo">
-<meta property="og:updated_time" content="2018-04-27T01:42:38.843Z">
+<meta property="og:description" content="caffe调参的一些经验">
+<meta property="og:updated_time" content="2018-12-05T09:19:47.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Caffe调参">
-<meta name="twitter:description" content="loss为nan梯度爆炸 原因：梯度变得非常大，使得学习过程难以继续 现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。 措施：   减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss layer，需要找出哪个损失层导致了梯度爆炸，并在train_val.prototxt中减小该层的lo">
+<meta name="twitter:description" content="caffe调参的一些经验">
 
 
 
@@ -85,7 +85,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -369,6 +369,10 @@
           
 
           
+              <div class="post-description">
+                  caffe调参的一些经验
+              </div>
+          
 
         </div>
       </header>
@@ -545,7 +549,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -654,6 +658,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -694,11 +705,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>

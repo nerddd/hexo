@@ -83,7 +83,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -659,12 +659,10 @@
 
       
         
-          
-          Linux操作相关##基本操作打包：​       tar -cvf xx.tar xxx​       tar zcvf xx.tar.gz xx解压：       tar zxvf xx.tar.gz       tar xvf xx.tar       tar jxvf xx.tar.bz2 
-          ...
+          关于linux/vim/matlab/python/git等的一些指令
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/04/27/手册&指南/#more" rel="contents">
+            <a class="btn" href="/2018/04/27/手册&指南/">
               Read more &raquo;
             </a>
           </div>
@@ -799,14 +797,10 @@
 
       
         
-          
-          数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。
-构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1）
-数据均衡：数据
-          ...
+          人脸识别的一般流程
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/29/人脸识别回顾/#more" rel="contents">
+            <a class="btn" href="/2018/01/29/人脸识别回顾/">
               Read more &raquo;
             </a>
           </div>
@@ -941,12 +935,10 @@
 
       
         
-          
-          摘要深层的网络由于良好的学习能力，近年来在目标识别领域取得巨大成功，基于此，提出两个非常深的网络架构，DeepID3，这两个架构分别基于VGG net和GoogLeNet通过改进使之用于人脸识别。Joint face identification-verification supervisory s
-          ...
+          DeepID3论文阅读笔记
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/04/DeepID3论文笔记/#more" rel="contents">
+            <a class="btn" href="/2017/07/04/DeepID3论文笔记/">
               Read more &raquo;
             </a>
           </div>
@@ -1046,8 +1038,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Face/" itemprop="url" rel="index">
-                    <span itemprop="name">Face</span>
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
                   </a>
                 </span>
 
@@ -1081,13 +1073,10 @@
 
       
         
-          
-          论文：A Discriminative Feature Learning Approach for Deep Face Recognition
-摘要对于一般的CNN网络，softmax通常作为监督信号来训练深层网络，为了增强提取的特征的可辨别性（discriminative），提出center lo
-          ...
+          Center loss论文阅读笔记
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/29/Center-loss笔记/#more" rel="contents">
+            <a class="btn" href="/2017/06/29/Center-loss笔记/">
               Read more &raquo;
             </a>
           </div>
@@ -1187,8 +1176,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Face/" itemprop="url" rel="index">
-                    <span itemprop="name">Face</span>
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
                   </a>
                 </span>
 
@@ -1222,13 +1211,10 @@
 
       
         
-          
-          原文链接:FaceNet:A unified embedding for face recognition and clustering
-简介FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。Fa
-          ...
+          FaceNet论文阅读笔记
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/28/FaceNet论文笔记/#more" rel="contents">
+            <a class="btn" href="/2017/06/28/FaceNet论文笔记/">
               Read more &raquo;
             </a>
           </div>
@@ -1363,17 +1349,10 @@
 
       
         
-          
-          loss为nan梯度爆炸
-原因：梯度变得非常大，使得学习过程难以继续
-现象：观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。
-措施： 
-
-减小solver.prototxt中的base_lr，至少减小一个数量级。如果有多个loss l
-          ...
+          caffe调参的一些经验
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/17/Caffe调参/#more" rel="contents">
+            <a class="btn" href="/2017/06/17/Caffe调参/">
               Read more &raquo;
             </a>
           </div>
@@ -1486,7 +1465,7 @@
 
       
         
-          Python
+          运用python处理一些简单问题的记录
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/06/09/Python/">
@@ -1589,8 +1568,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Face/" itemprop="url" rel="index">
-                    <span itemprop="name">Face</span>
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
                   </a>
                 </span>
 
@@ -1624,12 +1603,10 @@
 
       
         
-          
-          原理Triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为x_a)属于同一类的样本Positive (记为x_p)和不同类的样本Negative (记为x_n)，由此构成一个（Anchor，Positive，
-          ...
+          Triplet loss论文阅读笔记
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/02/Triplet loss/#more" rel="contents">
+            <a class="btn" href="/2017/06/02/Triplet loss/">
               Read more &raquo;
             </a>
           </div>
@@ -1726,7 +1703,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1819,6 +1796,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -1859,11 +1843,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>

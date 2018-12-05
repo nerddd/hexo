@@ -66,17 +66,17 @@
 
 
 
-<meta name="description" content="数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。 构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1） 数据均衡：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如ji">
+<meta name="description" content="人脸识别的一般流程">
 <meta name="keywords" content="人脸识别">
 <meta property="og:type" content="article">
 <meta property="og:title" content="人脸识别回顾">
 <meta property="og:url" content="calyp.github.io/2018/01/29/人脸识别回顾/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。 构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1） 数据均衡：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如ji">
-<meta property="og:updated_time" content="2018-12-05T08:38:02.888Z">
+<meta property="og:description" content="人脸识别的一般流程">
+<meta property="og:updated_time" content="2018-12-05T09:24:22.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="人脸识别回顾">
-<meta name="twitter:description" content="数据准备数据清洗：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。 构造验证集:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1） 数据均衡：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如ji">
+<meta name="twitter:description" content="人脸识别的一般流程">
 
 
 
@@ -85,7 +85,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -368,6 +368,10 @@
 
           
 
+          
+              <div class="post-description">
+                  人脸识别的一般流程
+              </div>
           
 
         </div>
@@ -658,7 +662,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -767,6 +771,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -807,11 +818,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>

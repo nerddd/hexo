@@ -66,18 +66,18 @@
 
 
 
-<meta name="description" content="论文：A Discriminative Feature Learning Approach for Deep Face Recognition 摘要对于一般的CNN网络，softmax通常作为监督信号来训练深层网络，为了增强提取的特征的可辨别性（discriminative），提出center loss，应对人脸识别任务。center loss同时学习每个类别的深层特征中心和惩罚深层特征和它们对应">
+<meta name="description" content="Center loss论文阅读笔记">
 <meta name="keywords" content="深度学习，论文笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Center loss笔记">
 <meta property="og:url" content="calyp.github.io/2017/06/29/Center-loss笔记/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="论文：A Discriminative Feature Learning Approach for Deep Face Recognition 摘要对于一般的CNN网络，softmax通常作为监督信号来训练深层网络，为了增强提取的特征的可辨别性（discriminative），提出center loss，应对人脸识别任务。center loss同时学习每个类别的深层特征中心和惩罚深层特征和它们对应">
+<meta property="og:description" content="Center loss论文阅读笔记">
 <meta property="og:image" content="https://static.leiphone.com/uploads/new/article/740_740/201612/585bb8742235c.png?imageMogr2/format/jpg/quality/90">
-<meta property="og:updated_time" content="2017-06-30T12:19:30.937Z">
+<meta property="og:updated_time" content="2018-12-05T09:29:14.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Center loss笔记">
-<meta name="twitter:description" content="论文：A Discriminative Feature Learning Approach for Deep Face Recognition 摘要对于一般的CNN网络，softmax通常作为监督信号来训练深层网络，为了增强提取的特征的可辨别性（discriminative），提出center loss，应对人脸识别任务。center loss同时学习每个类别的深层特征中心和惩罚深层特征和它们对应">
+<meta name="twitter:description" content="Center loss论文阅读笔记">
 <meta name="twitter:image" content="https://static.leiphone.com/uploads/new/article/740_740/201612/585bb8742235c.png?imageMogr2/format/jpg/quality/90">
 
 
@@ -87,7 +87,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Face/" itemprop="url" rel="index">
-                    <span itemprop="name">Face</span>
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
                   </a>
                 </span>
 
@@ -370,6 +370,10 @@
 
           
 
+          
+              <div class="post-description">
+                  Center loss论文阅读笔记
+              </div>
           
 
         </div>
@@ -524,7 +528,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -633,6 +637,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -673,11 +684,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>

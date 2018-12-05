@@ -1,9 +1,9 @@
 ---
 title: Center loss笔记
 date: 2017-06-29 17:05:51
-categories: Face
+categories: 论文笔记
 tags: [深度学习，论文笔记]
-description:
+description: Center loss论文阅读笔记
 mathjax:
 ---
 

@@ -66,17 +66,17 @@
 
 
 
-<meta name="description" content="问题Hexo无法正常显示公式善用主题(theme)，以我使用的next主题为例，打开/themes/next/_config.yml文件，更改mathjax开关为： 1234# MathJax Supportmathjax:  enable: true  per_page: true 另外，还要在文章(.md文件)头设置开关，只用在有用公式显示的页面才加载Mathjax渲染，不影响其他的页面渲染速">
+<meta name="description" content="Hexo相关的配置说明">
 <meta name="keywords" content="Hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo相关">
 <meta property="og:url" content="calyp.github.io/2017/06/02/Hexo相关/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="问题Hexo无法正常显示公式善用主题(theme)，以我使用的next主题为例，打开/themes/next/_config.yml文件，更改mathjax开关为： 1234# MathJax Supportmathjax:  enable: true  per_page: true 另外，还要在文章(.md文件)头设置开关，只用在有用公式显示的页面才加载Mathjax渲染，不影响其他的页面渲染速">
-<meta property="og:updated_time" content="2017-06-28T12:28:10.591Z">
+<meta property="og:description" content="Hexo相关的配置说明">
+<meta property="og:updated_time" content="2018-12-05T09:21:07.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo相关">
-<meta name="twitter:description" content="问题Hexo无法正常显示公式善用主题(theme)，以我使用的next主题为例，打开/themes/next/_config.yml文件，更改mathjax开关为： 1234# MathJax Supportmathjax:  enable: true  per_page: true 另外，还要在文章(.md文件)头设置开关，只用在有用公式显示的页面才加载Mathjax渲染，不影响其他的页面渲染速">
+<meta name="twitter:description" content="Hexo相关的配置说明">
 
 
 
@@ -85,7 +85,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -369,6 +369,10 @@
           
 
           
+              <div class="post-description">
+                  Hexo相关的配置说明
+              </div>
+          
 
         </div>
       </header>
@@ -524,7 +528,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -633,6 +637,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -673,11 +684,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>

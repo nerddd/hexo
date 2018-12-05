@@ -4,7 +4,7 @@ mathjax: true
 date: 2017-06-02 16:05:45
 categories: Hexo
 tags: [Hexo]
-description:
+description: Hexo相关的配置说明
 ---
 
 # 问题

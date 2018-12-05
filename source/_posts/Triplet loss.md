@@ -1,9 +1,9 @@
 ---
 title: Triplet loss
 date: 2017-06-02 20:26:35
-categories: Face
+categories: 论文笔记
 tags: [深度学习，人脸识别]
-description:
+description: Triplet loss论文阅读笔记
 mathjax: true
 ---
 

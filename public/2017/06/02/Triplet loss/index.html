@@ -66,18 +66,18 @@
 
 
 
-<meta name="description" content="原理Triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为x_a)属于同一类的样本Positive (记为x_p)和不同类的样本Negative (记为x_n)，由此构成一个（Anchor，Positive，Negative）三元组。  Triplet loss中的margin取值分析我们的目的是为了让lo">
+<meta name="description" content="Triplet loss论文阅读笔记">
 <meta name="keywords" content="深度学习，人脸识别">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Triplet loss">
 <meta property="og:url" content="calyp.github.io/2017/06/02/Triplet loss/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="原理Triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为x_a)属于同一类的样本Positive (记为x_p)和不同类的样本Negative (记为x_n)，由此构成一个（Anchor，Positive，Negative）三元组。  Triplet loss中的margin取值分析我们的目的是为了让lo">
+<meta property="og:description" content="Triplet loss论文阅读笔记">
 <meta property="og:image" content="http://img.blog.csdn.net/20160727090101355">
-<meta property="og:updated_time" content="2018-12-05T08:03:50.397Z">
+<meta property="og:updated_time" content="2018-12-05T09:29:18.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Triplet loss">
-<meta name="twitter:description" content="原理Triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为x_a)属于同一类的样本Positive (记为x_p)和不同类的样本Negative (记为x_n)，由此构成一个（Anchor，Positive，Negative）三元组。  Triplet loss中的margin取值分析我们的目的是为了让lo">
+<meta name="twitter:description" content="Triplet loss论文阅读笔记">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160727090101355">
 
 
@@ -87,7 +87,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -348,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Face/" itemprop="url" rel="index">
-                    <span itemprop="name">Face</span>
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
                   </a>
                 </span>
 
@@ -370,6 +370,10 @@
 
           
 
+          
+              <div class="post-description">
+                  Triplet loss论文阅读笔记
+              </div>
           
 
         </div>
@@ -527,7 +531,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -636,6 +640,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -676,11 +687,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>

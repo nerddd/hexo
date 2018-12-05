@@ -2,93 +2,93 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>calyp.github.io/2018/12/05/%E6%AF%8F%E6%97%A5%E9%98%85%E8%AF%BB/</loc>
-    
-    <lastmod>2018-12-05T08:54:08.624Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2018/12/05/%E5%B9%B4%E9%BE%84%E4%BC%B0%E8%AE%A1/</loc>
-    
-    <lastmod>2018-12-05T08:51:34.226Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/06/28/FaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
-    
-    <lastmod>2018-12-05T08:44:52.711Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2018/01/29/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%9B%9E%E9%A1%BE/</loc>
-    
-    <lastmod>2018-12-05T08:38:02.888Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>calyp.github.io/2017/06/02/Triplet%20loss/</loc>
     
-    <lastmod>2018-12-05T08:03:50.397Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2018/04/27/%E6%89%8B%E5%86%8C&%E6%8C%87%E5%8D%97/</loc>
-    
-    <lastmod>2018-04-27T03:17:55.615Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/06/17/Caffe%E8%B0%83%E5%8F%82/</loc>
-    
-    <lastmod>2018-04-27T01:42:38.843Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/06/02/%E5%BE%85%E5%8A%9E%E5%8F%8A%E8%BF%9B%E5%BA%A6/</loc>
-    
-    <lastmod>2018-02-03T13:18:52.579Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/06/01/%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
-    
-    <lastmod>2017-09-11T03:24:37.234Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>calyp.github.io/2017/07/04/DeepID3%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
-    
-    <lastmod>2017-07-04T06:33:10.491Z</lastmod>
+    <lastmod>2018-12-05T09:29:18.170Z</lastmod>
     
   </url>
   
   <url>
     <loc>calyp.github.io/2017/06/29/Center-loss%E7%AC%94%E8%AE%B0/</loc>
     
-    <lastmod>2017-06-30T12:19:30.937Z</lastmod>
+    <lastmod>2018-12-05T09:29:14.096Z</lastmod>
     
   </url>
   
   <url>
-    <loc>calyp.github.io/2017/06/02/Hexo%E7%9B%B8%E5%85%B3/</loc>
+    <loc>calyp.github.io/2017/06/28/FaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
     
-    <lastmod>2017-06-28T12:28:10.591Z</lastmod>
+    <lastmod>2018-12-05T09:29:09.723Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/01/%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    
+    <lastmod>2018-12-05T09:25:47.318Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2018/04/27/%E6%89%8B%E5%86%8C&%E6%8C%87%E5%8D%97/</loc>
+    
+    <lastmod>2018-12-05T09:25:16.952Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2018/01/29/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%9B%9E%E9%A1%BE/</loc>
+    
+    <lastmod>2018-12-05T09:24:22.556Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/02/%E5%BE%85%E5%8A%9E%E5%8F%8A%E8%BF%9B%E5%BA%A6/</loc>
+    
+    <lastmod>2018-12-05T09:23:48.239Z</lastmod>
     
   </url>
   
   <url>
     <loc>calyp.github.io/2017/06/09/Python/</loc>
     
-    <lastmod>2017-06-14T01:51:24.228Z</lastmod>
+    <lastmod>2018-12-05T09:21:41.670Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/02/Hexo%E7%9B%B8%E5%85%B3/</loc>
+    
+    <lastmod>2018-12-05T09:21:07.498Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/07/04/DeepID3%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2018-12-05T09:20:35.318Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2017/06/17/Caffe%E8%B0%83%E5%8F%82/</loc>
+    
+    <lastmod>2018-12-05T09:19:47.823Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2018/12/05/%E6%AF%8F%E6%97%A5%E9%98%85%E8%AF%BB/</loc>
+    
+    <lastmod>2018-12-05T09:04:05.513Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>calyp.github.io/2018/12/05/%E5%B9%B4%E9%BE%84%E4%BC%B0%E8%AE%A1/</loc>
+    
+    <lastmod>2018-12-05T08:58:33.030Z</lastmod>
     
   </url>
   

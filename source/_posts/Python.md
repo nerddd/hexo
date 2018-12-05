@@ -3,7 +3,7 @@ title: Python
 date: 2017-06-09 20:52:56
 categories:
 tags: Python
-description: Python
+description: 运用python处理一些简单问题的记录
 mathjax: False
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: FaceNet论文笔记
 date: 2017-06-28 10:11:42
-categories: Face
+categories: 论文笔记
 tags: [笔记，人脸识别]
-description:
+description: FaceNet论文阅读笔记
 mathjax:
 ---
 

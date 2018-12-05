@@ -3,7 +3,7 @@ title: Caffe调参
 date: 2017-06-17 09:26:12
 categories: 深度学习
 tags: [caffe,调参]
-description:
+description: caffe调参的一些经验
 mathjax:
 ---
 
