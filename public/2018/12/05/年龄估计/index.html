@@ -1,0 +1,1198 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="年龄估计," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Calyp" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="年龄估计的系列论文阅读">
+<meta name="keywords" content="年龄估计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="年龄估计">
+<meta property="og:url" content="calyp.github.io/2018/12/05/年龄估计/index.html">
+<meta property="og:site_name" content="Calyp">
+<meta property="og:description" content="年龄估计的系列论文阅读">
+<meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202120825.png">
+<meta property="og:image" content="g:/IEC/PaperReading/PaperDaily/ChangLiu/images/QQ%E5%9B%BE%E7%89%8720181202121159.png">
+<meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202121223.png">
+<meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202120956.png">
+<meta property="og:image" content="/images/Q83KC%7B3A7Y%7DPVX~YU%60383RN.png">
+<meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202130028.png">
+<meta property="og:updated_time" content="2018-12-05T08:51:34.226Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="年龄估计">
+<meta name="twitter:description" content="年龄估计的系列论文阅读">
+<meta name="twitter:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202120825.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="calyp.github.io/2018/12/05/年龄估计/"/>
+
+
+
+
+
+  <title>年龄估计 | Calyp</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Calyp</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Study</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="calyp.github.io/2018/12/05/年龄估计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Calyp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/images.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Calyp">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">年龄估计</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-05T16:48:48+08:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  年龄估计的系列论文阅读
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h1><ul>
+<li><strong>FG-Net</strong>:1002 images,0到69岁，82个人</li>
+<li><strong>MORPH1</strong>:1690 images</li>
+<li><strong>MORPH2</strong>:55608 images、unbalanced ethnic(96% African and European ,less than 1% Asian)，16到77岁</li>
+<li><strong>AFAD</strong>:160K Asian facial images(unrelease)</li>
+</ul>
+<h1 id="Ordinal-Regression"><a href="#Ordinal-Regression" class="headerlink" title="Ordinal Regression"></a>Ordinal Regression</h1><p><strong>paper：</strong><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Niu_Ordinal_Regression_With_CVPR_2016_paper.pdf" target="_blank" rel="external">Ordinal Regression With Multiple Output CNN for Age Estimation</a><code>CVPR2016</code></p>
+<p><strong>code:</strong><a href="https://github.com/luoyetx/OrdinalRegression" target="_blank" rel="external">Ordinal Regression</a></p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>To address the non-stationary property of aging patterns, age estimation can be cast as an ordinal regression problem.However, the processes of extracting features and learning a regression model are often separated and optimized independently in previous work. In this paper, we propose an End-to-End learning approach to address ordinal regression problems using deep Convolutional Neural Network, which could simultaneously conduct feature learning andregression modeling. In particular, an ordinal regression problem is transformed into a series of binary classification sub-problems. And we propose a multiple output CNN learning algorithm to collectively solve these classification sub-problems, so that the correlation between these tasks could be explored. In addition, we publish an Asian Face Age Dataset (AFAD) containing more than 160K facial images with precise age ground-truths, which is the largest public age dataset to date. To the best of our knowledge, this is the first work to address ordinal regression problems by using CNN, and achieves the state-of-the-art performance on both the MORPH and AFAD datasets </p>
+<p><strong>翻译</strong>：为了解决衰老模式的非平稳特性，可以将年龄估计作为序数回归问题。然而，在以前的工作中，提取特征和学习回归模型的过程通常是独立分离和优化的。在本文中，我们提出了一种端到端学习方法，使用深度卷积神经网络解决序数回归问题，可以同时进行特征学习和回归建模。特别是，序数回归问题转化为一系列二元分类子问题。我们提出了一种多输出CNN学习算法来集体解决这些分类子问题，从而可以探索这些任务之间的相关性。此外，我们发布了一个亚洲面部年龄数据集（AFAD），其中包含超过<strong>160K</strong>的面部图像，具有精确的年龄真实性，这是迄今为止最大的公共年龄数据集。据我们所知，这是通过使用CNN解决序数回归问题的第一项工作，并在MORPH和AFAD数据集上实现了最先进的性能。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181202120825.png" alt="Q图片2018120212082"></p>
+<h2 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li>利用端到端的深度学习方法解决序数回归问题</li>
+<li>released a dataset named AFAD , the largest public dataset to date</li>
+</ul>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>Rank的思想比较好，针对有序的问题，将序数回归转化为一系列的二分类问题，但是这篇论文并不是第一个使用ranking思想的论文，和以前的方法（提取手工特征或者深度学习特征，然后用SVM/SVR的分类器作为二分类器）不同的是，将ranking和CNN结合起来，可以端到端的训练。</p>
+<h1 id="RankingCNN"><a href="#RankingCNN" class="headerlink" title="RankingCNN"></a>RankingCNN</h1><p><strong>paper</strong>：<a href="http://openaccess.thecvf.com/content_cvpr_2017/poster/2148_POSTER.pdf" target="_blank" rel="external">Using Ranking-CNN for Age Estimation</a><code>CVPR2017</code></p>
+<p><strong>code:</strong> <a href="https://github.com/RankingCNN/Using-Ranking-CNN-for-Age-Estimation" target="_blank" rel="external">Using-Ranking-CNN-for-Age-Estimation</a></p>
+<h2 id="Abstract-1"><a href="#Abstract-1" class="headerlink" title="Abstract"></a>Abstract</h2><p>Human age is considered an important biometric trait for human identification or search. Recent research shows that the aging features deeply learned from large-scale data lead to significant performance improvement on facial image-based age estimation. However, age-related ordinal information is totally ignored in these approaches. In this paper, we propose a novel Convolutional Neural Network (CNN)-based framework, ranking-CNN, for age estimation. Ranking-CNN contains a series of basic CNNs, each of<br>which is trained with ordinal age labels. Then, their binary outputs are aggregated for the final age prediction. We theoretically obtain a much tighter error bound for rankingbased age estimation. Moreover, we rigorously prove that ranking-CNN is more likely to get smaller estimation errors when compared with multi-class classification approaches. Through extensive experiments, we show that statistically, ranking-CNN significantly outperforms other state-of-theart age estimation models on benchmark datasets .</p>
+<p><strong>翻译</strong>:</p>
+<p>人类年龄被认为是一个重要的生物特征，对人类的识别或搜索。最近的研究表明，从大规模数据中深入学习到的年龄特征使得基于人脸图像的年龄估计的性能有了显着的提高。然而，在这些方法中，与年龄相关的顺序信息被完全忽略。本文提出了一种新的基于卷积神经网络(CNN)的年龄估计框架-Ranking-CNN。Ranjing-CNN包含一系列基本CNN，每个CNN都是用顺序年龄标签训练的。然后，将它们的二进制输出进行聚合，以进行最终的年龄预测。我们从理论上得到了一个更严格的基于秩的年龄估计的误差界。此外，我们严格地证明了，与多类分类方法相比，Ranking-CNN更容易获得较小的估计误差。通过大量的实验，我们表明，在统计上，Ranking-CNN在基准数据集上的性能明显优于其他最先进的年龄估计模型。</p>
+<p><img src="G:/IEC/PaperReading/PaperDaily/ChangLiu/images/QQ%E5%9B%BE%E7%89%8720181202121159.png" alt="Q图片2018120212115"><img src="/images/QQ%E5%9B%BE%E7%89%8720181202121223.png" alt="Q图片2018120212122"></p>
+<h2 id="Contributions-1"><a href="#Contributions-1" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li>To the best of our knowledge, ranking-CNN is the first work that uses a deep ranking model for age estimation, in which binary ordinal age labels are used to train a series of basic CNNs, one for each age group.Each basic CNN in ranking-CNN can be trained using all the labeled data, leading to better performance of feature learning and also preventing overfitting.</li>
+<li>We provide a much tighter error bound for age ranking than that introduced in [2], which claimed that the final ranking error is bounded by the sum of errors generated by all the classifiers. We obtain the approximation for the final ranking error that is controlled by the maximum error produced among sub-problems. From a technical perspective, the tighter error bound provides several advantages for the training of ranking-CNN.</li>
+<li>We prove that ranking-CNN, by taking the ordinal relation between ages into consideration, is more likely to get smaller estimation errors when compared with multi-class classification approaches (i.e., CNNs using the softmax function). Moreover, through extensive experiments, we show that statistically, ranking-CNN significantly outperforms other state-of-the-art age estimation methods </li>
+</ul>
+<h2 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h2><p>这篇论文和上篇oridnal regression的思想类似，但是效果要好很多，不同的是每个二分类器都有单独的模型，所有二分类器都不共享中间层，然后聚合所有二分类器的结果得到最终的年龄估计，另外还会得到最终排序误差的近似值，该误差由子问题中产生的最大误差控制，比上一篇论文的方法误差控制更严格。</p>
+<h1 id="SSR-Net"><a href="#SSR-Net" class="headerlink" title="SSR-Net"></a>SSR-Net</h1><p><strong>paper</strong>：<a href="https://www.csie.ntu.edu.tw/~cyy/publications/papers/Yang2018SSR.pdf" target="_blank" rel="external">SSR-Net: A Compact Soft Stagewise Regression Network for Age Estimation</a><code>IJCAI2018</code></p>
+<p><strong>code:</strong> <a href="https://github.com/shamangary/SSR-Net" target="_blank" rel="external">SSRNet</a></p>
+<h2 id="Abstract-2"><a href="#Abstract-2" class="headerlink" title="Abstract"></a>Abstract</h2><p>This paper presents a novel CNN model called Soft Stagewise Regression Network (SSR-Net) for age estimation from a single image with a compact model size. Inspired by DEX, we address age estimation by performing multi-class classification andthen turning classification results into regression by calculating the expected values. SSR-Net takes a coarse -to-fine strategy and performs multi-class classification with multiple stages.Each stage is only responsible for refining the decision of its previous stage for more accurate age estimation. Thus, each stage performs a task with few classes and requires few neurons, greatly reducing the model size. For addressing the quantization issue introduced by grouping ages into classes, SSR-Net assigns a dynamic range to each age class by allowing it to be shifted and scaled according to the input face image. Both the multi-stage strategy and the dynamic range are incorporated into the formulation of soft stagewise regression. A novel network architecture is proposed for carrying out soft stagewise regression. The resultant SSR-Net model is very compact and takes only 0.32 MB. Despite its compact size, SSR-Net’ s performance approaches those of the state -of-the -art methods whose model sizes are often more than 1500x larger.</p>
+<p><strong>翻译</strong>：本文提出了一种新的CNN模型，称为Soft stagewise regression net(SSR-Net)，使用一个很小的compact模型对单个图像进行年龄估计。受DEX的启发，我们通过执行多类分类来解决年龄估计，然后通过计算预期值将分类结果转化为回归。 SSR-Net采用粗略到精细的策略并执行多阶段的多级分类。每个阶段仅负责完善其前一阶段的决策以进行更准确的年龄估计。因此，每个阶段执行具有少量类的任务并且需要很少的神经元，从而大大减小了模型尺寸。为了解决通过将年龄分组到类中引入的量化问题，SSR-Net通过允许根据输入面部图像移位和缩放来为每个年龄类别分配动态范围。多阶段策略和动态范围都包含在软阶段回归的公式中。提出了一种新颖的网络架构，用于进行软分段回归。由此产生的SSR-Net模型非常紧凑，仅需0.32MB。尽管尺寸紧凑，但SSR-Net的性能接近于那些模型尺寸通常超过1500倍的方法。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181202120956.png" alt="Q图片2018120212095"></p>
+<h2 id="Contributions-2"><a href="#Contributions-2" class="headerlink" title="Contributions"></a>Contributions</h2><p>新的年龄估计模型，平均误差绝对值为3.16，与最好的模型（当时）差距0.5岁，但参数不到其1/1000，整个模型参数仅0.3M，非常适合用于嵌入式系统。</p>
+<h2 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h2><p>采用多分段的多级分类的思想，大大减少了模型的参数，在准确性和模型大小方面做了一个均衡，另外，这么小的模型做到这种准确率很厉害。</p>
+<h1 id="DeepRegressionForest"><a href="#DeepRegressionForest" class="headerlink" title="DeepRegressionForest"></a>DeepRegressionForest</h1><p><strong>paper:</strong><a href="https://arxiv.org/abs/1712.07195" target="_blank" rel="external">Deep Regression Forests for Age Estimation</a><code>CVPR2018</code></p>
+<p><strong>code</strong>:<a href="https://github.com/shenwei1231/caffe-DeepRegressionForests" target="_blank" rel="external">caffe-DeepRegressionForests</a></p>
+<h2 id="Abstract-3"><a href="#Abstract-3" class="headerlink" title="Abstract"></a>Abstract</h2><p>摘要</p>
+<p>Age estimation from facial images is typically cast as a nonlinear regression problem. The main challenge of this problem is the facial feature space w.r.t. ages is heterogeneous, due to the large variation in facial appearance across different persons of the same age and the nonstationary property of aging patterns. In this paper, we propose Deep Regression Forests (DRFs), an end-to-end model, for age estimation. DRFs connect the split nodes to a fully connected layer of a convolutional neural network (CNN) and deal with heterogeneous data by jointly learning input-dependant data partitions at the split nodes and data abstractions at the leaf nodes. This joint learning follows an alternating strategy: First, by ﬁxing the leaf nodes, the split nodes as well as the CNN parameters are optimized by Back-propagation; Then, by ﬁxing the split nodes, the leaf nodes are optimized by iterating a step-size free and fastconverging update rule derived from Variational Bounding. We verify the proposed DRFs on three standard age estimation benchmarks and achieve state-of-the-art results on all of them.</p>
+<p><strong>翻译</strong>：</p>
+<p>来自面部图像的年龄估计通常被视为非线性回归问题。这个问题的主要挑战是面部特征空间w.r.t.年龄是不均匀的，这是由于同一年龄段不同人的面部外观差异很大，以及老龄化模式的非平稳性。在本文中，我们提出了深度回归森林（DRFs），一种端到端模型，用于年龄估计。DRF将分裂节点连接到卷积神经网络（CNN）的完全连接层，并通过联合学习分裂节点处的输入相关数据分区和叶节点处的数据抽象来处理异构数据。这种联合学习遵循交替策略：首先，通过固定叶节点，分裂节点以及CNN参数通过反向传播进行优化;然后，通过修剪拆分节点，通过迭代从变分边界派生的步长自由和快速收敛更新规则来优化叶节点。我们在三个标准年龄估算基准上验证了提议的DRF，并在所有这些基准上取得了最新的成果。</p>
+<p><img src="/images/Q83KC%7B3A7Y%7DPVX~YU%60383RN.png" alt="83KC{3A7Y}PVX~YU`383R"></p>
+<h2 id="Contributions-3"><a href="#Contributions-3" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li>We propose Deep Regression Forests (DRFs), an endto-end model, to deal with heterogeneous data by jointly learning input-dependant data partition at split nodes and data abstraction at leaf nodes .</li>
+<li>Based on Variational Bounding, the convergence of our update rule for leaf nodes in DRFs is mathematically guaranteed.</li>
+<li>We apply DRFs on three standard age estimation<br>benchmarks, and achieve state-of-the-art results. </li>
+</ul>
+<h2 id="Summary-3"><a href="#Summary-3" class="headerlink" title="Summary"></a>Summary</h2><p>用深度回归森林的思想来进行年龄估计的任务，属于一种distribution learning的办法，论文中涉及到大量的概率论的知识和大量的推导公式，将年龄分布分布到多个叶子节点，最终采用随机森林和决策树的思想，对模型训练结果做融合，模型很好训练，且准确率也不错。</p>
+<h1 id="Mean-Variance-Loss"><a href="#Mean-Variance-Loss" class="headerlink" title="Mean-Variance Loss"></a>Mean-Variance Loss</h1><p><strong>paper</strong>:<a href="http://openaccess.thecvf.com/content_cvpr_2018/papers/Pan_Mean-Variance_Loss_for_CVPR_2018_paper.pdf" target="_blank" rel="external">Mean-Variance Loss for Deep Age Estimation From a Face</a><code>CVPR2018</code></p>
+<p><strong>code:</strong>-</p>
+<h2 id="Abstract-4"><a href="#Abstract-4" class="headerlink" title="Abstract"></a>Abstract</h2><p>Age estimation has wide applications in video surveillance, social networking, and human-computer interaction. Many of the published approaches simply treat age estimation as an exact age regression problem, and thus do not leverage a distribution’s robustness in representing labels with ambiguity such as ages. In this paper, we propose a new loss function, called mean-variance loss, for robust age estimation via distribution learning. Speciﬁcally, the mean-variance loss consists of a mean loss, which penalizes difference between the mean of the estimated age distribution and the ground-truth age, and a variance loss, which penalizes the variance of the estimated age distribution to ensure a concentrated distribution. The proposed meanvariance loss and softmax loss are jointly embedded into Convolutional Neural Networks (CNNs) for age estimation. Experimental results on the FG-NET, MORPH Album II, CLAP2016, and AADB databases show that the proposed approach outperforms the state-of-the-art age estimation methods by a large margin, and generalizes well to image aesthetics assessment.1</p>
+<p><strong>翻译</strong>：</p>
+<p>年龄估计在视频监控，社交网络和人机交互中具有广泛的应用。许多已发表的方法仅将年龄估计视为精确的年龄回归问题，因此不会利用分布的稳健性来表示具有模糊性的标签，例如年龄。在本文中，我们提出了一种新的损失函数，称为均值 - 方差损失，用于通过分布学习进行稳健的年龄估计。具体而言，均值 - 方差损失包括平均损失，其惩罚估计年龄分布的平均值与地面实际年龄之间的差异，以及方差损失，其惩罚估计年龄分布的方差以确保集中分布。 。所提出的均值方差损失和softmax损失共同嵌入到卷积神经网络（CNN）中用于年龄估计。在FG-NET，MORPH Album II，CLAP2016和AADB数据库上的实验结果表明，所提出的方法大大超过了现有技术的年龄估计方法，并且很好地概括了图像美学评估。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181202130028.png" alt="Q图片2018120213002"></p>
+<h2 id="Contributions-4"><a href="#Contributions-4" class="headerlink" title="Contributions"></a>Contributions</h2><ol>
+<li>propose a new loss:<strong>mean-variance loss</strong>,aiming at the estimate of an age distribution with its mean as close to the groud-truth age as possible , and its variance as small as possible</li>
+<li>diffferent from the age disturibution learning methods,the proposed approach <strong>doesn’t require that each training image must have a mean age and a variance</strong> (neither real nor assumed) labels during model training, but it can still give a distribution estimate for a face image</li>
+<li>the proposed loss can be <strong>easily embedded into different CNNs</strong>, and the network can be optimized via SGD <strong>end-to-end</strong></li>
+</ol>
+<h2 id="Summary-4"><a href="#Summary-4" class="headerlink" title="Summary"></a>Summary</h2><p>思想简单且新颖，有用且有效。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/年龄估计/" rel="tag"><i class="fa fa-tag"></i> 年龄估计</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/27/手册&指南/" rel="next" title="手册&指南">
+                <i class="fa fa-chevron-left"></i> 手册&指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/05/每日阅读/" rel="prev" title="每日阅读">
+                每日阅读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/images.jpg"
+               alt="Calyp" />
+          <p class="site-author-name" itemprop="name">Calyp</p>
+           
+              <p class="site-description motion-element" itemprop="description">学习博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nerddd/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5048688311/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Other">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Other
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/atom.xml" title="Feed" target="_blank">Feed</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/sitemap.xml" title="SiteMap" target="_blank">SiteMap</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dataset"><span class="nav-number">1.</span> <span class="nav-text">Dataset</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ordinal-Regression"><span class="nav-number">2.</span> <span class="nav-text">Ordinal Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">2.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributions"><span class="nav-number">2.2.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">2.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RankingCNN"><span class="nav-number">3.</span> <span class="nav-text">RankingCNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract-1"><span class="nav-number">3.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributions-1"><span class="nav-number">3.2.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-1"><span class="nav-number">3.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR-Net"><span class="nav-number">4.</span> <span class="nav-text">SSR-Net</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract-2"><span class="nav-number">4.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributions-2"><span class="nav-number">4.2.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-2"><span class="nav-number">4.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DeepRegressionForest"><span class="nav-number">5.</span> <span class="nav-text">DeepRegressionForest</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract-3"><span class="nav-number">5.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributions-3"><span class="nav-number">5.2.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-3"><span class="nav-number">5.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mean-Variance-Loss"><span class="nav-number">6.</span> <span class="nav-text">Mean-Variance Loss</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract-4"><span class="nav-number">6.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contributions-4"><span class="nav-number">6.2.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-4"><span class="nav-number">6.3.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Calyp</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

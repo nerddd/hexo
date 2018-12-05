@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="calyp.github.io/"/>
-  <updated>2018-02-05T09:10:20.415Z</updated>
+  <updated>2018-12-05T08:54:08.624Z</updated>
   <id>calyp.github.io/</id>
   
   <author>
@@ -16,21 +16,207 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>每日阅读</title>
+    <link href="calyp.github.io/2018/12/05/%E6%AF%8F%E6%97%A5%E9%98%85%E8%AF%BB/"/>
+    <id>calyp.github.io/2018/12/05/每日阅读/</id>
+    <published>2018-12-05T08:52:09.000Z</published>
+    <updated>2018-12-05T08:54:08.624Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Rethinking-ImageNet-Pre-training"><a href="#Rethinking-ImageNet-Pre-training" class="headerlink" title="Rethinking ImageNet Pre-training"></a>Rethinking ImageNet Pre-training</h1><p><strong>Paper</strong>:<a href="http://arxiv.org/pdf/1811.10104v1" target="_blank" rel="external">Rethinking ImageNet Pre-training</a></p>
+<p><strong>code</strong>:-</p>
+<p><strong>Author</strong>:Kaiming He、 Ross Girshick 、Piotr Dollar 、Facebook AI Research (FAIR) </p>
+<p><strong>time</strong>:2018</p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>We report competitive results on object detection and instance segmentation on the COCO dataset using standard models trained <strong>from random initialization</strong>.The results are no worse than their ImageNet pre-training counterparts even when using the hyper-parameters of the baseline system (Mask R-CNN) that were optimized for fine -tuning pre-trained models, with the sole exception of increasing the number of training iterations so the randomly initialized models may converge.Training from random initialization is surprisingly robust; our results hold even when: (i) Using only 10% of the training data, (ii) for deeper and wider models, and (iii) for multiple tasks and metrics.Experiments show that ImageNet pre-training speeds up convergence early in training, but does not necessarily provide regularization or improve final target task accuracy.To push the envelope we demonstrate 50.9 AP on COCO object detection without using any external data–a result on par with the top COCO 2017 competition results that used ImageNet pre-training.These observations challenge the conventional wisdom of ImageNet pre-training for dependent tasks and we expect these discoveries will encourage people to rethink the current de facto paradigm of ‘ pre-training and fine -tuning’ in computer vision.</p>
+<p><strong>翻译</strong>：我们使用随机初始化训练的标准模型报告在COCO数据集上的物体检测和物体分割的竞争结果。即使使用baseline model的超参数，结果也不比它们的ImageNet预训练对应物差（Mask R-CNN）针对精细调整预训练模型进行了优化，唯一的例外是增加训练迭代次数，因此随机初始化模型可以收敛。随机初始化训练非常强大;我们的结果即使在以下情况下仍然存在：（i）仅使用10％的训练数据，（ii）用于更深和更宽的模型，以及（iii）用于多个任务和指标。实验表明在ImageNet预训练速度能加速训练时候的收敛速度，但不一定提供正则化或提高最终在目标任务上的准确性。为了突破这个范围，我们在不使用任何外部数据的情况下在COCO对象检测上达到了50.9 AP  - 这个结果与2017年COCO相同使用ImageNet预训练的最好的竞赛结果差不多。这些结论挑战了ImageNet与训练对于依赖性任务的传统智慧，我们期望这些发现将鼓励人们重新思考计算机视觉中的“pre-training and fine-tuneing”范式。</p>
+<p><img src="/images/154392682.jpg" alt="543926824(1"></p>
+<h2 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h2><ul>
+<li>采用基于ImageNet的预训练模型参数可以加快模型的收敛速度，尤其是在训练初期，而基于随机初始化网络结构参数训练模型时在采用合适的归一化方式且迭代足够多的次数后也能够达到相同的效果</li>
+</ul>
+<p><img src="/images/154392682.jpg" alt="img"></p>
+<ul>
+<li><p>采用基于ImageNet的预训练模型参数训练得到的模型泛化能力不如基于随机初始化网络结构训练得到的模型，前者更容易出现过拟合，因此需要选择合适的超参数训练模型，从而尽可能减少过拟合风险（前提是数据量足够大，比如10K以上的COCO数据集）</p>
+<p><img src="G:\IEC\PaperReading\PaperDaily\ChangLiu\images\QQ%E5%9B%BE%E7%89%8720181204204421.png" alt="Q图片2018120420442"></p>
+</li>
+<li><p>当迁移任务的目标对空间位置信息比较敏感时（比如目标检测、人体关键点检测任务），采用基于ImageNet的预训练模型并不会有太大的帮助</p>
+</li>
+</ul>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><h1 id="Deep-Neural-Decision-Forests"><a href="#Deep-Neural-Decision-Forests" class="headerlink" title="Deep Neural Decision  Forests"></a>Deep Neural Decision  Forests</h1><p><strong>paper</strong>:<a href="https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Kontschieder_Deep_Neural_Decision_ICCV_2015_paper.pdf" target="_blank" rel="external">Deep neural decision forests</a></p>
+<p><strong>code</strong>:</p>
+<p><strong>Author</strong>:</p>
+<p><strong>time:</strong>ICCV2015</p>
+<h2 id="Abstract-1"><a href="#Abstract-1" class="headerlink" title="Abstract"></a>Abstract</h2><p>We present Deep Neural Decision Forests – a novel approach that unifies classification trees with the representation learning  known from deep convolutional networks, by training them in an end-to-end manner. To combine these two worlds, we introduce a stochastic and differentiable decision tree model, which steers the representation learning usually conducted in the initial layers of a (deep) convolutional network. Our model differs from conventional deep networks because a decision forest provides the final predictions and it differs from conventional decision forests since we propose a principled, joint and global optimization of split and leaf node parameters. We show experimental results on benchmark machine learning datasets like MNIST and ImageNet and find onpar or superior results when compared to state-of-the-art deep models. Most remarkably, we obtain Top5-Errors of only 7.84%/6.38% on ImageNet validation data when integrating our forests in a single-crop, single/seven model GoogLeNet architecture, respectively. Thus, even without any form of training data set augmentation we are improving on the 6.67% error obtained by the best GoogLeNet architecture (7 models, 144 crops). </p>
+<p><strong>翻译</strong>:我们提出了深度神经决策森林–一个新的方法可以通过端到端的训练将分类树和深度卷积卷积网络中的表征学习功能统一起来。为了把这两个方法结合起来，我们引入了一个随机可微分的决策树模型，控制一般在（深度）卷积网络的初始层进行的表征学习。我们的模型不同于传统的深度网络，因为决策森林进行最后的预测，它与传统的决策森林不同，因为我们提出了分裂节点和叶子节点参数的联合全局优化原则。我们展示了在类似MNIST和ImageNet的benchmark上的实验结果，并与最先进的深度模型进行比较，发现了优于它们的结果。最值得注意的是，当我们在ImageNet验证数据上获得的Top5误差仅为7.84%/6.38%。因此即使没有任何形式的训练数据增强，我们也在最佳的GoogleNet架构(7种模型，144 crops）上得到6.67%的误差。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181204203113.png" alt="Q图片2018120420311"></p>
+<h2 id="Contribution-1"><a href="#Contribution-1" class="headerlink" title="Contribution"></a>Contribution</h2><h2 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+    
+    <summary type="html">
+    
+      每天阅读论文的笔记
+    
+    </summary>
+    
+      <category term="论文笔记" scheme="calyp.github.io/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="杂" scheme="calyp.github.io/tags/%E6%9D%82/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>年龄估计</title>
+    <link href="calyp.github.io/2018/12/05/%E5%B9%B4%E9%BE%84%E4%BC%B0%E8%AE%A1/"/>
+    <id>calyp.github.io/2018/12/05/年龄估计/</id>
+    <published>2018-12-05T08:48:48.000Z</published>
+    <updated>2018-12-05T08:51:34.226Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h1><ul>
+<li><strong>FG-Net</strong>:1002 images,0到69岁，82个人</li>
+<li><strong>MORPH1</strong>:1690 images</li>
+<li><strong>MORPH2</strong>:55608 images、unbalanced ethnic(96% African and European ,less than 1% Asian)，16到77岁</li>
+<li><strong>AFAD</strong>:160K Asian facial images(unrelease)</li>
+</ul>
+<h1 id="Ordinal-Regression"><a href="#Ordinal-Regression" class="headerlink" title="Ordinal Regression"></a>Ordinal Regression</h1><p><strong>paper：</strong><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Niu_Ordinal_Regression_With_CVPR_2016_paper.pdf" target="_blank" rel="external">Ordinal Regression With Multiple Output CNN for Age Estimation</a><code>CVPR2016</code></p>
+<p><strong>code:</strong><a href="https://github.com/luoyetx/OrdinalRegression" target="_blank" rel="external">Ordinal Regression</a></p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>To address the non-stationary property of aging patterns, age estimation can be cast as an ordinal regression problem.However, the processes of extracting features and learning a regression model are often separated and optimized independently in previous work. In this paper, we propose an End-to-End learning approach to address ordinal regression problems using deep Convolutional Neural Network, which could simultaneously conduct feature learning andregression modeling. In particular, an ordinal regression problem is transformed into a series of binary classification sub-problems. And we propose a multiple output CNN learning algorithm to collectively solve these classification sub-problems, so that the correlation between these tasks could be explored. In addition, we publish an Asian Face Age Dataset (AFAD) containing more than 160K facial images with precise age ground-truths, which is the largest public age dataset to date. To the best of our knowledge, this is the first work to address ordinal regression problems by using CNN, and achieves the state-of-the-art performance on both the MORPH and AFAD datasets </p>
+<p><strong>翻译</strong>：为了解决衰老模式的非平稳特性，可以将年龄估计作为序数回归问题。然而，在以前的工作中，提取特征和学习回归模型的过程通常是独立分离和优化的。在本文中，我们提出了一种端到端学习方法，使用深度卷积神经网络解决序数回归问题，可以同时进行特征学习和回归建模。特别是，序数回归问题转化为一系列二元分类子问题。我们提出了一种多输出CNN学习算法来集体解决这些分类子问题，从而可以探索这些任务之间的相关性。此外，我们发布了一个亚洲面部年龄数据集（AFAD），其中包含超过<strong>160K</strong>的面部图像，具有精确的年龄真实性，这是迄今为止最大的公共年龄数据集。据我们所知，这是通过使用CNN解决序数回归问题的第一项工作，并在MORPH和AFAD数据集上实现了最先进的性能。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181202120825.png" alt="Q图片2018120212082"></p>
+<h2 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li>利用端到端的深度学习方法解决序数回归问题</li>
+<li>released a dataset named AFAD , the largest public dataset to date</li>
+</ul>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>Rank的思想比较好，针对有序的问题，将序数回归转化为一系列的二分类问题，但是这篇论文并不是第一个使用ranking思想的论文，和以前的方法（提取手工特征或者深度学习特征，然后用SVM/SVR的分类器作为二分类器）不同的是，将ranking和CNN结合起来，可以端到端的训练。</p>
+<h1 id="RankingCNN"><a href="#RankingCNN" class="headerlink" title="RankingCNN"></a>RankingCNN</h1><p><strong>paper</strong>：<a href="http://openaccess.thecvf.com/content_cvpr_2017/poster/2148_POSTER.pdf" target="_blank" rel="external">Using Ranking-CNN for Age Estimation</a><code>CVPR2017</code></p>
+<p><strong>code:</strong> <a href="https://github.com/RankingCNN/Using-Ranking-CNN-for-Age-Estimation" target="_blank" rel="external">Using-Ranking-CNN-for-Age-Estimation</a></p>
+<h2 id="Abstract-1"><a href="#Abstract-1" class="headerlink" title="Abstract"></a>Abstract</h2><p>Human age is considered an important biometric trait for human identification or search. Recent research shows that the aging features deeply learned from large-scale data lead to significant performance improvement on facial image-based age estimation. However, age-related ordinal information is totally ignored in these approaches. In this paper, we propose a novel Convolutional Neural Network (CNN)-based framework, ranking-CNN, for age estimation. Ranking-CNN contains a series of basic CNNs, each of<br>which is trained with ordinal age labels. Then, their binary outputs are aggregated for the final age prediction. We theoretically obtain a much tighter error bound for rankingbased age estimation. Moreover, we rigorously prove that ranking-CNN is more likely to get smaller estimation errors when compared with multi-class classification approaches. Through extensive experiments, we show that statistically, ranking-CNN significantly outperforms other state-of-theart age estimation models on benchmark datasets .</p>
+<p><strong>翻译</strong>:</p>
+<p>人类年龄被认为是一个重要的生物特征，对人类的识别或搜索。最近的研究表明，从大规模数据中深入学习到的年龄特征使得基于人脸图像的年龄估计的性能有了显着的提高。然而，在这些方法中，与年龄相关的顺序信息被完全忽略。本文提出了一种新的基于卷积神经网络(CNN)的年龄估计框架-Ranking-CNN。Ranjing-CNN包含一系列基本CNN，每个CNN都是用顺序年龄标签训练的。然后，将它们的二进制输出进行聚合，以进行最终的年龄预测。我们从理论上得到了一个更严格的基于秩的年龄估计的误差界。此外，我们严格地证明了，与多类分类方法相比，Ranking-CNN更容易获得较小的估计误差。通过大量的实验，我们表明，在统计上，Ranking-CNN在基准数据集上的性能明显优于其他最先进的年龄估计模型。</p>
+<p><img src="G:/IEC/PaperReading/PaperDaily/ChangLiu/images/QQ%E5%9B%BE%E7%89%8720181202121159.png" alt="Q图片2018120212115"><img src="/images/QQ%E5%9B%BE%E7%89%8720181202121223.png" alt="Q图片2018120212122"></p>
+<h2 id="Contributions-1"><a href="#Contributions-1" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li>To the best of our knowledge, ranking-CNN is the first work that uses a deep ranking model for age estimation, in which binary ordinal age labels are used to train a series of basic CNNs, one for each age group.Each basic CNN in ranking-CNN can be trained using all the labeled data, leading to better performance of feature learning and also preventing overfitting.</li>
+<li>We provide a much tighter error bound for age ranking than that introduced in [2], which claimed that the final ranking error is bounded by the sum of errors generated by all the classifiers. We obtain the approximation for the final ranking error that is controlled by the maximum error produced among sub-problems. From a technical perspective, the tighter error bound provides several advantages for the training of ranking-CNN.</li>
+<li>We prove that ranking-CNN, by taking the ordinal relation between ages into consideration, is more likely to get smaller estimation errors when compared with multi-class classification approaches (i.e., CNNs using the softmax function). Moreover, through extensive experiments, we show that statistically, ranking-CNN significantly outperforms other state-of-the-art age estimation methods </li>
+</ul>
+<h2 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h2><p>这篇论文和上篇oridnal regression的思想类似，但是效果要好很多，不同的是每个二分类器都有单独的模型，所有二分类器都不共享中间层，然后聚合所有二分类器的结果得到最终的年龄估计，另外还会得到最终排序误差的近似值，该误差由子问题中产生的最大误差控制，比上一篇论文的方法误差控制更严格。</p>
+<h1 id="SSR-Net"><a href="#SSR-Net" class="headerlink" title="SSR-Net"></a>SSR-Net</h1><p><strong>paper</strong>：<a href="https://www.csie.ntu.edu.tw/~cyy/publications/papers/Yang2018SSR.pdf" target="_blank" rel="external">SSR-Net: A Compact Soft Stagewise Regression Network for Age Estimation</a><code>IJCAI2018</code></p>
+<p><strong>code:</strong> <a href="https://github.com/shamangary/SSR-Net" target="_blank" rel="external">SSRNet</a></p>
+<h2 id="Abstract-2"><a href="#Abstract-2" class="headerlink" title="Abstract"></a>Abstract</h2><p>This paper presents a novel CNN model called Soft Stagewise Regression Network (SSR-Net) for age estimation from a single image with a compact model size. Inspired by DEX, we address age estimation by performing multi-class classification andthen turning classification results into regression by calculating the expected values. SSR-Net takes a coarse -to-fine strategy and performs multi-class classification with multiple stages.Each stage is only responsible for refining the decision of its previous stage for more accurate age estimation. Thus, each stage performs a task with few classes and requires few neurons, greatly reducing the model size. For addressing the quantization issue introduced by grouping ages into classes, SSR-Net assigns a dynamic range to each age class by allowing it to be shifted and scaled according to the input face image. Both the multi-stage strategy and the dynamic range are incorporated into the formulation of soft stagewise regression. A novel network architecture is proposed for carrying out soft stagewise regression. The resultant SSR-Net model is very compact and takes only 0.32 MB. Despite its compact size, SSR-Net’ s performance approaches those of the state -of-the -art methods whose model sizes are often more than 1500x larger.</p>
+<p><strong>翻译</strong>：本文提出了一种新的CNN模型，称为Soft stagewise regression net(SSR-Net)，使用一个很小的compact模型对单个图像进行年龄估计。受DEX的启发，我们通过执行多类分类来解决年龄估计，然后通过计算预期值将分类结果转化为回归。 SSR-Net采用粗略到精细的策略并执行多阶段的多级分类。每个阶段仅负责完善其前一阶段的决策以进行更准确的年龄估计。因此，每个阶段执行具有少量类的任务并且需要很少的神经元，从而大大减小了模型尺寸。为了解决通过将年龄分组到类中引入的量化问题，SSR-Net通过允许根据输入面部图像移位和缩放来为每个年龄类别分配动态范围。多阶段策略和动态范围都包含在软阶段回归的公式中。提出了一种新颖的网络架构，用于进行软分段回归。由此产生的SSR-Net模型非常紧凑，仅需0.32MB。尽管尺寸紧凑，但SSR-Net的性能接近于那些模型尺寸通常超过1500倍的方法。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181202120956.png" alt="Q图片2018120212095"></p>
+<h2 id="Contributions-2"><a href="#Contributions-2" class="headerlink" title="Contributions"></a>Contributions</h2><p>新的年龄估计模型，平均误差绝对值为3.16，与最好的模型（当时）差距0.5岁，但参数不到其1/1000，整个模型参数仅0.3M，非常适合用于嵌入式系统。</p>
+<h2 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h2><p>采用多分段的多级分类的思想，大大减少了模型的参数，在准确性和模型大小方面做了一个均衡，另外，这么小的模型做到这种准确率很厉害。</p>
+<h1 id="DeepRegressionForest"><a href="#DeepRegressionForest" class="headerlink" title="DeepRegressionForest"></a>DeepRegressionForest</h1><p><strong>paper:</strong><a href="https://arxiv.org/abs/1712.07195" target="_blank" rel="external">Deep Regression Forests for Age Estimation</a><code>CVPR2018</code></p>
+<p><strong>code</strong>:<a href="https://github.com/shenwei1231/caffe-DeepRegressionForests" target="_blank" rel="external">caffe-DeepRegressionForests</a></p>
+<h2 id="Abstract-3"><a href="#Abstract-3" class="headerlink" title="Abstract"></a>Abstract</h2><p>摘要</p>
+<p>Age estimation from facial images is typically cast as a nonlinear regression problem. The main challenge of this problem is the facial feature space w.r.t. ages is heterogeneous, due to the large variation in facial appearance across different persons of the same age and the nonstationary property of aging patterns. In this paper, we propose Deep Regression Forests (DRFs), an end-to-end model, for age estimation. DRFs connect the split nodes to a fully connected layer of a convolutional neural network (CNN) and deal with heterogeneous data by jointly learning input-dependant data partitions at the split nodes and data abstractions at the leaf nodes. This joint learning follows an alternating strategy: First, by ﬁxing the leaf nodes, the split nodes as well as the CNN parameters are optimized by Back-propagation; Then, by ﬁxing the split nodes, the leaf nodes are optimized by iterating a step-size free and fastconverging update rule derived from Variational Bounding. We verify the proposed DRFs on three standard age estimation benchmarks and achieve state-of-the-art results on all of them.</p>
+<p><strong>翻译</strong>：</p>
+<p>来自面部图像的年龄估计通常被视为非线性回归问题。这个问题的主要挑战是面部特征空间w.r.t.年龄是不均匀的，这是由于同一年龄段不同人的面部外观差异很大，以及老龄化模式的非平稳性。在本文中，我们提出了深度回归森林（DRFs），一种端到端模型，用于年龄估计。DRF将分裂节点连接到卷积神经网络（CNN）的完全连接层，并通过联合学习分裂节点处的输入相关数据分区和叶节点处的数据抽象来处理异构数据。这种联合学习遵循交替策略：首先，通过固定叶节点，分裂节点以及CNN参数通过反向传播进行优化;然后，通过修剪拆分节点，通过迭代从变分边界派生的步长自由和快速收敛更新规则来优化叶节点。我们在三个标准年龄估算基准上验证了提议的DRF，并在所有这些基准上取得了最新的成果。</p>
+<p><img src="/images/Q83KC%7B3A7Y%7DPVX~YU%60383RN.png" alt="83KC{3A7Y}PVX~YU`383R"></p>
+<h2 id="Contributions-3"><a href="#Contributions-3" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li>We propose Deep Regression Forests (DRFs), an endto-end model, to deal with heterogeneous data by jointly learning input-dependant data partition at split nodes and data abstraction at leaf nodes .</li>
+<li>Based on Variational Bounding, the convergence of our update rule for leaf nodes in DRFs is mathematically guaranteed.</li>
+<li>We apply DRFs on three standard age estimation<br>benchmarks, and achieve state-of-the-art results. </li>
+</ul>
+<h2 id="Summary-3"><a href="#Summary-3" class="headerlink" title="Summary"></a>Summary</h2><p>用深度回归森林的思想来进行年龄估计的任务，属于一种distribution learning的办法，论文中涉及到大量的概率论的知识和大量的推导公式，将年龄分布分布到多个叶子节点，最终采用随机森林和决策树的思想，对模型训练结果做融合，模型很好训练，且准确率也不错。</p>
+<h1 id="Mean-Variance-Loss"><a href="#Mean-Variance-Loss" class="headerlink" title="Mean-Variance Loss"></a>Mean-Variance Loss</h1><p><strong>paper</strong>:<a href="http://openaccess.thecvf.com/content_cvpr_2018/papers/Pan_Mean-Variance_Loss_for_CVPR_2018_paper.pdf" target="_blank" rel="external">Mean-Variance Loss for Deep Age Estimation From a Face</a><code>CVPR2018</code></p>
+<p><strong>code:</strong>-</p>
+<h2 id="Abstract-4"><a href="#Abstract-4" class="headerlink" title="Abstract"></a>Abstract</h2><p>Age estimation has wide applications in video surveillance, social networking, and human-computer interaction. Many of the published approaches simply treat age estimation as an exact age regression problem, and thus do not leverage a distribution’s robustness in representing labels with ambiguity such as ages. In this paper, we propose a new loss function, called mean-variance loss, for robust age estimation via distribution learning. Speciﬁcally, the mean-variance loss consists of a mean loss, which penalizes difference between the mean of the estimated age distribution and the ground-truth age, and a variance loss, which penalizes the variance of the estimated age distribution to ensure a concentrated distribution. The proposed meanvariance loss and softmax loss are jointly embedded into Convolutional Neural Networks (CNNs) for age estimation. Experimental results on the FG-NET, MORPH Album II, CLAP2016, and AADB databases show that the proposed approach outperforms the state-of-the-art age estimation methods by a large margin, and generalizes well to image aesthetics assessment.1</p>
+<p><strong>翻译</strong>：</p>
+<p>年龄估计在视频监控，社交网络和人机交互中具有广泛的应用。许多已发表的方法仅将年龄估计视为精确的年龄回归问题，因此不会利用分布的稳健性来表示具有模糊性的标签，例如年龄。在本文中，我们提出了一种新的损失函数，称为均值 - 方差损失，用于通过分布学习进行稳健的年龄估计。具体而言，均值 - 方差损失包括平均损失，其惩罚估计年龄分布的平均值与地面实际年龄之间的差异，以及方差损失，其惩罚估计年龄分布的方差以确保集中分布。 。所提出的均值方差损失和softmax损失共同嵌入到卷积神经网络（CNN）中用于年龄估计。在FG-NET，MORPH Album II，CLAP2016和AADB数据库上的实验结果表明，所提出的方法大大超过了现有技术的年龄估计方法，并且很好地概括了图像美学评估。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720181202130028.png" alt="Q图片2018120213002"></p>
+<h2 id="Contributions-4"><a href="#Contributions-4" class="headerlink" title="Contributions"></a>Contributions</h2><ol>
+<li>propose a new loss:<strong>mean-variance loss</strong>,aiming at the estimate of an age distribution with its mean as close to the groud-truth age as possible , and its variance as small as possible</li>
+<li>diffferent from the age disturibution learning methods,the proposed approach <strong>doesn’t require that each training image must have a mean age and a variance</strong> (neither real nor assumed) labels during model training, but it can still give a distribution estimate for a face image</li>
+<li>the proposed loss can be <strong>easily embedded into different CNNs</strong>, and the network can be optimized via SGD <strong>end-to-end</strong></li>
+</ol>
+<h2 id="Summary-4"><a href="#Summary-4" class="headerlink" title="Summary"></a>Summary</h2><p>思想简单且新颖，有用且有效。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      年龄估计的系列论文阅读
+    
+    </summary>
+    
+      <category term="论文笔记" scheme="calyp.github.io/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="年龄估计" scheme="calyp.github.io/tags/%E5%B9%B4%E9%BE%84%E4%BC%B0%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>手册&amp;指南</title>
+    <link href="calyp.github.io/2018/04/27/%E6%89%8B%E5%86%8C&amp;%E6%8C%87%E5%8D%97/"/>
+    <id>calyp.github.io/2018/04/27/手册&amp;指南/</id>
+    <published>2018-04-27T01:32:52.000Z</published>
+    <updated>2018-04-27T03:17:55.615Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux操作相关"><a href="#Linux操作相关" class="headerlink" title="Linux操作相关"></a>Linux操作相关</h1><p>##基本操作<br><strong>打包</strong>：<br>​       <code>tar -cvf xx.tar xxx</code><br>​       <code>tar zcvf xx.tar.gz xx</code><br><strong>解压</strong>：<br>       <code>tar zxvf xx.tar.gz</code><br>       <code>tar xvf xx.tar</code><br>       <code>tar jxvf xx.tar.bz2</code><br>       <code>bzip2 -d xx.bz2</code><br><strong>创建目录xx</strong>：<code>mkdir xx</code><br><strong>创建目录a及以下子目录b</strong>:<code>mkdir -p a/b</code><br><strong>创建xx文件</strong>:<code>touch xx</code><br><strong>查看xx文件</strong>:<code>cat xx</code><br><strong>查看xx文件</strong>:<code>less xx</code>(内容多于一屏时，j/k向下/上翻滚)<br><strong>显示绝对路径</strong>：<code>pwd</code><br><strong>删除空目录</strong>：<code>rmdir</code><br><strong>删除xx文件</strong>：<code>rm xx</code><br><strong>强制删除目录a</strong>:<code>rm -rf a</code><br><strong>删除目录a</strong>:<code>rm -r a</code><br><strong>删除父目录a中所有的空子目录</strong>：<code>cd a; rmdir</code><br><strong>复制文件a到文件b</strong>：<code>cp a b</code><br><strong>复制目录a为目录b</strong>：<code>cp -r a/ b/</code><br><strong>从指定文件搜索指定文件</strong>：<code>grep &#39;指定内容&#39; ./ -R</code><br><strong>下载文件到xx目录</strong>：<code>axel http://... -o xx</code><br><strong>给文件a.c加执行权限</strong>：<code>chmod +x a.c</code><br><strong>运行脚本xx.sh</strong>:<code>sh xx.sh</code><br><strong>使.bashrc生效</strong>：<code>source ~/.bashrc</code><br><strong>查看opencv版本</strong>：<code>pkg-config --modversion opencv</code><br><strong>查看opencv安装位置</strong>：<code>pkg-config -cflags opencv</code><br><strong>查找</strong>：<code>grep -n -H -R &quot;you want to search &quot; *</code><br><strong>查看文件夹大小</strong>：<code>du -sh</code><br><strong>查看文件夹大小并排序</strong>：<code>du -h /home/* | sort</code><br><strong>查看文件夹大小</strong>：<code>du -h --max-depth=1 ./</code><br><strong>查看磁盘的使用情况</strong>：<code>df -h</code><br><strong>查看权限</strong>：<code>ls -l filaname</code><br><strong>查看GPU使用率</strong>：<code>nvidia-smi</code><br><strong>查看CPU使用率</strong>：<code>top</code><br><strong>查看文件夹内文件个数</strong>：<code>ls -l | grep &#39;^-&#39; | wc -l</code><br><strong>查看文件夹内目录个数</strong>：<code>ls -l | grep &#39;^d&#39; | wc -l</code><br><strong>查看文件行数</strong>：<code>wc -l filename</code><br><strong>批量更改图片尺寸</strong>：<code>mogrify -resize 224x224 -format jpg *</code></p>
+<p><strong>查看网络设置</strong>：<code>ifconfig</code><br><strong>查看操作系统</strong>：<code>uname -a</code><br><strong>查看ubuntu版本</strong>：<code>lsb_release -a</code><br><strong>查看操作系统位数</strong>：getconf LONG_BIT<br><strong>查看gcc版本</strong>：<code>ls /usr/bin/gcc*或gcc -v</code><br><strong>查看磁盘使用情况</strong>：<code>baobab</code><br><strong>添加用户</strong>：<code>sudo adduser username</code><br><strong>删除用户</strong>: <code>sudo userdel -r username</code><br><strong>添加sudo权限</strong>：<code>sudo vi /etc/sudoers</code></p>
+<p><strong>显示终端上所有进程</strong>：<code>ps -a</code><br><strong>查看进程所有者及其他详细信息</strong>：<code>ps -u</code><br><strong>杀掉某进程</strong>：<code>kill -SIGKILL 进程号</code><br><strong>查看使用apt-get的进程</strong>：<code>ps -aux | grep &#39;apt-get&#39;</code><br><strong>进程暂停</strong>：<code>kill -STOP pid</code><br><strong>进程重启</strong>：<code>kill -CONT pid</code></p>
+<p><strong>替换gcc版本</strong>：<br><code>sudo apt-get install gcc-4.9 gcc-4.9-multilib g++-4.9 g++-4.9-multilib</code><br><code>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 40</code><br><code>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5.4 50</code><br><code>sudo update-alternatives --config gcc</code><br><code>sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 50</code><br><code>sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 40</code><br><code>sudo update-alternatives --remove gcc /usr/bin/gcc-4.9</code></p>
+<p><strong>查找命令：</strong></p>
+<blockquote>
+<ul>
+<li>find . -name ‘my*’：搜索当前目录（含子目录，以下同）中，所有文件名以my开头的文</li>
+<li>locate ~/m ：搜索用户主目录下，所有以m开头的文件</li>
+<li>locate -i ~/m：搜索用户主目录下，所有以m开头的文件，并且忽略大小写</li>
+<li>whereis命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息</li>
+<li>which命令的作用是，在PATH变量指定的路径中，搜索某个系统命令的位置，并且返回第一个搜索结果。也就是说，使用which命令，就可以看到某个系统命令是否存在，以及执行的到底是哪一个位置的命令</li>
+</ul>
+</blockquote>
+<p><strong>Zip相关</strong>：</p>
+<blockquote>
+<ul>
+<li>把一个文件abc.txt和一个目录dir1压缩成为yasuo.zip：zip -r yasuo.zip abc.txt dir1</li>
+<li>下载了一个yasuo.zip文件，想解压缩：unzip yasuo.zip</li>
+<li>当前目录下有abc1.zip，abc2.zip和abc3.zip，一起解压缩它们：unzip abc\?.zip(注释：?表示一个字符，如果用*表示任意多个字符。)</li>
+<li>有一个很大的压缩文件large.zip，不想解压缩，只想看看它里面有什么：unzip -v large.zip</li>
+<li>下载了一个压缩文件large.zip，想验证一下这个压缩文件是否下载完全了: unzip -t large.zip</li>
+<li>用-v选项发现music.zip压缩文件里面有很多目录和子目录，并且子目录中其实都是歌曲mp3文件，把这些文件都下载到第一级目录，而不是一层一层建目录： unzip -j music.zip</li>
+</ul>
+</blockquote>
+<h1 id="Vim相关"><a href="#Vim相关" class="headerlink" title="Vim相关"></a>Vim相关</h1><p><strong>跳转到指令行</strong>：在命令行模式下输入  “:行号”<br><strong>查找字符串</strong>：在命令行模式下输入 “/字符串”，按“n”键查找下一个<br><strong>批量替换</strong>：在命令行模式下输入 “:%s#abc#def#g”   将def替换abc<br><strong>批量注释</strong>：ctrl+v进入列模式，大写I进入插入模式，输入注释符//或#,连按两次esc。<br><strong>取消批量注释</strong>：Ctrl + v 进入块选择模式，选中你要删除的行首的注释符号，注意// 要选中两个，选好之后按d即可删除注释</p>
+<h1 id="安装驱动"><a href="#安装驱动" class="headerlink" title="安装驱动"></a>安装驱动</h1><p><strong>查看显卡驱动信息</strong>：cat /proc/driver/nvidia/version<br><strong>查询合适的驱动版本xxx</strong>: <a href="https://www.geforce.com/drivers" target="_blank" rel="external">https://www.geforce.com/drivers</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo apt-get remove --purge nvidia-*</div><div class="line">sudo add-apt-repository ppa:graphics-drivers/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo service lightdm stop</div><div class="line">sudo apt-get install nvidia-XXX</div><div class="line">sudo service lightdm start</div><div class="line">sudo reboot</div><div class="line">lsmod | grep nvidia   #查看驱动状态是否正常</div></pre></td></tr></table></figure></p>
+<h1 id="Matlab相关"><a href="#Matlab相关" class="headerlink" title="Matlab相关"></a>Matlab相关</h1><p>后台运行：nohup matlab -nojvm -nodisplay -nosplash &lt; matlabscript.m 1&gt;running.log 2&gt;running.err &amp;</p>
+<h1 id="Python相关"><a href="#Python相关" class="headerlink" title="Python相关"></a>Python相关</h1><p>##路径<br>import os<br>先定义一个带路径的文件<br>filename = “/home/mydir/test.txt”<br>将文件路径分割出来<br>file_dir = os.path.split(filename )[0]<br>判断文件路径是否存在，如果不存在，则创建，此处是创建多级目录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if not os.path.isdir(file_dir):</div><div class="line">    os.makedirs(file_dir)</div></pre></td></tr></table></figure></p>
+<p>然后再判断文件是否存在，如果不存在，则创建<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if not os.path.exists(filename ):</div><div class="line">    os.system(r&apos;touch %s&apos; % filename)</div></pre></td></tr></table></figure></p>
+<h1 id="git相关"><a href="#git相关" class="headerlink" title="git相关"></a>git相关</h1><p>设置Git的user name和email</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &quot;yourname&quot;</div><div class="line">git config --global user.email &quot;youremail&quot;</div></pre></td></tr></table></figure>
+<p>生成SSH密钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">查看是否已经有了ssh密钥：cd ~/.ssh</div><div class="line">如果没有密钥则不会有此文件夹，有则备份删除</div><div class="line">生存密钥：</div><div class="line">ssh-keygen -t rsa -C “haiyan.xu.vip@gmail.com”</div><div class="line">按3个回车，密码为空。</div><div class="line">Your identification has been saved in /home/tekkub/.ssh/id_rsa.</div><div class="line">Your public key has been saved in /home/tekkub/.ssh/id_rsa.pub.</div><div class="line">The key fingerprint is:</div><div class="line">………………</div><div class="line">最后得到了两个文件：id_rsa和id_rsa.pub</div></pre></td></tr></table></figure>
+<p>添加密钥到ssh：ssh-add 文件名,需要之前输入密码.</p>
+<p>在github上添加ssh密钥，这要添加的是“id_rsa.pub”里面的公钥。</p>
+<p>从本地上传到github:<br>git init<br>git remote add origin <a href="https://github.com/nerddd/text.git" target="_blank" rel="external">https://github.com/nerddd/text.git</a>  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Linux操作相关&quot;&gt;&lt;a href=&quot;#Linux操作相关&quot; class=&quot;headerlink&quot; title=&quot;Linux操作相关&quot;&gt;&lt;/a&gt;Linux操作相关&lt;/h1&gt;&lt;p&gt;##基本操作&lt;br&gt;&lt;strong&gt;打包&lt;/strong&gt;：&lt;br&gt;​       
+    
+    </summary>
+    
+      <category term="技能" scheme="calyp.github.io/categories/%E6%8A%80%E8%83%BD/"/>
+    
+    
+      <category term="工具" scheme="calyp.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
     <title>人脸识别回顾</title>
     <link href="calyp.github.io/2018/01/29/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%9B%9E%E9%A1%BE/"/>
     <id>calyp.github.io/2018/01/29/人脸识别回顾/</id>
     <published>2018-01-29T01:47:23.000Z</published>
-    <updated>2018-02-05T09:10:20.415Z</updated>
+    <updated>2018-12-05T08:38:02.888Z</updated>
     
     <content type="html"><![CDATA[<h1 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h1><p><strong>数据清洗</strong>：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。</p>
 <p><strong>构造验证集</strong>:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1）</p>
 <p><strong>数据均衡</strong>：数据集可能存在类别不均衡的问题，可以通过重新组合不均衡数据, 使之均衡，方式一: 复制或者合成（比如jitter操作）少数部分的样本, 使之和多数部分差不多数量； 方式二: 砍掉一些多数部分, 使两者数量差不多</p>
 <p><strong>数据扩充</strong>：对于一些样本数据比较少的数据集，为了更好的训练网络，有时候需要人为增加一些训练样本，比如随机的剪裁、缩放和旋转等。</p>
 <p><strong>预处理</strong>：常见的就是减均值、除方差。</p>
-<h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><p>####1. 模型选择：</p>
-<p>根据具体任务和数据集规模选择合适的网络结构，对于分类任务来说，如果数据集的规模不大，则网络的层数不应太深，结构也不应太复杂。</p>
-<p>####2. 激励函数的选择</p>
-<ul>
+<h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><h2 id="1-模型选择："><a href="#1-模型选择：" class="headerlink" title="1. 模型选择："></a>1. 模型选择：</h2><p>根据具体任务和数据集规模选择合适的网络结构，对于分类任务来说，如果数据集的规模不大，则网络的层数不应太深，结构也不应太复杂。</p>
+<h2 id="2-激励函数的选择"><a href="#2-激励函数的选择" class="headerlink" title="2. 激励函数的选择"></a>2. 激励函数的选择</h2><ul>
 <li><p><strong>sigmoid函数</strong>：取值范围为(0,1)，可以将一个实数映射到(0,1)的区间，可以用来做二分类，在特征相差比较复杂或是相差不是特别大时效果比较好，缺点是：激活函数计算量大，反向传播求梯度时，求导涉及除法，反向传播时，很容易出现梯度消失的情况</p>
 </li>
 <li><p><strong>Tanh函数</strong>：取值范围为[-1,1]，在特征相差明显时的效果会很好，在循环过程中会不断扩大特征效果，与sigmoid的区别是,tanh是0均值的，因此实际应用中，tanh会比sigmoid更好。</p>
@@ -39,16 +225,13 @@
 <p>选择的时候，就是根据各个函数的优缺点来配置，例如：</p>
 <p>如果使用 ReLU，要小心设置 learning rate，注意不要让网络出现很多 “dead” 神经元，如果不好解决，可以试试 Leaky ReLU、PReLU 或者 Maxout.</p>
 <p><strong>详细细节请参看</strong>：<a href="https://www.jianshu.com/p/22d9720dbf1a" target="_blank" rel="external">常用激活函数比较</a></p>
-<p>​</p>
 </li>
 </ul>
-<p>####3. 卷积tricks</p>
-<p>图片输入是2的幂次方，例如32、64、96、224等。</p>
+<h2 id="3-卷积tricks"><a href="#3-卷积tricks" class="headerlink" title="3. 卷积tricks"></a>3. 卷积tricks</h2><p>图片输入是2的幂次方，例如32、64、96、224等。</p>
 <p>卷积核大小是3<em>3或者5</em>5。</p>
 <p>输入图片上下左右需要用0补充，即padding，且假如卷积核大小是5，那么padding就是2（图片左右上下都补充2）；卷积核大小是3，padding大小就是1。</p>
-<p>####4. pooling层tricks</p>
-<p>poolin层也能防止过拟合，使用overlapped pooling，即用来池化的数据有重叠，但是pooling的大小不要超过3。max pooling比avg pooling效果会好一些。avg-global pooling进入全卷积时代。</p>
-<h4 id="5-Loss函数的选择"><a href="#5-Loss函数的选择" class="headerlink" title="5. Loss函数的选择"></a>5. Loss函数的选择</h4><ul>
+<h2 id="4-pooling层tricks"><a href="#4-pooling层tricks" class="headerlink" title="4. pooling层tricks"></a>4. pooling层tricks</h2><p>poolin层也能防止过拟合，使用overlapped pooling，即用来池化的数据有重叠，但是pooling的大小不要超过3。max pooling比avg pooling效果会好一些。avg-global pooling进入全卷积时代。</p>
+<h2 id="5-Loss函数的选择"><a href="#5-Loss函数的选择" class="headerlink" title="5. Loss函数的选择"></a>5. Loss函数的选择</h2><ul>
 <li><p><strong>softmax loss</strong></p>
 </li>
 <li><p>contrastive loss</p>
@@ -113,7 +296,7 @@
 <p>Maxout 用在只需要选择一个激活函数的局部竞争网络中。用的方法包含所有的激活函数，不同之处在于 maxout 只选择一个“胜出者”。Maxout 的一个明显的用例是每个分支具有不同大小的内核，而 Maxout 可以尺度不变。</p>
 </li>
 </ol>
-<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><p>###1. loss为nan(83.3365)  [标签错误、学习率太大]</p>
+<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><p>##1. loss为nan(83.3365)  [标签错误、学习率太大]</p>
 <p><strong>梯度爆炸</strong></p>
 <p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
 <p><strong>现象：</strong>观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。</p>
@@ -135,7 +318,7 @@
 <p><strong>池化层中步长比核的尺寸大</strong></p>
 <p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>###2. 避免overfitting</p>
+<p>##2. 避免overfitting</p>
 <ul>
 <li><p>simpler model structure</p>
 </li>
@@ -184,39 +367,11 @@
   </entry>
   
   <entry>
-    <title>行人检测</title>
-    <link href="calyp.github.io/2017/09/21/%E8%A1%8C%E4%BA%BA%E6%A3%80%E6%B5%8B/"/>
-    <id>calyp.github.io/2017/09/21/行人检测/</id>
-    <published>2017-09-21T11:46:55.000Z</published>
-    <updated>2017-09-21T11:46:56.052Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>文档归类</title>
-    <link href="calyp.github.io/2017/07/17/%E6%96%87%E6%A1%A3%E5%BD%92%E7%B1%BB/"/>
-    <id>calyp.github.io/2017/07/17/文档归类/</id>
-    <published>2017-07-17T07:40:50.000Z</published>
-    <updated>2017-07-17T07:40:50.206Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>DeepID3论文笔记</title>
     <link href="calyp.github.io/2017/07/04/DeepID3%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
     <id>calyp.github.io/2017/07/04/DeepID3论文笔记/</id>
     <published>2017-07-04T02:34:31.000Z</published>
-    <updated>2017-07-04T06:33:10.490Z</updated>
+    <updated>2017-07-04T06:33:10.491Z</updated>
     
     <content type="html"><![CDATA[<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>深层的网络由于良好的学习能力，近年来在目标识别领域取得巨大成功，基于此，提出两个非常深的网络架构，DeepID3，这两个架构分别基于VGG net和GoogLeNet通过改进使之用于人脸识别。Joint face identification-verification supervisory signals are added to both intermediate and<br>final feature extraction layers during training.        </p>
 <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1>]]></content>
@@ -268,7 +423,7 @@
     <link href="calyp.github.io/2017/06/28/FaceNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
     <id>calyp.github.io/2017/06/28/FaceNet论文笔记/</id>
     <published>2017-06-28T02:11:42.000Z</published>
-    <updated>2017-06-28T13:23:36.661Z</updated>
+    <updated>2018-12-05T08:44:52.711Z</updated>
     
     <content type="html"><![CDATA[<p><em>原文链接</em>:<a href="https://arxiv.org/abs/1503.03832" target="_blank" rel="external">FaceNet:A unified embedding for face recognition and clustering</a></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FaceNet，可以直接将人脸图像映射到欧几里得空间，空间距离的长度代表了人脸图像的相似性，只要该映射空间生成，人脸识别、验证和聚类等任务就可以轻松完成。FaceNet在LFW数据集上的准确率为99.63%，在YouTube Faces 数据集上准确率为95.12%。</p>
@@ -276,7 +431,7 @@
 <p>当前存在的基于深度神经网络的人脸识别模型使用了分类层：中间层为人脸图像的向量映射，然后以分类层作为输出层，这类方法的缺点就是不直接和效率不高。与当前方法不同，FaceNet直接使用基于triplets的LMNN（最大边界近邻分类）的loss函数训练神经网络，网络直接输出为128维度的向量空间。选取的triplets包含两个匹配脸部缩略图（为紧密裁剪的脸部区域，不用使用2d、3d对齐以及放大转换等预处理）和一个非匹配的脸部缩略图，loss函数目标是通过距离边界区分正负类。</p>
 <p>本文中，探索了两类深度卷积神经网络，第一类为Zeiler&amp;Fergus研究中使用的神经网络，包含多个交错的卷积层、非线性激励函数，局部相应归一化和最大池化层。我们额外的添加了一些1x1xd的卷积层。第二种结构是基于Inception model，这种网络利用了一些不同的卷积层和池化层并行和级联响应。我们发现这些模型可以减小20倍以上的参数数量，并且可能会减少FLOPS数量。</p>
 <p>triplet loss的启发是传统loss函数趋向于将有一类特征的人脸图像映射到同一个空间，而triplet loss尝试将一个个体的人脸图像和其他人脸图像分开。</p>
-<p><img src=".\pictures\facenet_triplet1.png" alt="facenet_triplet1"></p>
+<p><img src="/images/facenet_triplet1.png" alt="facenet_triplet1"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>三元组的目标函数并不是这篇论文首创，我在之前的一些Hash索引的论文中也见过相似的应用。可见，并不是所有的学习特征的模型都必须用softmax。用其他的效果也会好。</li>
 <li>三元组比softmax的优势在于<ul>
@@ -310,7 +465,7 @@
     <link href="calyp.github.io/2017/06/17/Caffe%E8%B0%83%E5%8F%82/"/>
     <id>calyp.github.io/2017/06/17/Caffe调参/</id>
     <published>2017-06-17T01:26:12.000Z</published>
-    <updated>2017-07-27T01:53:11.297Z</updated>
+    <updated>2018-04-27T01:42:38.843Z</updated>
     
     <content type="html"><![CDATA[<h1 id="loss为nan"><a href="#loss为nan" class="headerlink" title="loss为nan"></a>loss为nan</h1><p><strong>梯度爆炸</strong></p>
 <p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
@@ -361,7 +516,7 @@
     <link href="calyp.github.io/2017/06/09/Python/"/>
     <id>calyp.github.io/2017/06/09/Python/</id>
     <published>2017-06-09T12:52:56.000Z</published>
-    <updated>2017-06-14T01:51:24.227Z</updated>
+    <updated>2017-06-14T01:51:24.228Z</updated>
     
     <content type="html"><![CDATA[<h1 id="图像操作"><a href="#图像操作" class="headerlink" title="图像操作"></a>图像操作</h1><h2 id="关于PIL-image和skimage的图像处理"><a href="#关于PIL-image和skimage的图像处理" class="headerlink" title="关于PIL image和skimage的图像处理"></a>关于PIL image和skimage的图像处理</h2><h3 id="对skimage图像"><a href="#对skimage图像" class="headerlink" title="对skimage图像"></a>对skimage图像</h3><p>镜像处理：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">from skimage import io,transform</div><div class="line">import matplotlib.pyplot as plt</div><div class="line">import cv2</div><div class="line"></div><div class="line">img=io.imread(&quot;test.jpg&quot;)</div><div class="line">#img=transform.rotate(img,180)</div><div class="line">img=cv2.flip(img,1)</div><div class="line">plt.figure(&apos;skimage&apos;)</div><div class="line">plt.imshow(img)</div><div class="line">plt.show()</div><div class="line">print img.shape</div><div class="line">print(img.dtype)</div></pre></td></tr></table></figure>
@@ -411,7 +566,7 @@
     <link href="calyp.github.io/2017/06/02/Triplet%20loss/"/>
     <id>calyp.github.io/2017/06/02/Triplet loss/</id>
     <published>2017-06-02T12:26:35.000Z</published>
-    <updated>2017-06-02T13:09:42.119Z</updated>
+    <updated>2018-12-05T08:03:50.397Z</updated>
     
     <content type="html"><![CDATA[<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>Triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为x_a)属于同一类的样本Positive (记为x_p)和不同类的样本Negative (记为x_n)，由此构成一个（Anchor，Positive，Negative）三元组。</p>
 <p><img src="http://img.blog.csdn.net/20160727090101355" alt="Triplet Loss 示意图"></p>
@@ -441,7 +596,7 @@
     <link href="calyp.github.io/2017/06/02/Hexo%E7%9B%B8%E5%85%B3/"/>
     <id>calyp.github.io/2017/06/02/Hexo相关/</id>
     <published>2017-06-02T08:05:45.000Z</published>
-    <updated>2017-06-28T12:28:10.590Z</updated>
+    <updated>2017-06-28T12:28:10.591Z</updated>
     
     <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="Hexo无法正常显示公式"><a href="#Hexo无法正常显示公式" class="headerlink" title="Hexo无法正常显示公式"></a>Hexo无法正常显示公式</h2><p>善用主题(theme)，以我使用的next主题为例，打开/themes/next/_config.yml文件，更改mathjax开关为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># MathJax Support</div><div class="line">mathjax:</div><div class="line">  enable: true</div><div class="line">  per_page: true</div></pre></td></tr></table></figure>
