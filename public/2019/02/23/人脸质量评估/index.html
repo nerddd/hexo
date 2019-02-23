@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
+<html class="theme-next pisces use-motion" lang="en">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -40,50 +40,6 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
 
 
 
@@ -92,7 +48,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="图像质量评估，caffe,回归," />
 
 
 
@@ -110,16 +66,19 @@
 
 
 
-<meta name="description" content="学习博客">
+<meta name="description" content="人脸图像质量评估">
+<meta name="keywords" content="图像质量评估，caffe,回归">
 <meta property="og:type" content="article">
-<meta property="og:title" content="行人检测">
-<meta property="og:url" content="calyp.github.io/2017/09/21/行人检测/index.html">
+<meta property="og:title" content="人脸质量评估">
+<meta property="og:url" content="calyp.github.io/2019/02/23/人脸质量评估/index.html">
 <meta property="og:site_name" content="Calyp">
-<meta property="og:description" content="学习博客">
-<meta property="og:updated_time" content="2017-09-21T11:46:56.052Z">
+<meta property="og:description" content="人脸图像质量评估">
+<meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720190223195039.png">
+<meta property="og:updated_time" content="2019-02-23T12:20:56.919Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="行人检测">
-<meta name="twitter:description" content="学习博客">
+<meta name="twitter:title" content="人脸质量评估">
+<meta name="twitter:description" content="人脸图像质量评估">
+<meta name="twitter:image" content="/images/QQ%E5%9B%BE%E7%89%8720190223195039.png">
 
 
 
@@ -127,8 +86,8 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -147,13 +106,13 @@
 
 
 
-  <link rel="canonical" href="calyp.github.io/2017/09/21/行人检测/"/>
+  <link rel="canonical" href="calyp.github.io/2019/02/23/人脸质量评估/"/>
 
 
 
 
 
-  <title>行人检测 | Calyp</title>
+  <title>人脸质量评估 | Calyp</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -337,7 +296,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="calyp.github.io/2017/09/21/行人检测/">
+    <link itemprop="mainEntityOfPage" href="calyp.github.io/2019/02/23/人脸质量评估/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Calyp">
@@ -354,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">行人检测</h1>
+          <h1 class="post-title" itemprop="name headline">人脸质量评估</h1>
         
 
         <div class="post-meta">
@@ -366,8 +325,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-21T19:46:55+08:00">
-                2017-09-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T20:16:20+08:00">
+                2019-02-23
               </time>
             
 
@@ -377,6 +336,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -389,6 +370,10 @@
 
           
 
+          
+              <div class="post-description">
+                  人脸图像质量评估
+              </div>
           
 
         </div>
@@ -401,7 +386,25 @@
       
 
       
-        
+        <h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><h3 id="数据标注"><a href="#数据标注" class="headerlink" title="数据标注"></a>数据标注</h3><p>利用2015年的一篇人脸图像质量评估论文<a href="https://ieeexplore.ieee.org/iel7/97/4358004/06877651.pdf" target="_blank" rel="external">Face Image Quality Assessment Based on Learning to Rank</a>提供的工具对数据图像数据集进行标注，人脸图像可以利用MTCNN 进行预处理，这里将人脸上下扩展了1/2，左右扩展了1/3，不进行对齐(不改变人脸的偏转角，因为这也属于图像质量评估的一个考察因素），该工具输出的值为0-100的整数值，此处将其归一化为[0,1]之间的实数值</p>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>在做回归问题时，特别是标签为浮点数时，最好不要使用lmdb数据格式，原始的caffe中lmdb好像对float支持不太友好，可以通过修改源码，参考链接：<a href="https://blog.csdn.net/change_things/article/details/74786185" target="_blank" rel="external">如何将float类型的特征数据存入lmdb</a>，但是此处可以换一个办法，利用hdf5存储，具体细节就不多讲了，但是有一个点要注意就是在读取数据的时候，</p>
+<blockquote>
+<p>caffe.io_load_image:以RGB存储，[0-1]<br>matplotlib.image.imread:以RGB存储，[0,255]<br>cv2.imread:以BGR存储，[0,255]</p>
+</blockquote>
+<p>所以要主要在训练模型和测试的时候要保持一致，减不减MeanValue，还有要不要归一化到[0,1]区间或者[0,255]区间</p>
+<h2 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h2><p>首先这是一个质量分数回归问题，所以一个思路就是训练一个端到端的网络，首先是一个basemodel，这里采用resnet比较合适，将最后一层的输出直接改为1，为了使模型收敛的更快，可以现在FR任务上预训练一个模型，然后再在回归任务上进行finetune，这样做有一个好处，就是之前NormFace论文还是哪篇论文中提到了图像质量越好，提取到的特征模长越大，所以这个预训练应该还是有所帮助的。最后一个全连接层输出为1，然后以EuclideanLoss作为损失函数，进行训练，以SGD作为优化算法，最后训练得到了一个比较好的模型。</p>
+<h2 id="几点反思和记录"><a href="#几点反思和记录" class="headerlink" title="几点反思和记录"></a>几点反思和记录</h2><ul>
+<li><p>对于标签为浮点数的数据集，最好用h5存储，存储时一定要注意数据存储的格式要一致</p>
+</li>
+<li><p>之前采用VGG作为basemodel，然后最后全连接层输出为1，接sigmoid，然后用EuclideanLoss作为监督信号，但是输出全部是0.5左右，本来以为是sigmoid的问题，因为当输入非常大或者非常小的时候，神经元的梯度是接近于0的，这一点特性不太好，其实只要最后一个全连接层接损失函数就好，只要迭代次数够多，最终全连接层的输出会慢慢收敛的，所以没必要硬加一个约束，可能还会起到不好的效果。但是VGG16的效果并不好，无论训练多久，其输出一直在0.5附近，经过分析，应该是发生了<strong>梯度弥散</strong>，可以加BatchNorm层，于是自己设计了一个浅层的模型做实验，发现最后的结果也非常好，和经过预训练的resnet18效果差不多，但是模型小多了，这说明可能这个简单的回归任务，只要参数和数据适配，训练参数设置合理，网络结构没有太大差别。</p>
+<p><img src="/images/QQ%E5%9B%BE%E7%89%8720190223195039.png" alt="Q图片2019022319503"></p>
+</li>
+</ul>
+<ul>
+<li>至于优化算法，有地方说SGD不太适合作为回归任务的优化算法，但是之前训练一直不收敛，改用adam之后也没有太大差</li>
+<li><strong>BatchNorm是个好东西</strong></li>
+</ul>
+
       
     </div>
 
@@ -428,6 +431,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/图像质量评估，caffe/" rel="tag"><i class="fa fa-tag"></i> 图像质量评估，caffe</a>
+          
+            <a href="/tags/回归/" rel="tag"><i class="fa fa-tag"></i> 回归</a>
+          
+        </div>
+      
 
       
         
@@ -437,8 +448,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/17/文档归类/" rel="next" title="文档归类">
-                <i class="fa fa-chevron-left"></i> 文档归类
+              <a href="/2018/12/05/每日阅读/" rel="next" title="每日阅读">
+                <i class="fa fa-chevron-left"></i> 每日阅读
               </a>
             
           </div>
@@ -446,10 +457,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/29/人脸识别回顾/" rel="prev" title="人脸识别回顾">
-                人脸识别回顾 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -496,8 +503,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/images.jpg"
@@ -512,7 +528,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -534,7 +550,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -614,7 +630,30 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
 
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据标注"><span class="nav-number">1.1.</span> <span class="nav-text">数据标注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-number">1.2.</span> <span class="nav-text">数据存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型训练"><span class="nav-number">2.</span> <span class="nav-text">模型训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几点反思和记录"><span class="nav-number">3.</span> <span class="nav-text">几点反思和记录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
       
 
     </div>
@@ -630,7 +669,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -645,7 +684,7 @@
 <div class="theme-info">
   Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
+    NexT.Pisces
   </a>
 </div>
 
@@ -656,11 +695,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
   </div>
@@ -724,6 +758,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
