@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="calyp.github.io/"/>
-  <updated>2018-12-05T09:04:05.513Z</updated>
+  <updated>2018-12-05T09:19:11.102Z</updated>
   <id>calyp.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="calyp.github.io/2018/12/05/%E6%AF%8F%E6%97%A5%E9%98%85%E8%AF%BB/"/>
     <id>calyp.github.io/2018/12/05/每日阅读/</id>
     <published>2018-12-05T08:52:09.000Z</published>
-    <updated>2018-12-05T09:04:05.513Z</updated>
+    <updated>2018-12-05T09:19:11.102Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Rethinking-ImageNet-Pre-training"><a href="#Rethinking-ImageNet-Pre-training" class="headerlink" title="Rethinking ImageNet Pre-training"></a>Rethinking ImageNet Pre-training</h1><p><strong>Paper</strong>:<a href="http://arxiv.org/pdf/1811.10104v1" target="_blank" rel="external">Rethinking ImageNet Pre-training</a></p>
 <p><strong>code</strong>:-</p>
