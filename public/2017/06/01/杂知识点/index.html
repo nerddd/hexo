@@ -75,7 +75,7 @@
 <meta property="og:description" content="深度学习的一些基础知识点">
 <meta property="og:image" content="http://img.blog.csdn.net/20150919111349931">
 <meta property="og:image" content="http://img.blog.csdn.net/20150919114145488">
-<meta property="og:updated_time" content="2018-12-05T09:25:47.318Z">
+<meta property="og:updated_time" content="2019-03-01T03:19:23.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="杂知识点">
 <meta name="twitter:description" content="深度学习的一些基础知识点">
@@ -416,12 +416,9 @@
 <li>回归和分类与CNN类似，输出层的值<strong>y=wx+b</strong>，可做分类和回归，区别在于，RNN的输出和时间有关，即输出的是{y(t),y(t+1),..}序列</li>
 </ul>
 </li>
-<li><p>Logistic回归&amp;SVM</p>
-<p> 两种方法都是常见的分类算法，从目标函数来看，区别在于逻辑回归采用的是logistical loss，svm采用的是hinge loss。这两个损失函数的目的都是增加对分类影响较大的数据点的权重，减少与分类关系较小的数据点的权重。SVM的处理方法是只考虑support vectors，也就是和分类最相关的少数点，去学习分类器。而逻辑回归通过非线性映射，大大减小了离分类平面较远的点的权重，相对提升了与分类最相关的数据点的权重。两者的根本目的都是一样的。此外，根据需要，两个方法都可以增加不同的正则化项，如l1,l2等等。所以在很多实验中，两种算法的结果是很接近的。<a href="[SVM和logistic回归分别在什么情况下使用](https://www.zhihu.com/question/21704547/answer/20293255)">^1</a></p>
-<p> 线性模型的表达式为</p>
+<li><p>Logistic回归&amp;SVM<br> 两种方法都是常见的分类算法，从目标函数来看，区别在于逻辑回归采用的是logistical loss，svm采用的是hinge loss。这两个损失函数的目的都是增加对分类影响较大的数据点的权重，减少与分类关系较小的数据点的权重。SVM的处理方法是只考虑support vectors，也就是和分类最相关的少数点，去学习分类器。而逻辑回归通过非线性映射，大大减小了离分类平面较远的点的权重，相对提升了与分类最相关的数据点的权重。两者的根本目的都是一样的。此外，根据需要，两个方法都可以增加不同的正则化项，如l1,l2等等。所以在很多实验中，两种算法的结果是很接近的。<a href="[SVM和logistic回归分别在什么情况下使用](https://www.zhihu.com/question/21704547/answer/20293255)">^1</a><br> 线性模型的表达式为<br>$$<br>h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n<br>$$</p>
 </li>
 </ol>
-<p>$$<br>h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n<br>$$</p>
 <p>​    将线性模型的输出送给sigmoid函数，就得到logistic回归模型；将线性模型表达式中的xi换为fi，就得到SVM模型的表达式。其中fi是xi的核函数，也就是xi的非线性多项式，例如f1=x1*x2，所以线性kernel的SVM(fi=xi)，在选择和使用上跟logistic回归没有区别。</p>
 <p>​    用n表示Feature数量,m表示训练集个数。下面分情况讨论<a href="[SVM和Logistic的区别](http://blog.csdn.net/ybdesire/article/details/54143481)">^2</a>：</p>
 <ul>
@@ -431,16 +428,13 @@
 </ul>
 <h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><h2 id="迁移学习-3："><a href="#迁移学习-3：" class="headerlink" title="迁移学习^3："></a>迁移学习<a href="[[物体检测中常用的几个概念迁移学习、IOU、NMS理解](http://blog.csdn.net/zhang_shuai12/article/details/52716952)]">^3</a>：</h2><p>有监督预训练(<em>supervised pre-training</em>)，把一个任务训练好的参数拿到另一个任务作为神经网络的初始参数值。</p>
 <ul>
-<li><strong>NMS(非极大值抑制)：</strong></li>
+<li><strong>NMS(非极大值抑制)：</strong><br>在物体检测中NMS（Non-maximum suppression）非极大抑制应用十分广泛，其目的是为了消除多余的框，找到最佳的物体检测的位置。在RCNN系列<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">算法</a>中，会从一张图片中找出很多个候选框（可能包含物体的矩形边框），然后为每个矩形框为做类别分类概率。非极大值抑制（NMS）非极大值抑制顾名思义就是抑制不是极大值的元素，搜索局部的极大值。例如在对象检测中，滑动窗口经提取特征，经分类器分类识别后，每个窗口都会得到一个分类及分数。但是滑动窗口会导致很多窗口与其他窗口存在包含或者大部分交叉的情况。这时就需要用到NMS来选取那些邻域里分数最高（是某类对象的概率最大），并且抑制那些分数低的窗口。</li>
 </ul>
-<p>在物体检测中NMS（Non-maximum suppression）非极大抑制应用十分广泛，其目的是为了消除多余的框，找到最佳的物体检测的位置。在RCNN系列<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">算法</a>中，会从一张图片中找出很多个候选框（可能包含物体的矩形边框），然后为每个矩形框为做类别分类概率。非极大值抑制（NMS）非极大值抑制顾名思义就是抑制不是极大值的元素，搜索局部的极大值。例如在对象检测中，滑动窗口经提取特征，经分类器分类识别后，每个窗口都会得到一个分类及分数。但是滑动窗口会导致很多窗口与其他窗口存在包含或者大部分交叉的情况。这时就需要用到NMS来选取那些邻域里分数最高（是某类对象的概率最大），并且抑制那些分数低的窗口。</p>
 <p>定位一个车辆，最后算法就找出了一堆的方框，我们需要判别哪些矩形框是没用的。 所谓非极大值抑制：先假设有6个矩形框，根据分类器类别分类概率做排序，从小到大分别属于车辆的概率分别为A、B、C、D、E、F。<br>(1)从最大概率矩形框F开始，分别判断A~E与F的重叠度IOU是否大于某个设定的阈值;<br>(2)假设B、D与F的重叠度超过阈值，那么就扔掉B、D；并标记第一个矩形框F，是我们保留下来的。<br>(3)从剩下的矩形框A、C、E中，选择概率最大的E，然后判断E与A、C的重叠度，重叠度大于一定的阈值，那么就扔掉；并标记E是我们保留下来的第二个矩形框。<br>就这样一直重复，找到所有被保留下来的矩形框。</p>
 <ul>
-<li><strong>IoU(交并比)：</strong></li>
+<li><strong>IoU(交并比)：</strong><br>物体检测需要定位出物体的bounding box，比如车辆检查中，我们不仅要定位出车辆的bounding box ，还要识别出bounding box 里面的物体就是车辆。对于bounding box的定位精度，有一个很重要的概念，因为我们<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">算法</a>不可能百分百跟人工标注的数据完全匹配，因此就存在一个定位精度评价公式：IOU。IOU表示了bounding box 与 ground truth 的重叠度。即IoU是定位精度的评价公式<br>$$<br>IoU=\frac{A\cap B}{A\cup B}<br>$$</li>
 </ul>
-<p>物体检测需要定位出物体的bounding box，比如车辆检查中，我们不仅要定位出车辆的bounding box ，还要识别出bounding box 里面的物体就是车辆。对于bounding box的定位精度，有一个很重要的概念，因为我们<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="external">算法</a>不可能百分百跟人工标注的数据完全匹配，因此就存在一个定位精度评价公式：IOU。IOU表示了bounding box 与 ground truth 的重叠度。即IoU是定位精度的评价公式<br>$$<br>IoU=\frac{A\cap B}{A\cup B}<br>$$</p>
-<h2 id="准确率-amp-精确率-amp-召回率"><a href="#准确率-amp-精确率-amp-召回率" class="headerlink" title="准确率&amp;精确率&amp;召回率:"></a>准确率&amp;精确率&amp;召回率:</h2><p>​    <em>准确率是正确预测的样本占总的预测样本比例</em><br>​    <em>精确率是预测为正的样本中有多少是真的正类</em><br>​    <em>召回率是样本中有多少正例被正确的预测</em><br>​    <em>F值=准确率*召回率*2/(准确率+召回率)，是准确率和召回率的调和平均值</em></p>
-<p>​<em>TP</em>：正类被预测为正类<br>​<em>FN</em>：正类被预测为负类<br>​<em>FP</em>：负类被预测为正类<br>​<em>TN</em>：负类被预测为负类</p>
+<h2 id="准确率-amp-精确率-amp-召回率"><a href="#准确率-amp-精确率-amp-召回率" class="headerlink" title="准确率&amp;精确率&amp;召回率:"></a>准确率&amp;精确率&amp;召回率:</h2><p>​    <em>准确率是正确预测的样本占总的预测样本比例</em><br>​    <em>精确率是预测为正的样本中有多少是真的正类</em><br>​    <em>召回率是样本中有多少正例被正确的预测</em><br>​    <em>F值=准确率*召回率*2/(准确率+召回率)，是准确率和召回率的调和平均值</em><br>​<em>TP</em>：正类被预测为正类<br>​<em>FN</em>：正类被预测为负类<br>​<em>FP</em>：负类被预测为正类<br>​<em>TN</em>：负类被预测为负类</p>
 <p>$$<br>准确率=\frac{TP+TN}{TP+TF+FN+FP}<br>$$</p>
 <p>$$<br>精确率=\frac{TP}{TP+FP}<br>$$</p>
 <p>$$<br>召回率=\frac{TP}{TP+FN}<br>$$</p>
@@ -580,7 +574,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -591,7 +585,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -602,7 +596,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
