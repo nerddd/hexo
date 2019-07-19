@@ -73,7 +73,7 @@
 <meta property="og:url" content="calyp.github.io/2018/01/29/人脸识别回顾/index.html">
 <meta property="og:site_name" content="Calyp">
 <meta property="og:description" content="人脸识别的一般流程">
-<meta property="og:updated_time" content="2018-12-05T09:24:22.556Z">
+<meta property="og:updated_time" content="2019-07-04T13:01:44.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="人脸识别回顾">
 <meta name="twitter:description" content="人脸识别的一般流程">
@@ -470,8 +470,7 @@
 <p>Maxout 用在只需要选择一个激活函数的局部竞争网络中。用的方法包含所有的激活函数，不同之处在于 maxout 只选择一个“胜出者”。Maxout 的一个明显的用例是每个分支具有不同大小的内核，而 Maxout 可以尺度不变。</p>
 </li>
 </ol>
-<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><p>##1. loss为nan(83.3365)  [标签错误、学习率太大]</p>
-<p><strong>梯度爆炸</strong></p>
+<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><h2 id="1-loss为nan-83-3365-标签错误、学习率太大"><a href="#1-loss为nan-83-3365-标签错误、学习率太大" class="headerlink" title="1. loss为nan(83.3365)  [标签错误、学习率太大]"></a>1. loss为nan(83.3365)  [标签错误、学习率太大]</h2><p><strong>梯度爆炸</strong></p>
 <p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
 <p><strong>现象：</strong>观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。</p>
 <p><strong>措施</strong>： </p>
@@ -492,8 +491,7 @@
 <p><strong>池化层中步长比核的尺寸大</strong></p>
 <p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>##2. 避免overfitting</p>
-<ul>
+<h2 id="2-避免overfitting"><a href="#2-避免overfitting" class="headerlink" title="2. 避免overfitting"></a>2. 避免overfitting</h2><ul>
 <li><p>simpler model structure</p>
 </li>
 <li><p>regularization</p>
@@ -577,7 +575,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/27/手册&指南/" rel="prev" title="手册&指南">
+              <a href="/2018/05/27/手册&指南/" rel="prev" title="手册&指南">
                 手册&指南 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -651,7 +649,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -673,7 +671,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -762,7 +760,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练模型"><span class="nav-number">2.</span> <span class="nav-text">训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-模型选择："><span class="nav-number">2.1.</span> <span class="nav-text">1. 模型选择：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-激励函数的选择"><span class="nav-number">2.2.</span> <span class="nav-text">2. 激励函数的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-卷积tricks"><span class="nav-number">2.3.</span> <span class="nav-text">3. 卷积tricks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-pooling层tricks"><span class="nav-number">2.4.</span> <span class="nav-text">4. pooling层tricks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Loss函数的选择"><span class="nav-number">2.5.</span> <span class="nav-text">5. Loss函数的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络的设计模式"><span class="nav-number">3.</span> <span class="nav-text">神经网络的设计模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Caffe调参"><span class="nav-number">4.</span> <span class="nav-text">Caffe调参</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#人脸识别流程"><span class="nav-number">5.</span> <span class="nav-text">人脸识别流程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据准备"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练模型"><span class="nav-number">2.</span> <span class="nav-text">训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-模型选择："><span class="nav-number">2.1.</span> <span class="nav-text">1. 模型选择：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-激励函数的选择"><span class="nav-number">2.2.</span> <span class="nav-text">2. 激励函数的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-卷积tricks"><span class="nav-number">2.3.</span> <span class="nav-text">3. 卷积tricks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-pooling层tricks"><span class="nav-number">2.4.</span> <span class="nav-text">4. pooling层tricks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Loss函数的选择"><span class="nav-number">2.5.</span> <span class="nav-text">5. Loss函数的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络的设计模式"><span class="nav-number">3.</span> <span class="nav-text">神经网络的设计模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Caffe调参"><span class="nav-number">4.</span> <span class="nav-text">Caffe调参</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-loss为nan-83-3365-标签错误、学习率太大"><span class="nav-number">4.1.</span> <span class="nav-text">1. loss为nan(83.3365)  [标签错误、学习率太大]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-避免overfitting"><span class="nav-number">4.2.</span> <span class="nav-text">2. 避免overfitting</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#人脸识别流程"><span class="nav-number">5.</span> <span class="nav-text">人脸识别流程</span></a></li></ol></div>
             
 
           </div>

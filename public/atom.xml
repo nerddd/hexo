@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="calyp.github.io/"/>
-  <updated>2019-03-01T07:09:18.546Z</updated>
+  <updated>2019-07-19T12:34:23.359Z</updated>
   <id>calyp.github.io/</id>
   
   <author>
@@ -14,6 +14,179 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>行为识别</title>
+    <link href="calyp.github.io/2019/05/19/%E8%A1%8C%E4%B8%BA%E8%AF%86%E5%88%AB/"/>
+    <id>calyp.github.io/2019/05/19/行为识别/</id>
+    <published>2019-05-19T11:56:57.000Z</published>
+    <updated>2019-07-19T12:34:23.359Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="ST-GCN"><a href="#ST-GCN" class="headerlink" title="ST-GCN"></a>ST-GCN</h2><p>论文：2018AAAI《Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition》</p>
+<h3 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h3><p><img src="/images/Snipaste_2019-07-19_20-17-39.png" alt="nipaste_2019-07-19_20-17-3"></p>
+<p>本文的主要贡献就是第一次将图的网络应用在骨架模型上用于行为分析任务，然后提出了一些设计特殊的特殊卷积操作的规范，给后来的相关工作提供借鉴意义。</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><p><img src="/images/Snipaste_2019-07-19_20-07-17.png" alt="nipaste_2019-07-19_20-07-1"></p>
+<p>构建骨骼时空图G= (V,E),帧数为T，每一帧上关节点数为N.在图中，节点矩阵集合$V={v_{ti}|t=1,…,T,i=1,…N}$ ，包括骨骼序列上的所有的关节点。</p>
+<p>使用两步构建骨骼序列的时空图。第一步，帧与帧之间的边表示人体对应骨骼点的时序关系；第二步，在每一帧内部，按照人体的自然骨架连接关系构造空间图。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-09-03.png" alt="nipaste_2019-07-19_20-09-0"></p>
+<p>进入完全的ST-GCN 之前，首先看单帧上的graph CNN model。在这种情况下，在时刻t ，单张视频帧的情况下，将会有N 个骨骼节点 Vt，并且有骨骼边界。我们回忆在2D 自然图像或者feature maps 上的卷积操作，卷积操作的输出仍然是2D 的网格。当步长为1，并且设置合适的padding 时，输出的feature maps 可以和输入拥有相同的大小。我们在接下来的讨论中，都是基于这个假设。给定一个kernel size 为K*K 的卷积操作，通道个数为c 的输入 featuremaps，在位置 x 处的单个通道的输出值为：fout</p>
+<p>P 是采样函数，列举了位置 x 的近邻。加权函数w提供了一个权重向量，来计算其与采样的输入向量的内积。由于加权函数与位置x 无关，所以，滤波器的权重可以在图像中进行共享。在图像领域，标准的卷积在图像领域可以通过编码矩形网格,在 graph 上的卷积操作可以定义为：将上述定义拓展到存在于 spatial graph Vt 的输入特征图上.</p>
+<p>本文中D=1，D的取值可以变化，情况复杂，future work</p>
+<p>对于加权函数，在 2D 卷积中，一个固定的 grid 自然的存在于中心位置，相邻像素点拥有一个固定的空间次序,而在graph中是没有这种顺序的，文中建议不用给定每一个近邻节点一个特定的 labeling，我们简单的将骨骼节点的近邻集合划分为固定个数的 K 个子集，每一个子集有一个 label。</p>
+<p>正则项Z对应子集的基数，是用来平衡不同子集对输出的贡献</p>
+<p>  <img src="/images/Snipaste_2019-07-19_20-09-35.png" alt="nipaste_2019-07-19_20-09-3"></p>
+<p>在上述Spatialgraph CNN 的基础上，我们现在开始将其拓展到时空结构上。在构建图的时候，temporal aspect 我们是直接时序上相同的节点连接起来的。这确保我们可以定义一种非常简单的策略将空间上的图卷积CNN 拓展到 时空域。我们将近邻节点拓展到包含时序连接的节点</p>
+<p>时空图卷积：只需要对应修改采样函数和权重映射函数就可以扩展到时空图上，设置采样区域为相邻几帧。权重映射函数根据相邻帧的图有序特点，因此可以设置如下映射函数，当作一种对应寻址的操作，即第几个维度上的第几个矩阵元素。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-20-10.png" alt="nipaste_2019-07-19_20-20-1"></p>
+<p>给定spatialtemporal graph convolution 的高层定义，设计一种partitioningstrategy 来执行 标签映射函数l</p>
+<p>（a）输入骨骼的框架示例。身体关节以蓝点表示。D=1的卷积核感受野由红色的虚线画出。（b）单标签划分策略。其中近邻的所有节点标签相同（绿色）。（c）距离划分。这两个子集是距离为0 的根节点本身，和距离为1 的根节点相邻节点（蓝色）。（d）空间构型划分。根据节点到骨架重心（图中黑色十字）的距离和到根节点（绿色）的距离的比较进行标记。向心节点（蓝色）到骨架重心的距离比根节点到骨架重心的距离短，而离心节点（黄色）到骨架重心的距离比根节点长</p>
+<p><img src="/images/Snipaste_2019-07-19_20-09-52.png" alt="nipaste_2019-07-19_20-09-5"></p>
+<p>在single-frame的情况下，用第一种分割策略的st-gcn 可以用左边的公式进行表达：</p>
+<p>对于多个子集的划分策略，用右边的公式表达，此时邻接矩阵被分解为多个矩阵 Aj</p>
+<p>通过邻接矩阵左乘特征矩阵，可以实现特征的聚合操作，然后再右乘权重矩阵，可以实现加权操作。</p>
+<p>多个输出通道的权重向量堆叠起来构成了权重矩阵</p>
+<p>$\alpha$是为了避免有的行empty<img src="/images/Snipaste_2019-07-19_20-09-59.png" alt="nipaste_2019-07-19_20-09-5"></p>
+<p>基于骨骼的数据可以从运动捕捉设备或视频的姿态估计算法中获得。通常来说，数据是一系列的帧，每一帧都有一组联合坐标。给定2D 或 3D 坐标系下的身体关节序列，我们就能构造一个时空图。其中，人体关节对应图的节点，人体身体结构的连通性和时间上的连通性对应图的两类边。因此，ST-GCN 的输入是图节点的联合坐标向量。对输入数据应用多层的时空图卷积操作，可以生成更高级别的特征图。然后，它将被标准的SoftMax分类器分类到相应的动作类别。整个模型用反向传播进行端对端方式的训练。ST-GCN模型由九层时空图卷积组成。前三层输出64通道数，中间三层输出128通道，最后三层输出256层通道数。一共有9个时间卷积核，在每一个ST-GCN使用残差链接，使用dropout进行特征正则化处理，将一半的神经元进行dropout处理。第4、7层的时间卷积层设置为poling层。最后将输出的256个通道数的输出进行全局pooling,并由softmax进行分类。</p>
+<p>当ST-GCN作为输入的时候，对于一个batch 的视频，我们可以用一个5 维矩阵表示。<br>N代表视频的数量，通常一个batch 有 256个视频（其实随便设置，最好是 2的指数）。<br>C代表关节的特征，通常一个关节包含等 3 个特征（如果是三维骨骼就是4 个）。<br>T代表关键帧的数量，一般一个视频有150 帧。<br>V代表关节的数量，通常一个人标注18 个关节。<br>M代表一帧中的人数，一般选择平均置信度最高的2 个人。<br>所以，OpenPose的输出，也就是 ST-GCN的输入</p>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p><img src="/images/Snipaste_2019-07-19_20-10-12.png" alt="nipaste_2019-07-19_20-10-1"></p>
+<p>图一是三种划分策略的消融实验，Imp是加了maskM, mask 相当于attention操作，根据图中Es上边缘学习的重要性来缩放节点特征对于相邻节点的重要性。（future work)</p>
+<p>第三种策略实际上也包含了对末肢关节赋予更多关注的思想，通常距离重心越近，运动幅度越小，同时能更好的区分向心运动和离心运动。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-10-22.png" alt="nipaste_2019-07-19_20-10-2"></p>
+<h2 id="2s-AGCN"><a href="#2s-AGCN" class="headerlink" title="2s-AGCN"></a>2s-AGCN</h2><p>论文：2019CVPR《Two-Stream Adaptive Graph Convolutional Networks for Skeleton-Based Action Recognition》</p>
+<h3 id="Contributions-1"><a href="#Contributions-1" class="headerlink" title="Contributions"></a>Contributions</h3><p><img src="/images/Snipaste_2019-07-19_20-10-30.png" alt="nipaste_2019-07-19_20-10-3"></p>
+<p>1.ST-GCN中使用的骨架图是启发式预定义的，并且仅表示人体的物理结构。因此，它不能保证对动作识别任务是最优的。例如，双手之间的关系对于识别诸如“拍手”和“阅读”之类的类很重要。然而，ST-GCN很难捕捉到双手之间的依赖关系，因为它们在预先定义的基于人体的图形中彼此相距很远。</p>
+<p>2.GCN的结构是层次结构，不同的层次包含多级语义信息。然而，ST-GCN中应用的图的拓扑结构在所有层上都是固定的，缺乏对所有层中包含的多级语义信息进行建模的灵活性和能力；</p>
+<p>3.对于不同行为类别的所有样本，一个固定图结构可能不是最优的。对于“擦脸”和“摸头”这类类别，手和头之间的联系应该更紧密，但对于其他一些类别，如“跳起来”和“坐下来”则不是这样。这一事实表明，图结构应该依赖于数据，然而，ST-GCN不支持这种依赖性。</p>
+<p>为了解决上述问题，本文提出了一种新的自适应图卷积网络。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-10-39.png" alt="nipaste_2019-07-19_20-10-3"></p>
+<p>ST-GCN中另一个值得注意的问题是，每个顶点上的特征向量只包含关节的二维或三维坐标，可以将其视为骨架数据的一阶信息。然而，代表两关节间骨骼特征的二阶信息并没有被利用。通常情况下，骨骼的长度和方向对于动作识别来说自然更具信息性和识别性。为了利用骨骼数据的二阶信息，将骨骼的长度和方向表示为从其源关节指向目标关节的向量。与一阶信息相似，矢量被输入一个自适应图卷积网络来预测动作标签。同时，提出了一种融合一阶和二阶信息的双流框架，进一步提高了系统的性能。</p>
+<p>（1）提出了一种自适应图卷积网络，以端到端的方式自适应地学习不同GCN层和骨架样本的图的拓扑结构，能够更好地适应GCN的动作识别任务和层次结构。（2）骨架数据的二阶信息采用双流框架显式地表示并与一阶信息相结合，对识别性能有显著提高。（3）在两个大规模的基于骨架的动作识别数据集上，所提出的2s-Agcn大大超过了最先进的水平。</p>
+<h3 id="Method-1"><a href="#Method-1" class="headerlink" title="Method"></a>Method</h3><p><img src="/images/Snipaste_2019-07-19_20-10-46.png" alt="nipaste_2019-07-19_20-10-4"></p>
+<p>首先还是图的构建，采用的是ST-GCN定义的图构建方法，划分策略采用的是基于空间构型的</p>
+<p>$K_v$为kernel size,</p>
+<p>$M_k$ is an N × N矩阵，相当于attention的作用，表示每个节点的重要程度</p>
+<p>点乘</p>
+<p><img src="/images/Snipaste_2019-07-19_20-10-57.png" alt="nipaste_2019-07-19_20-10-5"></p>
+<p>前面的式子中图的拓扑结构是固定的，有$A_k$和$M_k$决定，$A_k$表示两点之间是否有链接，$M_k$表示连接的强弱，为了让图的结构变得自适应，变换成右边，使得图的拓扑结构和参数一样在训练过程中端到端的进行优化.</p>
+<p>$B_k$是训练得到的，通过数据驱动的方式，模型可以学习完全针对识别任务的图形，并且针对不同层中包含的不同信息更加个性化。矩阵中的元素可以是任意值。它不仅表明两个关节之间存在连接，而且还表明连接的强度。它可以起到Mk执行的注意机制的相同作用。 然而，原始注意矩阵Mk是点乘以Ak，这意味着如果中的一个元素为0，则无论的值如何，它总是为0。因此，它无法生成原始物理图中不存在的新连接。从这个角度来看，Bk比Mk更灵活。</p>
+<p>$C_k$是一个数据相关图，它可以学习每个样本的唯一graph表示。为了确定两个顶点之间是否存在连接以及连接的强度，应用标准化的embedding高斯函数来计算两个顶点的相似度</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-06.png" alt="nipaste_2019-07-19_20-11-0"></p>
+<p>自适应图卷积层的图示。每层中总共有三种类型的graph，即$A_k$，$B_k$和$C_k$。橙色框表示该参数是可学习的。1x1表示卷积的内核大小。$K_v$表示子集的数量。 ⊕表示元素总和。 ⊗表示矩阵乘法。仅当$C_in$与$C_out$不同时，才需要左侧的residual box（虚线）</p>
+<p>上式函数f表示正则化embeded高斯函数，用来计算两个点之间的相似度，左图中给定输入的特征图为Cin×T ×N, 首先转换到特征空间$C_e×T ×N$,通过 θ and φ，然后将他们reshape到$N \times C_eT$和$C_eT \times N$矩阵中，将两个矩阵相乘得到相似度矩阵$C_k$, $Ckij$ 表示点i和j的相似度，所以$C_k$中的元素值在0-1之间，可以表示两个结点之间的软连接关系，然后将正则化高斯项与softmax操作得到最终$C<em>k$,$W</em>θ$和 $W_φ$分别表示embedding函数中θand φ的参数</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-13.png" alt="nipaste_2019-07-19_20-11-1"></p>
+<p>Convs 表示spatial GCN, and Convt表示temporal GCN，后面都接一个BN和ReLU，每个block都有一个shortcut</p>
+<p>右图是AGCN网络结构，一共包含9个block,每个块下面三个数字分别表示输入通道的数量，输出通道的数量和步幅，最后接一个GAP，送入softmax分类器</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-20.png" alt="nipaste_2019-07-19_20-11-2"></p>
+<p>论文提出的2stream 网络结构<br>关节点数据送入J-stream<br>骨骼数据送入B-stream<br>最后两路的输出相加后送入softmax中得到结果</p>
+<h3 id="Result-1"><a href="#Result-1" class="headerlink" title="Result"></a>Result</h3><p><img src="/images/Snipaste_2019-07-19_20-11-27.png" alt="nipaste_2019-07-19_20-11-2"></p>
+<p>消融实验，左边证明$A_k,B_k,C_k$的重要性，是adaptive的作用</p>
+<p>右边表示双流的重要性</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-34.png" alt="nipaste_2019-07-19_20-11-3"></p>
+<h2 id="AS-GCN"><a href="#AS-GCN" class="headerlink" title="AS-GCN"></a>AS-GCN</h2><p>论文：2019CVPR《Actional-Structural Graph Convolutional Networks for Skeleton-based<br>Action Recognition》</p>
+<h3 id="Contributions-2"><a href="#Contributions-2" class="headerlink" title="Contributions"></a>Contributions</h3><p><img src="/images/Snipaste_2019-07-19_20-11-42.png" alt="nipaste_2019-07-19_20-11-4"></p>
+<p>本文的贡献主要是提出a-link推理模块用于捕捉动作相关的潜在关系，提出动作-结构图卷积网络用于获取时空信息进行行为分析，并提出了一个未来姿态预测头用来预测未来姿态</p>
+<h3 id="Method-2"><a href="#Method-2" class="headerlink" title="Method"></a>Method</h3><p><img src="/images/Snipaste_2019-07-19_20-11-48.png" alt="nipaste_2019-07-19_20-11-4"></p>
+<p>上图表示行走状态的骨架图<br>以往的方法只捕捉关节之间的局部物理依赖关系，可能忽略了关节间的隐式关联，提出通过A-link来发掘潜在的关节之间的联系，通过s-link来发掘骨骼图的高阶关系。<br>图b中S-links表示右手可以连接左臂关节点，而ST-GCN只关注一阶近邻的关节点<br>图c中A-links捕捉远距离的，直接从动作捕获特定于动作的潜在依赖关系，比如走路时，手和脚是相关的</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-58.png" alt="nipaste_2019-07-19_20-11-5"></p>
+<p>A-Link实际上就是每个关节和其他所有关节的连接，通过一个编码-解码器来学习这些连接的权重，进而发掘关节之间的潜在联系。</p>
+<p>Encoder用来通过给定的关节点坐标得到A-links，decoder通过A-link得到未来关节点坐标的预测，上图中左侧黄色和紫色分别代表某一帧的原始的joints features和links features，将两种类型的特征反复迭代更新(encoder)，可以实现特征在关节和边中的流动传播，最终得到一个概率权重矩阵。将这个矩阵和该帧之前的所有时刻的帧信息结合起来，通过一个decoder来预测下一时刻的关节位置。这样就能通过反向传播的方式来不断的迭代更新网络参数，实现对网络的训练。在网络得到初步的训练后，将decoder去掉，只使用前半部分抽取A-link特征，用于动作分类任务的进一步训练。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-12-05.png" alt="nipaste_2019-07-19_20-12-0"></p>
+<p>传统的图卷积网络中，每个节点只将自己的信息传播给邻居节点，这会导致节点感受野较小，不利于获取长距离的连接信息。通过对邻接矩阵取一定次数的幂，可以扩大感受野，L为阶数</p>
+<p>左边的式子是一阶领域内的spatialgraph convolution操作，右边扩展到L阶，L大于等于1</p>
+<p><img src="/images/Snipaste_2019-07-19_20-12-23.png" alt="nipaste_2019-07-19_20-12-2"></p>
+<p>AS-GCN的网络结构，采用多任务处理<br>将A-Link和S-link加权结合起来作为GCN的输入。将GCN和Temporal-GCN结合，得到AS-GCN模块，作为基本网络(Backbone)。接不同的后端网络，可以分别实现分类功能和预测功能，识别头是通过GAP和softmax得到识别的类型，预测头不仅可以促进自监督，还可以提高识别准确率。</p>
+<p><strong>核心思想：</strong></p>
+<ul>
+<li>从原始的坐标信息中提取出A-links特征信息作为输入特征，具有更高的可识别度</li>
+<li>通过对邻接矩阵取多次幂来扩大节点的感受域。</li>
+<li>多个block叠加，通过提高复杂度来提高识别能力。</li>
+</ul>
+<p><img src="/images/Snipaste_2019-07-19_20-12-33.png" alt="nipaste_2019-07-19_20-12-3"></p>
+<p>左下角是backbone的示意图，由9个AS-GCN块组成，右边是具体的block里面的结构，ASGC+TCN</p>
+<p><img src="/images/Snipaste_2019-07-19_20-12-40.png" alt="nipaste_2019-07-19_20-12-4"></p>
+<p>预测头的结构，就是5个AS-GCN block+TCN堆叠，再接4个AS-GCN模块组成，解码高层语义特征，得到预测未来的关节点坐标</p>
+<h3 id="Result-2"><a href="#Result-2" class="headerlink" title="Result"></a>Result</h3><p><img src="/images/Snipaste_2019-07-19_20-12-48.png" alt="nipaste_2019-07-19_20-12-4"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      2018AAAI&amp;2019CVPR GCN in skeleton-based action recognition
+    
+    </summary>
+    
+      <category term="论文笔记" scheme="calyp.github.io/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="行为识别" scheme="calyp.github.io/tags/%E8%A1%8C%E4%B8%BA%E8%AF%86%E5%88%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>表情识别</title>
+    <link href="calyp.github.io/2019/03/11/%E8%A1%A8%E6%83%85%E8%AF%86%E5%88%AB/"/>
+    <id>calyp.github.io/2019/03/11/表情识别/</id>
+    <published>2019-03-11T00:56:06.000Z</published>
+    <updated>2019-07-04T13:04:39.123Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Facial-Expression-Recognition-with-Inconsistently-Annotated-Datasets"><a href="#Facial-Expression-Recognition-with-Inconsistently-Annotated-Datasets" class="headerlink" title="Facial Expression Recognition with Inconsistently Annotated Datasets"></a>Facial Expression Recognition with Inconsistently Annotated Datasets</h2><p><strong>paper</strong>:<a href="http://openaccess.thecvf.com/content_ECCV_2018/papers/Jiabei_Zeng_Facial_Expression_Recognition_ECCV_2018_paper.pdf" target="_blank" rel="external">http://openaccess.thecvf.com/content_ECCV_2018/papers/Jiabei_Zeng_Facial_Expression_Recognition_ECCV_2018_paper.pdf</a><br><strong>code</strong>:<a href="https://github.com/dualplus/LTNet" target="_blank" rel="external">https://github.com/dualplus/LTNet</a><br><strong>Author</strong>:  Jiabei Zeng, Shiguang Shan, and Xilin Chen<br><strong>time</strong>: ECCV2018</p>
+<h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>Annotation errors and bias are inevitable among different facial expression datasets due to the subjectiveness of annotating facial expressions. Ascribe to the inconsistent annotations, performance of existing facial expression recognition (FER) methods cannot keep improving when the training set is enlarged by merging multiple datasets. To address the inconsistency, we propose an Inconsistent Pseudo Annotations to Latent Truth(IPA2LT) framework to train a FER model from multiple inconsistently labeled datasets and large scale unlabeled data. In IPA2LT, we assign each sample more than one labels with human annotations or model predictions. Then, we propose an end-to-end LTNet with a scheme of discovering the latent truth from the inconsistent pseudo labels and the input face images. To our knowledge, IPA2LT serves as the first work to solve the training problem with inconsistently labeled FER datasets. Experiments on synthetic data validate the effectiveness of the proposed method in learning from inconsistent labels. We also conduct extensive experiments in FER and show that our method outperforms other state-of-the-art and optional methods under a rigorous evaluation protocol involving 7 FER datasets<br><strong>翻译</strong>:由于标注面部表情的主观性，标注错误和误差在不同的面部表情数据集种是不可避免的，归因于不一致的标注。当通过合并多个数据集扩大数据集时，现有的面部表情识别方法的性能不能持续提升，为了解决这种不一致性，我们提出了一种不一致的潜在真实伪标注(IPA2LT)框架，用于从多个不一致标记的数据集和大规模未标记数据中训练FER模型。在IPA2LT中，我们未每个样本分配多个带有人工标注或模型预测的标签，然后我们提出一种端到端的LTNet，其思想时从不一致的伪标签和输入的面部图像中发现潜在的真相(也就是真实标签)。据我们所知，IPA2LT是第一个用不一致标记的FER数据集来解决训练问题的工作，对合成数据的实验验证了所提出的方法从不一致标签中学习的有效性。我们还在FER中进行了大量实验，并表明我们的方法在涉及7个FER数据集的严格评估协议下优于其他最先进和可选的方法。</p>
+<p><img src="\images\QQ%E5%9B%BE%E7%89%8720181218105946.png" alt="Q图片2018121810594"></p>
+<p>训练过程分为3步：</p>
+<ol>
+<li>分别从数据集A和B中训练两个模型标注工具</li>
+<li>模型的预测结果可能和人工标注不一致，它们将作为一些人工标注数据集和大规模未标注数据集中每个图片的多个标签，每个未标注数据作为数据集A和数据集B之间的桥梁，因为它们是用相同的模型预测出来的结果。</li>
+<li>训练LTNet，预测图片输出隐藏的真实标签，</li>
+</ol>
+<h3 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
+<li>提出了一个相对未研究过的问题：如何从多个标注不同的数据集中训练分类器，据我们所知，这是第一个解决不同的FER数据集标注不一致的工作</li>
+<li>提出了IPA2LT的框架从多个标注不一致的数据集和大规模未标注的数据上训练一个FER模型，提出了一个端到端训练的LTNet</li>
+<li>在合成数据和真实数据上的实验验证了所提出的方法在从不一致标签中学习的有效性，我们在FER中进行了广泛的实验，并在涉及7个FER数据集的严格评估写一下展示了IPA2LT优于现有技术的优势</li>
+</ul>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>从表情识别这一任务的特性–具有主观性，发现数据集标签不一致的情况，提出一个端到端的训练模型，从不一致的标签学习到标签之间潜在的关联，从而输出隐藏的真实标签，对于合并数据集来说，是一种方法，且有一定的合理性，并进行大量实验，发现在表情数据集上合并训练的效果要优于单独训练，并且本文提出的办法要优于其他混合的方法。</p>
+<hr>
+<h2 id="Facial-Expression-Recognition-using-Facial-Landmark-Detection-and-Feature-Extraction-on-Neural-Networks"><a href="#Facial-Expression-Recognition-using-Facial-Landmark-Detection-and-Feature-Extraction-on-Neural-Networks" class="headerlink" title="Facial Expression Recognition using Facial Landmark Detection and Feature Extraction on Neural Networks"></a>Facial Expression Recognition using Facial Landmark Detection and Feature Extraction on Neural Networks</h2><p><strong>paper</strong>:<a href="http://arxiv.org/abs/1812.04510v1" target="_blank" rel="external">Facial Expression Recognition using Facial Landmark Detection and Feature Extraction on Neural Networks</a><br><strong>code</strong>:<br><strong>Author</strong>:  Fuzail Khan<br><strong>time</strong>: 2018.12</p>
+<h3 id="Abstract-1"><a href="#Abstract-1" class="headerlink" title="Abstract"></a>Abstract</h3><p>The proposed framework in this paper has the primary objective of classifying the facial expression shown by a person using facial landmark detection and feature extraction. These classifiable expressions can be any one of the six universal emotions along with the neutral emotion. After initial facial detection, facial landmark detection and feature extraction are performed (where in the landmarks were determined to be the fiducial features: theeyebrows, eyes, nose and lips). This is primarily done using the Sobel horizontal edge detection method and the Shi Tomasi corner point detector. Thisleads to input feature vectors being formulated and trained into a Multi-LayerPerceptron (MLP) neural network in order to classify the expression beingdisplayed. Facial Expression Recognition (FER) is a significant step inreaching the eventual goal of artificial intelligence. If efficient methods can be brought about to automatically recognize these expressions, major advances may be achieved in computer vision.<br><strong>翻译</strong>:本文提出的框架的主要目的是使用人脸关键点检测和特征提取对面部表情进行分类，这些可分类的表情可以是6种普遍情绪种的任何一种或者中性情绪，在初始的面部检测之后，执行面部关键点检测和特征提取，主要使用Sobel水平边缘检测方法和Shi Tomasi角点检测器完成。这导致输入特征向量被指定并训练成多层感知器(MLP)神经网络，以便对表情进行分类。FER是实现人工智能最终目标的重要一步，如果可以利用有效的方法自动识别这些表情，则可以在计算机视觉中实现重大进步。</p>
+<h3 id="Contribution-1"><a href="#Contribution-1" class="headerlink" title="Contribution"></a>Contribution</h3><p><img src="\images\QQ%E5%9B%BE%E7%89%8720181222194912.png" alt="Q图片2018122219491"><br><img src="\images\QQ%E5%9B%BE%E7%89%8720181222195057.png" alt="Q图片2018122219505"></p>
+<ul>
+<li>首先对输入的图片进行预处理，主要是去除不想要的噪声，增强图片的对比度，先用低通3x3高斯滤波器，有助于平滑图像并使梯度强度正则化，然后进行对比度自适应直方图均衡，用于光照强度修正</li>
+<li>人脸检测利用基于Haar特征的级联分类器</li>
+<li>关键点检测<ul>
+<li>人眼检测，主要是得到左眼和右眼的RoI，然后用于提取特征点</li>
+<li>鼻子检测</li>
+<li>眉毛和嘴唇检测</li>
+</ul>
+</li>
+<li>提取特征向量，通过上一步骤提取到了特征点(F1-F18)，这一步使决定输入的特征向量送入神经网络中<br><img src="\images\QQ%E5%9B%BE%E7%89%8720181222203519.png" alt="Q图片2018122220351"></li>
+<li>训练神经网络，进行分类</li>
+</ul>
+<h3 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h3><p>这篇论文感觉方法还不是很先进，但是可能在某些特殊的数据集（表情很明显，图像质量比较好）效果会比较好，而论文选用的数据集从给出的例子来看，表情都是比较夸张的。</p>
+<hr>
+<h2 id="A-Compact-Deep-Learning-Model-for-Robust-Facial-Expression-Recognition"><a href="#A-Compact-Deep-Learning-Model-for-Robust-Facial-Expression-Recognition" class="headerlink" title="A Compact Deep Learning Model for Robust Facial Expression Recognition"></a>A Compact Deep Learning Model for Robust Facial Expression Recognition</h2><p><strong>paper</strong>:<a href="http://openaccess.thecvf.com/content_cvpr_2018_workshops/papers/w41/Kuo_A_Compact_Deep_CVPR_2018_paper.pdf" target="_blank" rel="external">A Compact Deep Learning Model for Robust Facial Expression …</a><br><strong>code</strong>:<br><strong>Author</strong>:<br><strong>time</strong>: CVPR2018</p>
+<h3 id="Abstract-2"><a href="#Abstract-2" class="headerlink" title="Abstract"></a>Abstract</h3><p>In this paper, we propose a compact frame-based facial expression recognition framework for facial expression recognition which achieves very competitive performance with respect to state-of-the-art methods while using much less parameters. The proposed framework is extended to a frame-to-sequence approach by exploiting temporal information with gated recurrent units. In addition, we develop an illumination augmentation scheme to alleviate the overfitting problem when training the deep networks with hybrid data sources. Finally, we demonstrate the performance improvement by using the proposed technique on some public datasets.<br><strong>翻译</strong>:在这篇论文中，我们提出了一个紧凑的基于帧的(frame-based)面部表情识别框架用以面部表情识别，使用了较少的参数就达到了和现在的State-of-the-art水平相匹敌的表现。提出的框架可以扩展为一个帧到序列的方法通过利用门控循环单元利用时间信息。此外，我们开发了一种光照增强的方法，以在使用混合数据源训练深度网络时缓解过拟合问题，最后我们通过在一些公开数据集上使用所提出的技术来证明性能的改进。</p>
+<h3 id="Contribution-2"><a href="#Contribution-2" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
+<li>提出了一个紧凑的CNN模型用于面部表情识别，在识别准确率和模型大小之间折中</li>
+<li>在两个标准数据集上对模型进行评价，提出的模型的表现要由于目前的SOTA方法</li>
+<li>收集了三个不同的场景的数据集，用来评估模型在跨领域的表现如何</li>
+<li>通过leave-one-set-out实验发现提出的光照增加策略缓解了模型训练中过拟合问题<img src="\images\QQ图片20190326093817.png" alt="Q图片2019032609381"></li>
+</ul>
+<h3 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h3><p>这篇论文的最突出贡献，我觉得应该是frame-to-sequence的设计，通过GRU 单元融合多张视频帧，然后输出综合判断。</p>
+<hr>
+<h2 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h2><p><a href="https://blog.csdn.net/qq_32528489/article/details/81672247" target="_blank" rel="external">近五年表情识别推荐论文列表</a></p>
+<p><a href="https://blog.csdn.net/yh1226/article/details/85622369" target="_blank" rel="external">2018 CVPR表情识别论文 A Compact Deep Learning Model for Robust Facial Expression Recognition 个人理解+实现</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      近几年关于表情识别的系列论文笔记
+    
+    </summary>
+    
+      <category term="论文笔记" scheme="calyp.github.io/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="表情识别" scheme="calyp.github.io/tags/%E8%A1%A8%E6%83%85%E8%AF%86%E5%88%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>相关数学知识</title>
@@ -66,7 +239,7 @@
     <link href="calyp.github.io/2019/02/26/%E5%9B%BE%E5%83%8F%E8%B4%A8%E9%87%8F%E8%AF%84%E4%BC%B0%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
     <id>calyp.github.io/2019/02/26/图像质量评估论文笔记/</id>
     <published>2019-02-26T00:46:12.000Z</published>
-    <updated>2019-03-01T07:10:58.243Z</updated>
+    <updated>2019-06-28T07:06:42.141Z</updated>
     
     <content type="html"><![CDATA[<h1 id="图像质量评估-IQA"><a href="#图像质量评估-IQA" class="headerlink" title="图像质量评估(IQA)"></a>图像质量评估(IQA)</h1><h2 id="Convolutional-Neural-Networks-for-No-Reference-Image-Quality-Assessment"><a href="#Convolutional-Neural-Networks-for-No-Reference-Image-Quality-Assessment" class="headerlink" title="Convolutional Neural Networks for No-Reference Image Quality Assessment"></a>Convolutional Neural Networks for No-Reference Image Quality Assessment</h2><p><strong>Paper</strong>:<a href="https://ieeexplore.ieee.org/iel7/6909096/6909393/06909620.pdf" target="_blank" rel="external">Convolutional Neural Networks for No-Reference Image Quality …</a><br><strong>code</strong>:-<br><strong>Author</strong>:Le Kang，Peng Ye，Yi Li，David Doermann<br><strong>time</strong>:2014CVPR</p>
 <h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>In this work we describe a Convolutional Neural Network (CNN) to accurately predict image quality without a reference image. Taking image patches as input, the CNN works in the spatial domain without using hand-crafted features that are employed by most previous methods. The network consists of one convolutional layer with max and min pooling, two fully connected layers and an output node. Within the network structure, feature learning and regression are integrated into one optimization process, which leads to a more effective model for estimating image quality. This approach achieves state of the art performance on the LIVE dataset and shows excellent generalization ability in cross dataset experiments. Further experiments on images with local distortions demonstrate the local quality estimation ability of our CNN, which is rarely reported in previous literature.<br><strong>翻译</strong>：在这篇论文中，将会介绍如何在不需要参考图像的情况下利用CNN来准确预测图像质量(NR-IQA)。输入为图像的patch，CNN不需要利用手工特征，该网络包括一个卷积层和最大、最小池化层、两个全连接层和输出节点。在网络结构中，特征学习和回归被集成到一个优化过程中，这样模型预测图像质量会更有效。该方法在LIVE数据集上达到了state-of-the-art，并且在交叉数据集实验中泛化能力优异，对局部失真图像的进一步实验表明了CNN的局部质量评估能力，这在以前的文献中很少报道。</p>
@@ -77,13 +250,21 @@
 <h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>本篇论文就是对灰度图像，首先执行对比度归一化，然后采样不重叠的patch，使用CNN来估计每个patch的质量得分和平均patch得分来估计图像的质量分数，CNN就是一个很简单的回归网络。需要注意的是，本文采用的不是对整体进行对比度归一化，而是在<strong>局部的patch上做对比度归一化(contract normalization)</strong>，因为在全局做平均的归一化会有性能损失。归一化不仅可以缓解早期工作中使用sigmoid神经单元引起的饱和问题，还使网络对光照和对比度变化具有鲁棒性，值得注意的是，在某些应用中将亮度和对比度的变化也看作失真，但这里主要关注的是图像质量下降（模糊、压缩和加性噪声）引起的失真。</p>
 <hr>
 <h2 id="Quality-Aware-Network-for-Set-to-Set-Recognition"><a href="#Quality-Aware-Network-for-Set-to-Set-Recognition" class="headerlink" title="Quality Aware Network for Set to Set Recognition"></a>Quality Aware Network for Set to Set Recognition</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1704.03373" target="_blank" rel="external">Quality Aware Network for Set to Set Recognition</a><br><strong>code</strong>:<a href="https://github.com/sciencefans/Quality-Aware-Network`caffe`" target="_blank" rel="external">https://github.com/sciencefans/Quality-Aware-Network`caffe`</a><br><strong>Author</strong>:  Yu Liu，JunJie Yan，Wanli Ouyang<br><strong>time</strong>: 2017CVPR</p>
-<h3 id="Abstract-1"><a href="#Abstract-1" class="headerlink" title="Abstract"></a>Abstract</h3><p><strong>翻译</strong>:</p>
-<h3 id="Contribution-1"><a href="#Contribution-1" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h3><hr>
-<h2 id="Automatic-Face-Image-Quality-Prediction"><a href="#Automatic-Face-Image-Quality-Prediction" class="headerlink" title="Automatic Face Image Quality Prediction"></a>Automatic Face Image Quality Prediction</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1706.09887" target="_blank" rel="external">Automatic Face Image Quality Prediction</a><br><strong>code</strong>:<br><strong>Author</strong>:<br><strong>time</strong>: 2017</p>
-<h3 id="Abstract-2"><a href="#Abstract-2" class="headerlink" title="Abstract"></a>Abstract</h3><p>This paper targets on the problem of set to set recognition, which learns the metric between two image sets. Images in each set belong to the same identity. Since images in a set can be complementary, they hopefully lead to higher accuracy in practical applications. However, the quality of each sample cannot be guaranteed, and samples with poor quality will hurt the metric. In this paper, the quality aware network (QAN) is proposed to confront this problem, where the quality of each sample can be automatically learned although such information is not explicitly provided in the training stage. The network has two branches, where the first branch extracts appearance feature embedding for each sample and the other branch predicts quality score for each sample. Features and quality scores of all samples in a set are then aggregated to generate the final feature embedding. We show that the two branches can be trained in an end-to-end manner given only the set-level identity annotation. Analysis on gradient spread of this mechanism indicates that the quality learned by the network is beneficial to set-to-set recognition and simplifies the distribution that the network needs to fit. Experiments on both face verification and person re-identification show advantages of the proposed QAN. The source code and network structure can be downloaded at GitHub </p>
-<p><strong>翻译</strong>:这篇论文的目标聚焦在<strong>set-to-set</strong>识别，学习两个数据集之间的metric。每个数据集中的图像属于同一类别，因为集合中的图片都是互相补充的，所以有希望可以在实际应用中达到更高的准确率。然鹅每个样本的质量并不能保证，</p>
+<h3 id="Abstract-1"><a href="#Abstract-1" class="headerlink" title="Abstract"></a>Abstract</h3><p>This paper targets on the problem of set to set recognition, which learns the metric between two image sets. Images in each set belong to the same identity. Since images in a set can be complementary, they hopefully lead to higher accuracy in practical applications. However, the quality of each sample cannot be guaranteed, and samples with poor quality will hurt the metric. In this paper, the quality aware network (QAN) is proposed to confront this problem, where the quality of each sample can be automatically learned although such information is not explicitly provided in the training stage. The network has two branches, where the first branch extracts appearance feature embedding for each sample and the other branch predicts quality score for each sample. Features and quality scores of all samples in a set are then aggregated to generate the final feature embedding. We show that the two branches can be trained in an end-to-end manner given only the set-level identity annotation. Analysis on gradient spread of this mechanism indicates that the quality learned by the network is beneficial to set-to-set recognition and simplifies the distribution that the network needs to fit. Experiments on both face verification and person re-identification show advantages of the proposed QAN. The source code and network structure can be downloaded at GitHub.</p>
+<p><strong>翻译</strong>:本文主要针对set-to-set的识别问题，学习两个图像集合之间的metric。每个set中的图片属于同一类，由于一个set中的图像可以互补，因此有望在实际应用中提高精度，但是不能保证每个样本的质量，质量差的样本会对最终的结果产生不好的影响。本文提出质量感知网络（QAN）来解决这个问题，每个样本的质量可以自动学习，尽管在训练阶段没有明确提供这些信息。网络含有两个分支，第一个分支为每个样本提取appearance特征，另一个分支为每一个样本预测质量得分，一个set总所有样本的特征和质量分数都会聚合以生成最终的feature embedding。本论文表明，在只给定set-level的标注时，才能以端到端的的方式训练两个分支。对该机制的梯度扩展的分析表明，网络学习到的质量评估有利于set-to-set的识别，并简化了网络需要拟合的数据分布，在人脸验证和行人重识别任务上表现良好。</p>
+<p><img src="/images/QQ图片20190628144801.png" alt="Q图片2019062814480"></p>
+<p><img src="/images/QQ图片20190628145113.png" alt="Q图片2019062814511"></p>
+<h3 id="Contribution-1"><a href="#Contribution-1" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
+<li>The proposed quality aware network automatically generates quality scores for each image in a set and<br>leads to better representation for set-to-set recognition</li>
+<li>We design an end-to-end training strategy and demonstrate that the quality generation part and feature generation part benefit from each other during back propagation.</li>
+<li>Quality learnt by QAN is better than quality estimated by human and we achieves new state-of-the-art performance on four benchmarks for person re-identification and face verification.</li>
+</ul>
+<h3 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h3><hr>
+<h1 id="人脸质量评估-FQA"><a href="#人脸质量评估-FQA" class="headerlink" title="人脸质量评估(FQA)"></a>人脸质量评估(FQA)</h1><h2 id="Automatic-Face-Image-Quality-Prediction"><a href="#Automatic-Face-Image-Quality-Prediction" class="headerlink" title="Automatic Face Image Quality Prediction"></a>Automatic Face Image Quality Prediction</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1706.09887" target="_blank" rel="external">Automatic Face Image Quality Prediction</a><br><strong>code</strong>:<br><strong>Author</strong>:<br><strong>time</strong>: 2017</p>
+<h3 id="Abstract-2"><a href="#Abstract-2" class="headerlink" title="Abstract"></a>Abstract</h3><p>Face image quality can be defined as a measure of the utility of a face image to automatic face recognition. In this work, we propose (and compare) two methods for automatic face image quality based on target face quality values from (i) human assessments of face image quality (matcherindependent), and (ii) quality values computed from similarity scores (matcher-dependent). A support vector regression model trained on face features extracted using a deep convolutional neural network (ConvNet) is used to predict the quality of a face image. The proposed methods are evaluated on two unconstrained face image databases, LFW and IJB-A, which both contain facial variations with multiple quality factors. Evaluation of the proposed automatic face image quality measures shows we are able to reduce the FNMR at 1% FMR by at least 13% for two face matchers (a COTS matcher and a ConvNet matcher) by using the proposed face quality to select subsets of face images and video frames for matching templates (i.e., multiple faces per subject) in the IJB-A protocol. To our knowledge, this is the first work to utilize human assessments of face image quality in designing a predictor of unconstrained face quality that is shown to be effective in cross-database evaluation.</p>
+<p><strong>翻译</strong>:面部图像质量可以被定义为面部图像对自动面部识别的效用的度量。在这项工作中，我们提出（并比较）两种基于目标面部质量值的自动面部图像质量的方法，这两种方法来自（i）面部图像质量的人体评估（匹配器依赖性），以及（ii）根据相似性得分计算的质量值（匹配器 - 依赖）。使用深度卷积神经网络（ConvNet）提取的面部特征训练的支持向量回归模型用于预测面部图像的质量。所提出的方法在两个无约束的人脸图像数据库LFW和IJB-A上进行评估，这两个数据库都包含具有多个质量因子的面部变化。对所提出的自动面部图像质量测量的评估表明，通过使用所提出的面部质量来选择面部子集，我们能够将两个面部匹配器（COTS匹配器和ConvNet匹配器）的1％FMR的FNMR降低至少13％。用于匹配IJB-A协议中的模板（即，每个主题的多个面部）的图像和视频帧。据我们所知，这是第一项利用人体面部图像质量评估来设计无约束面部质量预测器的工作，该预测器在跨数据库评估中显示出有效性。</p>
 <h3 id="Contribution-2"><a href="#Contribution-2" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h3><hr>
-<h1 id="人脸质量评估-FQA"><a href="#人脸质量评估-FQA" class="headerlink" title="人脸质量评估(FQA)"></a>人脸质量评估(FQA)</h1><h2 id="Face-Image-Quality-Assessment-Based-on-Learning-to-Rank"><a href="#Face-Image-Quality-Assessment-Based-on-Learning-to-Rank" class="headerlink" title="Face Image Quality Assessment Based on Learning to Rank"></a>Face Image Quality Assessment Based on Learning to Rank</h2><p><strong>paper</strong>:<a href="https://ieeexplore.ieee.org/iel7/97/4358004/06877651.pdf" target="_blank" rel="external">Face Image Quality Assessment Based on Learning to Rank</a><br><strong>code</strong>: 开源了<br><strong>Author</strong>:<br><strong>time</strong>: 2015年</p>
+<h2 id="Face-Image-Quality-Assessment-Based-on-Learning-to-Rank"><a href="#Face-Image-Quality-Assessment-Based-on-Learning-to-Rank" class="headerlink" title="Face Image Quality Assessment Based on Learning to Rank"></a>Face Image Quality Assessment Based on Learning to Rank</h2><p><strong>paper</strong>:<a href="https://ieeexplore.ieee.org/iel7/97/4358004/06877651.pdf" target="_blank" rel="external">Face Image Quality Assessment Based on Learning to Rank</a><br><strong>code</strong>: 开源了<br><strong>Author</strong>:<br><strong>time</strong>: 2015年</p>
 <h3 id="Abstract-3"><a href="#Abstract-3" class="headerlink" title="Abstract"></a>Abstract</h3><p>Face image quality is an important factor affecting the accuracy of automatic face recognition. It is usually possible for practical recognition systems to capture multiple face images from each subject. Selecting face images with high quality for recognition is a promising stratagem for improving the system performance. We propose a learning to rank based framework for assessing the face image quality. The proposed method is simple and can adapt to different recognition methods. Experimental result demonstrates its effectiveness in improving the robustness of face detection and recognition .</p>
 <p><strong>翻译</strong>:</p>
 <p>人脸图像质量是影响自动人脸识别准确率的重要因素。实际识别系统通常可能从每个subject捕获多个面部图像，选择具有高质量的面部图像用于识别是用于改善系统性能的一个策略，我们提出了基于<strong>learning to rank</strong>的框架来评估面部图像质量，该方法简单，可以适应不同的识别方法，实验结果证明了其在提高人脸检测和识别鲁棒性方面的有效性。</p>
@@ -91,7 +272,7 @@
 <li><p><strong>图像预处理过程</strong></p>
 <p>按常理来说，图片中只有人脸区域的像素点才能被用来评估面部质量好坏，所以我们首先如下图检测到人脸，然后将其resize到68x68大小。然后送入CNN中作为输入，我们使用眼角和嘴角，因为这两处的关键点可以很清晰，并包含了大部分的人脸区域。</p>
 <p><img src="/images/QQ图片20190227202934.png" alt="Q图片2019022720293"></p>
-<p><img src="../images/QQ图片20190227203701.png" alt="Q图片2019022720370"></p>
+<p><img src="/images/QQ图片20190227203701.png" alt="Q图片2019022720370"></p>
 <p>利用上图中简单的CNN作为关键点检测网络，在LFW数据集中挑选了10000张作为训练集，剩下的作为测试集，图一中的(b)为预测的关键点。</p>
 <p>对人脸区域进行归一化，并消除面内旋转，首先计算中心点C和半径r（包含了所有关键点的最小圆），然后以2.4rx4r的矩形R来代替如图一中的(c)所示，这样就可以计算矩形的角度</p>
 </li>
@@ -134,7 +315,7 @@
     <link href="calyp.github.io/2019/02/25/%E6%AF%8F%E6%97%A5%E9%98%85%E8%AF%BB/"/>
     <id>calyp.github.io/2019/02/25/每日阅读/</id>
     <published>2019-02-25T00:46:12.000Z</published>
-    <updated>2019-02-26T02:37:00.783Z</updated>
+    <updated>2019-03-06T01:35:54.953Z</updated>
     
     <content type="html"><![CDATA[<h1 id="杂"><a href="#杂" class="headerlink" title="杂"></a>杂</h1><h2 id="Rethinking-ImageNet-Pre-training"><a href="#Rethinking-ImageNet-Pre-training" class="headerlink" title="Rethinking ImageNet Pre-training"></a>Rethinking ImageNet Pre-training</h2><p><strong>Paper</strong>:<a href="http://arxiv.org/pdf/1811.10104v1" target="_blank" rel="external">Rethinking ImageNet Pre-training</a><br><strong>code</strong>:-<br><strong>Author</strong>:Kaiming He、 Ross Girshick 、Piotr Dollar 、Facebook AI Research (FAIR)<br><strong>time</strong>:2018</p>
 <h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>We report competitive results on object detection and instance segmentation on the COCO dataset using standard models trained <strong>from random initialization</strong>.The results are no worse than their ImageNet pre-training counterparts even when using the hyper-parameters of the baseline system (Mask R-CNN) that were optimized for fine -tuning pre-trained models, with the sole exception of increasing the number of training iterations so the randomly initialized models may converge.Training from random initialization is surprisingly robust; our results hold even when: (i) Using only 10% of the training data, (ii) for deeper and wider models, and (iii) for multiple tasks and metrics.Experiments show that ImageNet pre-training speeds up convergence early in training, but does not necessarily provide regularization or improve final target task accuracy.To push the envelope we demonstrate 50.9 AP on COCO object detection without using any external data–a result on par with the top COCO 2017 competition results that used ImageNet pre-training.These observations challenge the conventional wisdom of ImageNet pre-training for dependent tasks and we expect these discoveries will encourage people to rethink the current de facto paradigm of ‘ pre-training and fine -tuning’ in computer vision.<br><strong>翻译</strong>：我们使用随机初始化训练的标准模型报告在COCO数据集上的物体检测和物体分割的竞争结果。即使使用baseline model的超参数，结果也不比它们的ImageNet预训练对应物差（Mask R-CNN）针对精细调整预训练模型进行了优化，唯一的例外是增加训练迭代次数，因此随机初始化模型可以收敛。随机初始化训练非常强大;我们的结果即使在以下情况下仍然存在：（i）仅使用10％的训练数据，（ii）用于更深和更宽的模型，以及（iii）用于多个任务和指标。实验表明在ImageNet预训练速度能加速训练时候的收敛速度，但不一定提供正则化或提高最终在目标任务上的准确性。为了突破这个范围，我们在不使用任何外部数据的情况下在COCO对象检测上达到了50.9 AP  - 这个结果与2017年COCO相同使用ImageNet预训练的最好的竞赛结果差不多。这些结论挑战了ImageNet与训练对于依赖性任务的传统智慧，我们期望这些发现将鼓励人们重新思考计算机视觉中的“pre-training and fine-tuneing”范式。</p>
@@ -175,18 +356,26 @@
 <h2 id="Graph-Neural-Networks-A-Review-of-Methods-and-Applications"><a href="#Graph-Neural-Networks-A-Review-of-Methods-and-Applications" class="headerlink" title="Graph Neural Networks:A Review of Methods and Applications"></a>Graph Neural Networks:A Review of Methods and Applications</h2><p><strong>paper</strong>:<a href="http://arxiv.org/pdf/1812.08434v1" target="_blank" rel="external">http://arxiv.org/pdf/1812.08434v1</a><br><strong>code</strong>:-<br><strong>Author</strong>:<br><strong>time</strong>: 2018</p>
 <h3 id="Abstract-2"><a href="#Abstract-2" class="headerlink" title="Abstract"></a>Abstract</h3><p>Lots of learning tasks require dealing with graph data which contains rich relation information among elements. Modeling physics system, learning molecular fingerprints, predicting protein interface, and classifying diseases require that a model to learn from graph inputs. In other domains such as learning from non structural data like texts and images, reasoning on extracted structures, like the dependency tree of sentences and the scene graph of images, is an important research topic which also needs graph reasoning models. Graph neural networks (GNNs) are connectionist models that capture the dependence of graphs via message passing between the nodes of graphs. Unlike standard neural networks, graph neural networks retain a state that can represent information from its neighborhood with an arbitrary depth. Although the primitive graph neural networks have been found difficult to train for a fixed point, recent advances in network architectures, optimization techniques, and parallel computation have enabled successful learning with them. In recent years, systems based on graph convolutional network (GCN) and gated graph neural network (GGNN) have demonstrated ground-breaking performance on many tasks mentioned above. In this survey, we provide a detailed review over existing graph neural network models, systematically categorize the applications, and propose four open problems for future research.<br><strong>翻译</strong>:许多学习任务需要处理包含元素之间丰富关系的图形数据，比如物理系统建模、学习分子指纹、预测蛋白质界面和分类疾病需要一个模型来学习图形输入，在其他领域，如从文本和图像等非结构性数据中学习，对提取结构的推理，如句子的依赖树和图像的场景图，是一个重要的研究课题，也需要图形推理模型。图形神经网络（GNN）是连接模型，通过图形节点之间的消息传递捕获图形的依赖性，与标准神经网络不同，图形神经网络保留一种状态，该状态可以表示来自其邻域的任意深度的信息。虽然已发现原始图神经网络难以训练固定点，但网络架构，优化技术和并行计算的最新进展使得能够成功地学习它们。近年来，基于图卷积网络（GCN）和门控图神经网络（GGNN）的系统已经在上述许多任务中展示了突破性的性能。在本次调查中，我们对现有的图神经网络模型进行了详细的回顾，系统地对应用进行了分类，并为未来的研究提出了四个未解决的问题。</p>
 <h3 id="Contribution-2"><a href="#Contribution-2" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h3><hr>
-<h1 id="人脸识别"><a href="#人脸识别" class="headerlink" title="人脸识别"></a>人脸识别</h1><h2 id="Git-Loss-for-Deep-Face-Recognition"><a href="#Git-Loss-for-Deep-Face-Recognition" class="headerlink" title="Git Loss for Deep Face Recognition"></a>Git Loss for Deep Face Recognition</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1807.08512" target="_blank" rel="external">Git Loss for Deep Face Recognition</a><br><strong>code</strong>:<a href="https://github.com/kjanjua26/Git-Loss-For-Deep-Face-Recognition" target="_blank" rel="external">https://github.com/kjanjua26/Git-Loss-For-Deep-Face-Recognition</a><br><strong>Author</strong>:<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Calefati%2C+A" target="_blank" rel="external">Alessandro Calefati</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Janjua%2C+M+K" target="_blank" rel="external">Muhammad Kamran Janjua</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Nawaz%2C+S" target="_blank" rel="external">Shah Nawaz</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Gallo%2C+I" target="_blank" rel="external">Ignazio Gallo</a><br><strong>time:</strong>2018</p>
-<h3 id="Abstract-3"><a href="#Abstract-3" class="headerlink" title="Abstract"></a>Abstract</h3><p>Convolutional Neural Networks (CNNs) have been widely used in computer vision tasks, such as face recognition and verification, and have achieved state-of-the-art results due to their ability to capture discriminative deep features. Conventionally, CNNs have been trained with softmax as supervision signal to penalize the classification loss. In order to further enhance discriminative capability of deep features, we introduce a joint supervision signal, Git loss, which leverages on softmax and center loss functions. The aim of our loss function is to minimize the intra-class variations as well as maximize the inter-class distances. Such minimization and maximization of deep features is considered ideal for face recognition task. We perform experiments on two popular face recognition benchmarks datasets and show that our proposed loss function achieves maximum separability between deep face features of different identities and achieves state-of-the-art accuracy on two major face recognition benchmark datasets: Labeled Faces in the Wild (LFW) and YouTube Faces (YTF). However, it should be noted that the major objective of Git loss is to achieve maximum separability between deep features of divergent identities. The code has also been made publicly available<br><strong>翻译</strong>：卷积神经网络（CNN）已被广泛用于计算机视觉任务，例如人脸识别和验证，并且由于其捕获有辨别力的深层特征的能力而已经获得了最先进的结果。传统上，CNN已经用softmax作为监督信号进行训练以惩罚分类损失。为了进一步增强深度特征的判别能力，我们引入了一个联合监督信号Git loss，它利用softmax和center loss函数。我们的损失函数的目标是最小化类内距离以及最大化类间距离。这种深度特征的最小化和最大化被认为是面部识别任务的理想选择。我们在两个流行的人脸识别benchmark上进行实验，并表明我们提出的损失函数实现了不同身份的深面特征之间的最大可分离性，并在两个主要的人脸识别基准数据集上实现了最先进的准确度：LFW和YouTube Faces（YTF）。但是，应该指出的是，Git loss的主要目标是在不同身份的深层特征之间实现最大可分离性。该代码也已公开发布。</p>
-<p><img src="/images/QQ图片20181208205830.png" alt="Q图片2018120820583"></p>
+<h2 id="Learning-a-Deep-ConvNet-for-Multi-label-Classification-with-Partial-Labels"><a href="#Learning-a-Deep-ConvNet-for-Multi-label-Classification-with-Partial-Labels" class="headerlink" title="Learning a Deep ConvNet for Multi-label Classification with Partial Labels"></a>Learning a Deep ConvNet for Multi-label Classification with Partial Labels</h2><p><strong>paper</strong>:h<a href="http://arxiv.org/abs/1902.09720" target="_blank" rel="external">Learning a Deep ConvNet for Multi-label Classification with Partial …</a><br><strong>code</strong>:-<br><strong>Author</strong>:<br><strong>time</strong>: 2019<code>CVPR</code></p>
+<h3 id="Abstract-3"><a href="#Abstract-3" class="headerlink" title="Abstract"></a>Abstract</h3><p>Deep ConvNets have shown great performance for single-label image classification (e.g. ImageNet), but it is necessary to move beyond the single-label classification task because pictures of everyday life are inherently multilabel. Multi-label classification is a more difficult task than single-label classification because both the input images and output label spaces are more complex. Furthermore, collecting clean multi-label annotations is more difficult to scale-up than single-label annotations. To reduce the annotation cost, we propose to train a model with partial labels i.e. only some labels are known per image. We first empirically compare different labeling strategies to show the potential for using partial labels on multi-label datasets. Then to learn with partial labels, we introduce a new classification loss that exploits the proportion of known labels per example. Our approach allows the use of the same training settings as when learning with all the annotations. We further explore several curriculum learning based strategies to predict missing labels. Experiments are performed on three large-scale multi-label datasets: MS COCO, NUS-WIDE and Open Images<br><strong>翻译</strong>:深度卷积神经网络在单标签图像分类方面表现得非常好，但是有必要超越多标签分类任务，因为日常生活的图片本质上是多标签的。多标签分类比单标签分类更困难，因为输入图像和输出标签空间都更复杂。此外，收集干净的多标签标注比单标签标注更难扩展。为了减少标注成本，我们提出训练仅利用部分标签训练一个模型，即每个图像仅知道一些标签。我们首先根据经验比较不同的标记策略，以显示在多标签数据集上使用部分标签的可能性。然后为了学习部分标签，我们引入了一个新的分类损失，它利用了每个例子中已知标签的比例，我们的方法允许使用与学习所有注释时相同的训练参数设置，我们进一步探索了几种基于课程学习的策略来预测缺失标签实验。实验是在三个大型多标签数据集上进行：MS COCO，NUS-WIDE和Open Images</p>
 <h3 id="Contribution-3"><a href="#Contribution-3" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
+<li>Empirically compare several labeling strategies for multi-label datasets to highlight the potential for learning with partial labels.</li>
+<li>Propose a scalable method to learn a ConvNet with partial labels.Introduce a loss function that  generalizes the standard binary cross-entropy loss by exploiting label proportion information.</li>
+<li>A method to predict missing labels.</li>
+</ul>
+<h3 id="Summary-3"><a href="#Summary-3" class="headerlink" title="Summary"></a>Summary</h3><hr>
+<h1 id="人脸识别"><a href="#人脸识别" class="headerlink" title="人脸识别"></a>人脸识别</h1><h2 id="Git-Loss-for-Deep-Face-Recognition"><a href="#Git-Loss-for-Deep-Face-Recognition" class="headerlink" title="Git Loss for Deep Face Recognition"></a>Git Loss for Deep Face Recognition</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1807.08512" target="_blank" rel="external">Git Loss for Deep Face Recognition</a><br><strong>code</strong>:<a href="https://github.com/kjanjua26/Git-Loss-For-Deep-Face-Recognition" target="_blank" rel="external">https://github.com/kjanjua26/Git-Loss-For-Deep-Face-Recognition</a><br><strong>Author</strong>:<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Calefati%2C+A" target="_blank" rel="external">Alessandro Calefati</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Janjua%2C+M+K" target="_blank" rel="external">Muhammad Kamran Janjua</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Nawaz%2C+S" target="_blank" rel="external">Shah Nawaz</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Gallo%2C+I" target="_blank" rel="external">Ignazio Gallo</a><br><strong>time:</strong>2018</p>
+<h3 id="Abstract-4"><a href="#Abstract-4" class="headerlink" title="Abstract"></a>Abstract</h3><p>Convolutional Neural Networks (CNNs) have been widely used in computer vision tasks, such as face recognition and verification, and have achieved state-of-the-art results due to their ability to capture discriminative deep features. Conventionally, CNNs have been trained with softmax as supervision signal to penalize the classification loss. In order to further enhance discriminative capability of deep features, we introduce a joint supervision signal, Git loss, which leverages on softmax and center loss functions. The aim of our loss function is to minimize the intra-class variations as well as maximize the inter-class distances. Such minimization and maximization of deep features is considered ideal for face recognition task. We perform experiments on two popular face recognition benchmarks datasets and show that our proposed loss function achieves maximum separability between deep face features of different identities and achieves state-of-the-art accuracy on two major face recognition benchmark datasets: Labeled Faces in the Wild (LFW) and YouTube Faces (YTF). However, it should be noted that the major objective of Git loss is to achieve maximum separability between deep features of divergent identities. The code has also been made publicly available<br><strong>翻译</strong>：卷积神经网络（CNN）已被广泛用于计算机视觉任务，例如人脸识别和验证，并且由于其捕获有辨别力的深层特征的能力而已经获得了最先进的结果。传统上，CNN已经用softmax作为监督信号进行训练以惩罚分类损失。为了进一步增强深度特征的判别能力，我们引入了一个联合监督信号Git loss，它利用softmax和center loss函数。我们的损失函数的目标是最小化类内距离以及最大化类间距离。这种深度特征的最小化和最大化被认为是面部识别任务的理想选择。我们在两个流行的人脸识别benchmark上进行实验，并表明我们提出的损失函数实现了不同身份的深面特征之间的最大可分离性，并在两个主要的人脸识别基准数据集上实现了最先进的准确度：LFW和YouTube Faces（YTF）。但是，应该指出的是，Git loss的主要目标是在不同身份的深层特征之间实现最大可分离性。该代码也已公开发布。</p>
+<p><img src="/images/QQ图片20181208205830.png" alt="Q图片2018120820583"></p>
+<h3 id="Contribution-4"><a href="#Contribution-4" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
 <li>A novel loss function which leverages on softmax and center loss to provide segregative abilities to deep architectures and enhance the discrimination of deep features tofurther improve the face recognition task</li>
 <li>Easy implementation of the proposed loss function with standard CNN architectures.Our network is end-to-end trainable and can be directly optimized by fairly standard optimizers such as Stochastic Gradient Descent (SGD).</li>
 <li>We validate our ideas and compare Git loss against different supervision signals. We evaluate the proposed loss function on available datasets, and demonstrate state-ofthe-art results. </li>
 </ul>
-<h3 id="Summary-3"><a href="#Summary-3" class="headerlink" title="Summary"></a>Summary</h3><p>在center loss的基础上增加了额外的约束，使学习到的特征比center loss具有更大的类间距离和更小的类内距离。</p>
+<h3 id="Summary-4"><a href="#Summary-4" class="headerlink" title="Summary"></a>Summary</h3><p>在center loss的基础上增加了额外的约束，使学习到的特征比center loss具有更大的类间距离和更小的类内距离。</p>
 <hr>
 <h1 id="表情识别"><a href="#表情识别" class="headerlink" title="表情识别"></a>表情识别</h1><h2 id="Facial-Expression-Recognition-with-Inconsistently-Annotated-Datasets"><a href="#Facial-Expression-Recognition-with-Inconsistently-Annotated-Datasets" class="headerlink" title="Facial Expression Recognition with Inconsistently Annotated Datasets"></a>Facial Expression Recognition with Inconsistently Annotated Datasets</h2><p><strong>paper</strong>:<a href="http://openaccess.thecvf.com/content_ECCV_2018/papers/Jiabei_Zeng_Facial_Expression_Recognition_ECCV_2018_paper.pdf" target="_blank" rel="external">http://openaccess.thecvf.com/content_ECCV_2018/papers/Jiabei_Zeng_Facial_Expression_Recognition_ECCV_2018_paper.pdf</a><br><strong>code</strong>:<a href="https://github.com/dualplus/LTNet" target="_blank" rel="external">https://github.com/dualplus/LTNet</a><br><strong>Author</strong>:  Jiabei Zeng, Shiguang Shan, and Xilin Chen<br><strong>time</strong>: ECCV2018</p>
-<h3 id="Abstract-4"><a href="#Abstract-4" class="headerlink" title="Abstract"></a>Abstract</h3><p>Annotation errors and bias are inevitable among different facial expression datasets due to the subjectiveness of annotating facial expressions. Ascribe to the inconsistent annotations, performance of existing facial expression recognition (FER) methods cannot keep improving when the training set is enlarged by merging multiple datasets. To address the inconsistency, we propose an Inconsistent Pseudo Annotations to Latent Truth(IPA2LT) framework to train a FER model from multiple inconsistently labeled datasets and large scale unlabeled data. In IPA2LT, we assign each sample more than one labels with human annotations or model predictions. Then, we propose an end-to-end LTNet with a scheme of discovering the latent truth from the inconsistent pseudo labels and the input face images. To our knowledge, IPA2LT serves as the first work to solve the training problem with inconsistently labeled FER datasets. Experiments on synthetic data validate the effectiveness of the proposed method in learning from inconsistent labels. We also conduct extensive experiments in FER and show that our method outperforms other state-of-the-art and optional methods under a rigorous evaluation protocol involving 7 FER datasets<br><strong>翻译</strong>:由于标注面部表情的主观性，标注错误和误差在不同的面部表情数据集种是不可避免的，归因于不一致的标注。当通过合并多个数据集扩大数据集时，现有的面部表情识别方法的性能不能持续提升，为了解决这种不一致性，我们提出了一种不一致的潜在真实伪标注(IPA2LT)框架，用于从多个不一致标记的数据集和大规模未标记数据中训练FER模型。在IPA2LT中，我们未每个样本分配多个带有人工标注或模型预测的标签，然后我们提出一种端到端的LTNet，其思想时从不一致的伪标签和输入的面部图像中发现潜在的真相(也就是真实标签)。据我们所知，IPA2LT是第一个用不一致标记的FER数据集来解决训练问题的工作，对合成数据的实验验证了所提出的方法从不一致标签中学习的有效性。我们还在FER中进行了大量实验，并表明我们的方法在涉及7个FER数据集的严格评估协议下优于其他最先进和可选的方法。</p>
+<h3 id="Abstract-5"><a href="#Abstract-5" class="headerlink" title="Abstract"></a>Abstract</h3><p>Annotation errors and bias are inevitable among different facial expression datasets due to the subjectiveness of annotating facial expressions. Ascribe to the inconsistent annotations, performance of existing facial expression recognition (FER) methods cannot keep improving when the training set is enlarged by merging multiple datasets. To address the inconsistency, we propose an Inconsistent Pseudo Annotations to Latent Truth(IPA2LT) framework to train a FER model from multiple inconsistently labeled datasets and large scale unlabeled data. In IPA2LT, we assign each sample more than one labels with human annotations or model predictions. Then, we propose an end-to-end LTNet with a scheme of discovering the latent truth from the inconsistent pseudo labels and the input face images. To our knowledge, IPA2LT serves as the first work to solve the training problem with inconsistently labeled FER datasets. Experiments on synthetic data validate the effectiveness of the proposed method in learning from inconsistent labels. We also conduct extensive experiments in FER and show that our method outperforms other state-of-the-art and optional methods under a rigorous evaluation protocol involving 7 FER datasets<br><strong>翻译</strong>:由于标注面部表情的主观性，标注错误和误差在不同的面部表情数据集种是不可避免的，归因于不一致的标注。当通过合并多个数据集扩大数据集时，现有的面部表情识别方法的性能不能持续提升，为了解决这种不一致性，我们提出了一种不一致的潜在真实伪标注(IPA2LT)框架，用于从多个不一致标记的数据集和大规模未标记数据中训练FER模型。在IPA2LT中，我们未每个样本分配多个带有人工标注或模型预测的标签，然后我们提出一种端到端的LTNet，其思想时从不一致的伪标签和输入的面部图像中发现潜在的真相(也就是真实标签)。据我们所知，IPA2LT是第一个用不一致标记的FER数据集来解决训练问题的工作，对合成数据的实验验证了所提出的方法从不一致标签中学习的有效性。我们还在FER中进行了大量实验，并表明我们的方法在涉及7个FER数据集的严格评估协议下优于其他最先进和可选的方法。</p>
 <p><img src="/images/QQ%E5%9B%BE%E7%89%8720181218105946.png" alt="Q图片2018121810594"></p>
 <p>训练过程分为3步：</p>
 <ol>
@@ -194,16 +383,16 @@
 <li>模型的预测结果可能和人工标注不一致，它们将作为一些人工标注数据集和大规模未标注数据集中每个图片的多个标签，每个未标注数据作为数据集A和数据集B之间的桥梁，因为它们是用相同的模型预测出来的结果。</li>
 <li>训练LTNet，预测图片输出隐藏的真实标签，</li>
 </ol>
-<h3 id="Contribution-4"><a href="#Contribution-4" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
+<h3 id="Contribution-5"><a href="#Contribution-5" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
 <li>提出了一个相对未研究过的问题：如何从多个标注不同的数据集中训练分类器，据我们所知，这是第一个解决不同的FER数据集标注不一致的工作</li>
 <li>提出了IPA2LT的框架从多个标注不一致的数据集和大规模未标注的数据上训练一个FER模型，提出了一个端到端训练的LTNet</li>
 <li>在合成数据和真实数据上的实验验证了所提出的方法在从不一致标签中学习的有效性，我们在FER中进行了广泛的实验，并在涉及7个FER数据集的严格评估写一下展示了IPA2LT优于现有技术的优势</li>
 </ul>
-<h3 id="Summary-4"><a href="#Summary-4" class="headerlink" title="Summary"></a>Summary</h3><p>从表情识别这一任务的特性–具有主观性，发现数据集标签不一致的情况，提出一个端到端的训练模型，从不一致的标签学习到标签之间潜在的关联，从而输出隐藏的真实标签，对于合并数据集来说，是一种方法，且有一定的合理性，并进行大量实验，发现在表情数据集上合并训练的效果要优于单独训练，并且本文提出的办法要优于其他混合的方法。</p>
+<h3 id="Summary-5"><a href="#Summary-5" class="headerlink" title="Summary"></a>Summary</h3><p>从表情识别这一任务的特性–具有主观性，发现数据集标签不一致的情况，提出一个端到端的训练模型，从不一致的标签学习到标签之间潜在的关联，从而输出隐藏的真实标签，对于合并数据集来说，是一种方法，且有一定的合理性，并进行大量实验，发现在表情数据集上合并训练的效果要优于单独训练，并且本文提出的办法要优于其他混合的方法。</p>
 <hr>
 <h2 id="Facial-Expression-Recognition-using-Facial-Landmark-Detection-and-Feature-Extraction-on-Neural-Networks"><a href="#Facial-Expression-Recognition-using-Facial-Landmark-Detection-and-Feature-Extraction-on-Neural-Networks" class="headerlink" title="Facial Expression Recognition using Facial Landmark Detection and Feature Extraction on Neural Networks"></a>Facial Expression Recognition using Facial Landmark Detection and Feature Extraction on Neural Networks</h2><p><strong>paper</strong>:<a href="http://arxiv.org/abs/1812.04510v1" target="_blank" rel="external">Facial Expression Recognition using Facial Landmark Detection and Feature Extraction on Neural Networks</a><br><strong>code</strong>:<br><strong>Author</strong>:  Fuzail Khan<br><strong>time</strong>: 2018.12</p>
-<h3 id="Abstract-5"><a href="#Abstract-5" class="headerlink" title="Abstract"></a>Abstract</h3><p>The proposed framework in this paper has the primary objective of classifying the facial expression shown by a person using facial landmark detection and feature extraction. These classifiable expressions can be any one of the six universal emotions along with the neutral emotion. After initial facial detection, facial landmark detection and feature extraction are performed (where in the landmarks were determined to be the fiducial features: theeyebrows, eyes, nose and lips). This is primarily done using the Sobel horizontal edge detection method and the Shi Tomasi corner point detector. Thisleads to input feature vectors being formulated and trained into a Multi-LayerPerceptron (MLP) neural network in order to classify the expression beingdisplayed. Facial Expression Recognition (FER) is a significant step inreaching the eventual goal of artificial intelligence. If efficient methods can be brought about to automatically recognize these expressions, major advances may be achieved in computer vision.<br><strong>翻译</strong>:本文提出的框架的主要目的是使用人脸关键点检测和特征提取对面部表情进行分类，这些可分类的表情可以是6种普遍情绪种的任何一种或者中性情绪，在初始的面部检测之后，执行面部关键点检测和特征提取，主要使用Sobel水平边缘检测方法和Shi Tomasi角点检测器完成。这导致输入特征向量被指定并训练成多层感知器(MLP)神经网络，以便对表情进行分类。FER是实现人工智能最终目标的重要一步，如果可以利用有效的方法自动识别这些表情，则可以在计算机视觉中实现重大进步。</p>
-<h3 id="Contribution-5"><a href="#Contribution-5" class="headerlink" title="Contribution"></a>Contribution</h3><p><img src="/images/QQ%E5%9B%BE%E7%89%8720181222194912.png" alt="Q图片2018122219491"><br><img src="/images/QQ%E5%9B%BE%E7%89%8720181222195057.png" alt="Q图片2018122219505"></p>
+<h3 id="Abstract-6"><a href="#Abstract-6" class="headerlink" title="Abstract"></a>Abstract</h3><p>The proposed framework in this paper has the primary objective of classifying the facial expression shown by a person using facial landmark detection and feature extraction. These classifiable expressions can be any one of the six universal emotions along with the neutral emotion. After initial facial detection, facial landmark detection and feature extraction are performed (where in the landmarks were determined to be the fiducial features: theeyebrows, eyes, nose and lips). This is primarily done using the Sobel horizontal edge detection method and the Shi Tomasi corner point detector. Thisleads to input feature vectors being formulated and trained into a Multi-LayerPerceptron (MLP) neural network in order to classify the expression beingdisplayed. Facial Expression Recognition (FER) is a significant step inreaching the eventual goal of artificial intelligence. If efficient methods can be brought about to automatically recognize these expressions, major advances may be achieved in computer vision.<br><strong>翻译</strong>:本文提出的框架的主要目的是使用人脸关键点检测和特征提取对面部表情进行分类，这些可分类的表情可以是6种普遍情绪种的任何一种或者中性情绪，在初始的面部检测之后，执行面部关键点检测和特征提取，主要使用Sobel水平边缘检测方法和Shi Tomasi角点检测器完成。这导致输入特征向量被指定并训练成多层感知器(MLP)神经网络，以便对表情进行分类。FER是实现人工智能最终目标的重要一步，如果可以利用有效的方法自动识别这些表情，则可以在计算机视觉中实现重大进步。</p>
+<h3 id="Contribution-6"><a href="#Contribution-6" class="headerlink" title="Contribution"></a>Contribution</h3><p><img src="/images/QQ%E5%9B%BE%E7%89%8720181222194912.png" alt="Q图片2018122219491"><br><img src="/images/QQ%E5%9B%BE%E7%89%8720181222195057.png" alt="Q图片2018122219505"></p>
 <ul>
 <li>首先对输入的图片进行预处理，主要是去除不想要的噪声，增强图片的对比度，先用低通3x3高斯滤波器，有助于平滑图像并使梯度强度正则化，然后进行对比度自适应直方图均衡，用于光照强度修正</li>
 <li>人脸检测利用基于Haar特征的级联分类器</li>
@@ -216,28 +405,28 @@
 <li>提取特征向量，通过上一步骤提取到了特征点(F1-F18)，这一步使决定输入的特征向量送入神经网络中<br><img src="/images/QQ%E5%9B%BE%E7%89%8720181222203519.png" alt="Q图片2018122220351"></li>
 <li>训练神经网络，进行分类</li>
 </ul>
-<h3 id="Summary-5"><a href="#Summary-5" class="headerlink" title="Summary"></a>Summary</h3><p>这篇论文感觉方法还不是很先进，但是可能在某些特殊的数据集（表情很明显，图像质量比较好）效果会比较好，而论文选用的数据集从给出的例子来看，表情都是比较夸张的。</p>
+<h3 id="Summary-6"><a href="#Summary-6" class="headerlink" title="Summary"></a>Summary</h3><p>这篇论文感觉方法还不是很先进，但是可能在某些特殊的数据集（表情很明显，图像质量比较好）效果会比较好，而论文选用的数据集从给出的例子来看，表情都是比较夸张的。</p>
 <hr>
 <h1 id="步态识别"><a href="#步态识别" class="headerlink" title="步态识别"></a>步态识别</h1><h2 id="GaitSet"><a href="#GaitSet" class="headerlink" title="GaitSet"></a>GaitSet</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1811.06186" target="_blank" rel="external">GaitSet:Regarding Gait as a Set for Cross-View Gait Recognition</a><br><strong>code</strong>:<a href="https://github.com/AbnerHqC/GaitSet" target="_blank" rel="external">https://github.com/AbnerHqC/GaitSet</a><br><strong>Author</strong>: Chao, Hanqing and He, Yiwei and Zhang, Junping and Feng, Jianfeng<br><strong>time</strong>: 2019</p>
-<h3 id="Abstract-6"><a href="#Abstract-6" class="headerlink" title="Abstract"></a>Abstract</h3><p>As a unique biometric feature that can be recognized at a distance, gait has broad applications in crime prevention, forensic identification and social security. To portray a gait, existing gait recognition methods utilize either a gait template, where temporal information is hard to preserve, or a gait sequence, which must keep unnecessary sequential constraints and thus loses the flexibility of gait recognition. In this paper we present a novel perspective, where a gait is regarded as a set consisting of independent frames. We propose a new network named GaitSet to learn identity information from the set. Based on the set perspective, our method is immune to permutation of frames, and can naturally integrate frames from different videos which have been filmed under different scenarios, such as diverse viewing angles, different clothes/carrying conditions. Experiments show that under normal walking conditions, our single-model method achieves an average rank-1 accuracy of 95.0% on the CASIAB gait dataset and an 87.1% accuracy on the OU MVLP gait dataset. These results represent new state-of-the-art recognition accuracy. On various complex scenarios, our model exhibits a significant level of robustness. It achieves accuracies of 87.2% and 70.4% on CASIA-B under bag carrying and coat-wearing walking conditions, respectively. These outperform the existing best methods by a large margin. The method presented can also achieve a satisfactory accuracy with a small number of frames in a test sample, e.g., 82.5% on CASIAB with only 7 frames.<br><strong>翻译</strong>:作为一种可以远距离识别的独特的生物识别特征，步态在预防犯罪、法医鉴定和社会安全方面具有广泛应用。为了描绘步态，现有的步态识别方法利用步态模板（其中时间信息难以保存）或步态序列，其必须保持不必要的顺序约束并因此丧失步态识别的灵活性，在本文中，我们提出了一种新颖的视角，其中步态被视为由独立框架组成的集合。我们提出了一个名为GaitSet的新网络来学习集合中的身份信息。基于设定的视角，我们的方法不受帧的排列的影响，并且可以<strong>自然地整合来自在不同场景下拍摄地不同视频地帧，例如不同的视角，不同的衣服/着装</strong>。实验表明，在正常步行条件下，我们的单模型方法在CASIA-B步态数据集上实现了95%的平均Rank-1的准确率，在OU MVLP步态数据集上达到了87.1%的准确率。这些结果代表了新的最先进的步态识别准确率，在各种复杂场景中，我们的模型具有显著的鲁棒性，在携带包和穿着外套的行走场景中，CASIA-B的准确率分别达到了87.2%和70.4%的准确率，它们大大优于现有的最佳方法，本文提出的方法还在具有少量帧的测试样本下实现了令人满意的准确率，例如只有7帧的CASIA-B数据集达到了82.5%的准确率。</p>
-<h3 id="Contribution-6"><a href="#Contribution-6" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-6"><a href="#Summary-6" class="headerlink" title="Summary"></a>Summary</h3><hr>
+<h3 id="Abstract-7"><a href="#Abstract-7" class="headerlink" title="Abstract"></a>Abstract</h3><p>As a unique biometric feature that can be recognized at a distance, gait has broad applications in crime prevention, forensic identification and social security. To portray a gait, existing gait recognition methods utilize either a gait template, where temporal information is hard to preserve, or a gait sequence, which must keep unnecessary sequential constraints and thus loses the flexibility of gait recognition. In this paper we present a novel perspective, where a gait is regarded as a set consisting of independent frames. We propose a new network named GaitSet to learn identity information from the set. Based on the set perspective, our method is immune to permutation of frames, and can naturally integrate frames from different videos which have been filmed under different scenarios, such as diverse viewing angles, different clothes/carrying conditions. Experiments show that under normal walking conditions, our single-model method achieves an average rank-1 accuracy of 95.0% on the CASIAB gait dataset and an 87.1% accuracy on the OU MVLP gait dataset. These results represent new state-of-the-art recognition accuracy. On various complex scenarios, our model exhibits a significant level of robustness. It achieves accuracies of 87.2% and 70.4% on CASIA-B under bag carrying and coat-wearing walking conditions, respectively. These outperform the existing best methods by a large margin. The method presented can also achieve a satisfactory accuracy with a small number of frames in a test sample, e.g., 82.5% on CASIAB with only 7 frames.<br><strong>翻译</strong>:作为一种可以远距离识别的独特的生物识别特征，步态在预防犯罪、法医鉴定和社会安全方面具有广泛应用。为了描绘步态，现有的步态识别方法利用步态模板（其中时间信息难以保存）或步态序列，其必须保持不必要的顺序约束并因此丧失步态识别的灵活性，在本文中，我们提出了一种新颖的视角，其中步态被视为由独立框架组成的集合。我们提出了一个名为GaitSet的新网络来学习集合中的身份信息。基于设定的视角，我们的方法不受帧的排列的影响，并且可以<strong>自然地整合来自在不同场景下拍摄地不同视频地帧，例如不同的视角，不同的衣服/着装</strong>。实验表明，在正常步行条件下，我们的单模型方法在CASIA-B步态数据集上实现了95%的平均Rank-1的准确率，在OU MVLP步态数据集上达到了87.1%的准确率。这些结果代表了新的最先进的步态识别准确率，在各种复杂场景中，我们的模型具有显著的鲁棒性，在携带包和穿着外套的行走场景中，CASIA-B的准确率分别达到了87.2%和70.4%的准确率，它们大大优于现有的最佳方法，本文提出的方法还在具有少量帧的测试样本下实现了令人满意的准确率，例如只有7帧的CASIA-B数据集达到了82.5%的准确率。</p>
+<h3 id="Contribution-7"><a href="#Contribution-7" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-7"><a href="#Summary-7" class="headerlink" title="Summary"></a>Summary</h3><hr>
 <h1 id="神经网络和森林"><a href="#神经网络和森林" class="headerlink" title="神经网络和森林"></a>神经网络和森林</h1><h2 id="Deep-Neural-Decision-Forests"><a href="#Deep-Neural-Decision-Forests" class="headerlink" title="Deep Neural Decision  Forests"></a>Deep Neural Decision  Forests</h2><p><strong>paper</strong>:<a href="https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Kontschieder_Deep_Neural_Decision_ICCV_2015_paper.pdf" target="_blank" rel="external">Deep neural decision forests</a><br><strong>code</strong>:<br><strong>Author</strong>:<br><strong>time:</strong>ICCV2015</p>
-<h3 id="Abstract-7"><a href="#Abstract-7" class="headerlink" title="Abstract"></a>Abstract</h3><p>We present Deep Neural Decision Forests – a novel approach that unifies classification trees with the representation learning  known from deep convolutional networks, by training them in an end-to-end manner. To combine these two worlds, we introduce a stochastic and differentiable decision tree model, which steers the representation learning usually conducted in the initial layers of a (deep) convolutional network. Our model differs from conventional deep networks because a decision forest provides the final predictions and it differs from conventional decision forests since we propose a principled, joint and global optimization of split and leaf node parameters. We show experimental results on benchmark machine learning datasets like MNIST and ImageNet and find onpar or superior results when compared to state-of-the-art deep models. Most remarkably, we obtain Top5-Errors of only 7.84%/6.38% on ImageNet validation data when integrating our forests in a single-crop, single/seven model GoogLeNet architecture, respectively. Thus, even without any form of training data set augmentation we are improving on the 6.67% error obtained by the best GoogLeNet architecture (7 models, 144 crops).<br><strong>翻译</strong>:我们提出了深度神经决策森林–一个新的方法可以通过端到端的训练将分类树和深度卷积卷积网络中的表征学习功能统一起来。为了把这两个方法结合起来，我们引入了一个随机可微分的决策树模型，控制一般在（深度）卷积网络的初始层进行的表征学习。我们的模型不同于传统的深度网络，因为决策森林进行最后的预测，它与传统的决策森林不同，因为我们提出了分裂节点和叶子节点参数的联合全局优化原则。我们展示了在类似MNIST和ImageNet的benchmark上的实验结果，并与最先进的深度模型进行比较，发现了优于它们的结果。最值得注意的是，当我们在ImageNet验证数据上获得的Top5误差仅为7.84%/6.38%。因此即使没有任何形式的训练数据增强，我们也在最佳的GoogleNet架构(7种模型，144 crops）上得到6.67%的误差。</p>
+<h3 id="Abstract-8"><a href="#Abstract-8" class="headerlink" title="Abstract"></a>Abstract</h3><p>We present Deep Neural Decision Forests – a novel approach that unifies classification trees with the representation learning  known from deep convolutional networks, by training them in an end-to-end manner. To combine these two worlds, we introduce a stochastic and differentiable decision tree model, which steers the representation learning usually conducted in the initial layers of a (deep) convolutional network. Our model differs from conventional deep networks because a decision forest provides the final predictions and it differs from conventional decision forests since we propose a principled, joint and global optimization of split and leaf node parameters. We show experimental results on benchmark machine learning datasets like MNIST and ImageNet and find onpar or superior results when compared to state-of-the-art deep models. Most remarkably, we obtain Top5-Errors of only 7.84%/6.38% on ImageNet validation data when integrating our forests in a single-crop, single/seven model GoogLeNet architecture, respectively. Thus, even without any form of training data set augmentation we are improving on the 6.67% error obtained by the best GoogLeNet architecture (7 models, 144 crops).<br><strong>翻译</strong>:我们提出了深度神经决策森林–一个新的方法可以通过端到端的训练将分类树和深度卷积卷积网络中的表征学习功能统一起来。为了把这两个方法结合起来，我们引入了一个随机可微分的决策树模型，控制一般在（深度）卷积网络的初始层进行的表征学习。我们的模型不同于传统的深度网络，因为决策森林进行最后的预测，它与传统的决策森林不同，因为我们提出了分裂节点和叶子节点参数的联合全局优化原则。我们展示了在类似MNIST和ImageNet的benchmark上的实验结果，并与最先进的深度模型进行比较，发现了优于它们的结果。最值得注意的是，当我们在ImageNet验证数据上获得的Top5误差仅为7.84%/6.38%。因此即使没有任何形式的训练数据增强，我们也在最佳的GoogleNet架构(7种模型，144 crops）上得到6.67%的误差。</p>
 <p><img src="/images/QQ%E5%9B%BE%E7%89%8720181204203113.png" alt="Q图片2018120420311"></p>
-<h3 id="Contribution-7"><a href="#Contribution-7" class="headerlink" title="Contribution"></a>Contribution</h3><p>论文提出将分类树模型和深度神经网络的特征学习相结合进行端到端训练的深度学习方法。该方法使用决策森林(decision forest)作为最终的预测模型，提出了一套完整的、联合的、全局的深度学习参数优化方法。在手写数据库MNIST和图像分类数据库ImageNet的实验中都取得了超越当前最好方法的结果。</p>
-<h3 id="Summary-7"><a href="#Summary-7" class="headerlink" title="Summary"></a>Summary</h3><p>和年龄估计的deep regression forest不同的是，这是针对分类任务的决策森林，DRF正是受这篇论文的启发，将分类转化为回归，这也是年龄任务的特点。</p>
+<h3 id="Contribution-8"><a href="#Contribution-8" class="headerlink" title="Contribution"></a>Contribution</h3><p>论文提出将分类树模型和深度神经网络的特征学习相结合进行端到端训练的深度学习方法。该方法使用决策森林(decision forest)作为最终的预测模型，提出了一套完整的、联合的、全局的深度学习参数优化方法。在手写数据库MNIST和图像分类数据库ImageNet的实验中都取得了超越当前最好方法的结果。</p>
+<h3 id="Summary-8"><a href="#Summary-8" class="headerlink" title="Summary"></a>Summary</h3><p>和年龄估计的deep regression forest不同的是，这是针对分类任务的决策森林，DRF正是受这篇论文的启发，将分类转化为回归，这也是年龄任务的特点。</p>
 <hr>
 <h2 id="Distilling-a-Neural-Network-Into-a-Soft-Decision-Tree"><a href="#Distilling-a-Neural-Network-Into-a-Soft-Decision-Tree" class="headerlink" title="Distilling a Neural Network Into a Soft Decision Tree"></a>Distilling a Neural Network Into a Soft Decision Tree</h2><p><strong>paper</strong>:<a href="https://arxiv.org/abs/1711.09784" target="_blank" rel="external">Distilling a neural network into a soft decision tree</a><br><strong>code</strong>:<br><strong>Author</strong>:Geoffrey Hinton 、Nicholas Frosst、Google Brain Team<br><strong>time:</strong>2017</p>
-<h3 id="Abstract-8"><a href="#Abstract-8" class="headerlink" title="Abstract"></a>Abstract</h3><p>Deep neural networks have proved to be a very effective way to perform classification tasks. They excel when the input data is high dimensional, the relationship between the input and the output is complicated, and the number of labeled training examples is large [Szegedy et al., 2015, Wu et al., 2016, Jozefowicz et al., 2016, Graves et al., 2013]. But it is hard to explain why a learned network makes a particular classification decision on a particular test case. This is due to their reliance on distributed hierarchical representations. If we could take the knowledge acquired by the neural net and express the same knowledge in a model that relies on hierarchical decisions instead, explaining a particular decision would be much easier. We describe a way of using a trained neural net to create a type of soft decision tree that generalizes better than one learned directly from the training data.<br><strong>翻译</strong>：深度神经网络已经被证明是执行分类任务非常有效的方法，当输入数据是高维、输入和输出之间的关系很复杂、标记的训练样本数量很大时，表现优异。但很难解释为什么学习型网络会针对特定测试用例做出特定的分类觉得。这是因为它们依赖分布式层次表示(distributed hierarchical representations)。如果我们可以获取神经网络获得的知识并在依赖层级决策的模型中表现同样的知识，那么解释特定决策将更容易。我们描述了一种使用训练的神经网络来创建一种<strong>软决策树</strong>的方法，该决策树比直接从训练数据中学习有更强的泛化能力。</p>
+<h3 id="Abstract-9"><a href="#Abstract-9" class="headerlink" title="Abstract"></a>Abstract</h3><p>Deep neural networks have proved to be a very effective way to perform classification tasks. They excel when the input data is high dimensional, the relationship between the input and the output is complicated, and the number of labeled training examples is large [Szegedy et al., 2015, Wu et al., 2016, Jozefowicz et al., 2016, Graves et al., 2013]. But it is hard to explain why a learned network makes a particular classification decision on a particular test case. This is due to their reliance on distributed hierarchical representations. If we could take the knowledge acquired by the neural net and express the same knowledge in a model that relies on hierarchical decisions instead, explaining a particular decision would be much easier. We describe a way of using a trained neural net to create a type of soft decision tree that generalizes better than one learned directly from the training data.<br><strong>翻译</strong>：深度神经网络已经被证明是执行分类任务非常有效的方法，当输入数据是高维、输入和输出之间的关系很复杂、标记的训练样本数量很大时，表现优异。但很难解释为什么学习型网络会针对特定测试用例做出特定的分类觉得。这是因为它们依赖分布式层次表示(distributed hierarchical representations)。如果我们可以获取神经网络获得的知识并在依赖层级决策的模型中表现同样的知识，那么解释特定决策将更容易。我们描述了一种使用训练的神经网络来创建一种<strong>软决策树</strong>的方法，该决策树比直接从训练数据中学习有更强的泛化能力。</p>
 <p><img src="/images/QQ%E5%9B%BE%E7%89%8720181208183701.png" alt="Q图片2018120818370"><br>解释：上图为MNIST上训练的深度为4的软决策树的可视化图。内部节点处的图像是已学习的过滤器，而叶子处的图像是对已学习的类别概率分布的可视化。每片叶子最终最可能的分类，以及每个边缘的可能分类都被注释了。以最右边的内部节点为例，可以看到，在树的层级上，潜在的分类只有3或8，因此，学习的过滤器只是简单地学会区分这两个数字。其结果是一个查找连接3的末端的两个区域的过滤器，输出一个8。</p>
-<h3 id="Contribution-8"><a href="#Contribution-8" class="headerlink" title="Contribution"></a>Contribution</h3><p>针对深度神经网络无法解释其具体决策的问题，提出<code>软决策树</code>（Soft decision tree)，相较于从训练数据中直接学习的决策树，软决策树的泛化能力更强，并通过层级决策模型把DNN所习得的知识表达出来。</p>
-<h3 id="Summary-8"><a href="#Summary-8" class="headerlink" title="Summary"></a>Summary</h3><p>这篇论文和Deep neural decision forest不一样的是，这篇论文的重点是蒸馏(distillation)，从DNN蒸馏出DT(decision tree)，决策树去distilling 神经网络中的 knowledge，然后拿决策树去解释神经网络，而上一篇论文是将DNN和DT结合起来；上一篇论文是通过卷积神经网络得到原始数据的新特征放入决策树，本文是直接拿原始数据放入决策树。</p>
+<h3 id="Contribution-9"><a href="#Contribution-9" class="headerlink" title="Contribution"></a>Contribution</h3><p>针对深度神经网络无法解释其具体决策的问题，提出<code>软决策树</code>（Soft decision tree)，相较于从训练数据中直接学习的决策树，软决策树的泛化能力更强，并通过层级决策模型把DNN所习得的知识表达出来。</p>
+<h3 id="Summary-9"><a href="#Summary-9" class="headerlink" title="Summary"></a>Summary</h3><p>这篇论文和Deep neural decision forest不一样的是，这篇论文的重点是蒸馏(distillation)，从DNN蒸馏出DT(decision tree)，决策树去distilling 神经网络中的 knowledge，然后拿决策树去解释神经网络，而上一篇论文是将DNN和DT结合起来；上一篇论文是通过卷积神经网络得到原始数据的新特征放入决策树，本文是直接拿原始数据放入决策树。</p>
 <hr>
 <h2 id="Deep-Neural-Decision-Trees"><a href="#Deep-Neural-Decision-Trees" class="headerlink" title="Deep Neural Decision Trees"></a>Deep Neural Decision Trees</h2><p><strong>paper</strong>:<a href="http://arxiv.org/abs/1812.01187v1" target="_blank" rel="external"><a href="https://arxiv.org/abs/1806.06988" target="_blank" rel="external">Deep Neural Decision Trees</a></a><br><strong>code</strong>:<a href="https://github.com/wOOL/DNDT" target="_blank" rel="external">https://github.com/wOOL/DNDT</a><br><strong>Author</strong>:Yongxin Yang, Irene Garcia Morillo, Timothy M. Hospedales<br><strong>time</strong>:WHI 2018</p>
-<h3 id="Abstract-9"><a href="#Abstract-9" class="headerlink" title="Abstract"></a>Abstract</h3><p>Deep neural networks have been proven powerful at processing perceptual data, such as images and audio. However for tabular data, tree-based models are more popular. A nice property of tree-based models is their natural interpretability. In this work, we present Deep Neural Decision Trees (DNDT) – tree models realised by neural networks. A DNDT is intrinsically interpretable, as it is a tree. Yet as it is also a neural network (NN), it can be easily implemented in NN toolkits, and trained with gradient descent rather than greedy splitting. We evaluate DNDT on several tabular datasets, verify its efficacy, and investigate similarities and differences between DNDT and vanilla decision trees. Interestingly, DNDT self-prunes at both split and feature-level.<br><strong>翻译</strong>：已经证明了深度神经网络在处理感知数据（例如图像和音频）方面是强大的。但是对于表格数据，基于树的模型应用更多，基于树的模型的一个很好特性是它们的自然可解释性，在这项工作中，我们提出了深度神经决策树（DNDT）–通过神经网络实现的树模型网络。DNDT本质是可解释的，因为它是一棵树，然而，因为它也是一个神经网络，可以很容易地在NN toolkit中实现，并且使用梯度下降训练而不是贪婪地分裂。我们评估了几个DNDT地表格数据集，验证其功效，并研究DNDT之间地相似性和差异性，有趣地是，DNDT的分裂和特征级别地自我修剪。</p>
+<h3 id="Abstract-10"><a href="#Abstract-10" class="headerlink" title="Abstract"></a>Abstract</h3><p>Deep neural networks have been proven powerful at processing perceptual data, such as images and audio. However for tabular data, tree-based models are more popular. A nice property of tree-based models is their natural interpretability. In this work, we present Deep Neural Decision Trees (DNDT) – tree models realised by neural networks. A DNDT is intrinsically interpretable, as it is a tree. Yet as it is also a neural network (NN), it can be easily implemented in NN toolkits, and trained with gradient descent rather than greedy splitting. We evaluate DNDT on several tabular datasets, verify its efficacy, and investigate similarities and differences between DNDT and vanilla decision trees. Interestingly, DNDT self-prunes at both split and feature-level.<br><strong>翻译</strong>：已经证明了深度神经网络在处理感知数据（例如图像和音频）方面是强大的。但是对于表格数据，基于树的模型应用更多，基于树的模型的一个很好特性是它们的自然可解释性，在这项工作中，我们提出了深度神经决策树（DNDT）–通过神经网络实现的树模型网络。DNDT本质是可解释的，因为它是一棵树，然而，因为它也是一个神经网络，可以很容易地在NN toolkit中实现，并且使用梯度下降训练而不是贪婪地分裂。我们评估了几个DNDT地表格数据集，验证其功效，并研究DNDT之间地相似性和差异性，有趣地是，DNDT的分裂和特征级别地自我修剪。</p>
 <p><img src="/images/QQ%E5%9B%BE%E7%89%8720181213111619.png" alt="Q图片2018121311161"><br>红色表示训练时的变量，黑色表示常量</p>
 <p><img src="/images/QQ%E5%9B%BE%E7%89%8720181213111634.png" alt="Q图片2018121311163"><br>相同的网络用传统决策树展示，分数表示随机选择的6个事例的分类路线。</p>
-<h3 id="Contribution-9"><a href="#Contribution-9" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-9"><a href="#Summary-9" class="headerlink" title="Summary"></a>Summary</h3><p>和deep neural decision forest(Deep-NDF)不同的方面有：</p>
+<h3 id="Contribution-10"><a href="#Contribution-10" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-10"><a href="#Summary-10" class="headerlink" title="Summary"></a>Summary</h3><p>和deep neural decision forest(Deep-NDF)不同的方面有：</p>
 <ol>
 <li>DNDT不是使用交替优化策略优化结构学习（splitting)和参数学习(score matrix)，相反，直接使用反向传播来学习它们</li>
 <li>不会将分割限制为二进制（左或右），因为我们应用可以将节点分成多个（&gt;=2)叶子的可微分的bining functioin</li>
@@ -247,8 +436,8 @@
 <blockquote>
 <p>模板</p>
 <h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p><strong>paper</strong>:<br><strong>code</strong>:<br><strong>Author</strong>:<br><strong>time</strong>: </p>
-<h3 id="Abstract-10"><a href="#Abstract-10" class="headerlink" title="Abstract"></a>Abstract</h3><p><strong>翻译</strong>:</p>
-<h3 id="Contribution-10"><a href="#Contribution-10" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-10"><a href="#Summary-10" class="headerlink" title="Summary"></a>Summary</h3></blockquote>
+<h3 id="Abstract-11"><a href="#Abstract-11" class="headerlink" title="Abstract"></a>Abstract</h3><p><strong>翻译</strong>:</p>
+<h3 id="Contribution-11"><a href="#Contribution-11" class="headerlink" title="Contribution"></a>Contribution</h3><h3 id="Summary-11"><a href="#Summary-11" class="headerlink" title="Summary"></a>Summary</h3></blockquote>
 ]]></content>
     
     <summary type="html">
@@ -311,13 +500,19 @@
     <link href="calyp.github.io/2018/12/05/%E5%B9%B4%E9%BE%84%E4%BC%B0%E8%AE%A1/"/>
     <id>calyp.github.io/2018/12/05/年龄估计/</id>
     <published>2018-12-05T08:48:48.000Z</published>
-    <updated>2019-02-26T09:03:08.993Z</updated>
+    <updated>2019-03-27T07:12:49.064Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h1><ul>
 <li><strong>FG-Net</strong>:1002 images,0到69岁，82个人</li>
 <li><strong>MORPH1</strong>:1690 images</li>
 <li><strong>MORPH2</strong>:55608 images、unbalanced ethnic(96% African and European ,less than 1% Asian)，16到77岁</li>
 <li><strong>AFAD</strong>:160K Asian facial images(unrelease)</li>
+<li><strong>HOIP</strong>：300个人的306600幅，150个男0150个女</li>
+<li><strong>IAD数据库</strong>：从Internet上获取的175000幅，0-80岁     未公开</li>
+<li><strong>OAPFD数据库</strong>：865个人的865幅，23-60岁，全是男。清华大学数据库。</li>
+<li><strong>LHI亚洲人脸库</strong>：50000幅，20-80岁</li>
+<li><strong>PCSO数据集</strong>：10036幅，17-68岁</li>
+<li><strong>Audience benchmark</strong>：26580幅，年龄和性别标签，8个年龄组/0-2，4-6，8-13，15-20，25-32，38-43，48-53，60+</li>
 </ul>
 <h1 id="Ordinal-Regression"><a href="#Ordinal-Regression" class="headerlink" title="Ordinal Regression"></a>Ordinal Regression</h1><p><strong>paper：</strong><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Niu_Ordinal_Regression_With_CVPR_2016_paper.pdf" target="_blank" rel="external">Ordinal Regression With Multiple Output CNN for Age Estimation</a><code>CVPR2016</code><br><strong>code:</strong><a href="https://github.com/luoyetx/OrdinalRegression" target="_blank" rel="external">Ordinal Regression</a></p>
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>To address the non-stationary property of aging patterns, age estimation can be cast as an ordinal regression problem.However, the processes of extracting features and learning a regression model are often separated and optimized independently in previous work. In this paper, we propose an End-to-End learning approach to address ordinal regression problems using deep Convolutional Neural Network, which could simultaneously conduct feature learning andregression modeling. In particular, an ordinal regression problem is transformed into a series of binary classification sub-problems. And we propose a multiple output CNN learning algorithm to collectively solve these classification sub-problems, so that the correlation between these tasks could be explored. In addition, we publish an Asian Face Age Dataset (AFAD) containing more than 160K facial images with precise age ground-truths, which is the largest public age dataset to date. To the best of our knowledge, this is the first work to address ordinal regression problems by using CNN, and achieves the state-of-the-art performance on both the MORPH and AFAD datasets<br><strong>翻译</strong>：为了解决衰老模式的非平稳特性，可以将年龄估计作为序数回归问题。然而，在以前的工作中，提取特征和学习回归模型的过程通常是独立分离和优化的。在本文中，我们提出了一种端到端学习方法，使用深度卷积神经网络解决序数回归问题，可以同时进行特征学习和回归建模。特别是，序数回归问题转化为一系列二元分类子问题。我们提出了一种多输出CNN学习算法来集体解决这些分类子问题，从而可以探索这些任务之间的相关性。此外，我们发布了一个亚洲面部年龄数据集（AFAD），其中包含超过<strong>160K</strong>的面部图像，具有精确的年龄真实性，这是迄今为止最大的公共年龄数据集。据我们所知，这是通过使用CNN解决序数回归问题的第一项工作，并在MORPH和AFAD数据集上实现了最先进的性能。<br><img src="/images/QQ%E5%9B%BE%E7%89%8720181202120825.png" alt="Q图片2018120212082"></p>
@@ -375,10 +570,10 @@
   
   <entry>
     <title>手册&amp;指南</title>
-    <link href="calyp.github.io/2018/04/27/%E6%89%8B%E5%86%8C&amp;%E6%8C%87%E5%8D%97/"/>
-    <id>calyp.github.io/2018/04/27/手册&amp;指南/</id>
-    <published>2018-04-27T01:32:52.000Z</published>
-    <updated>2018-12-05T09:25:16.952Z</updated>
+    <link href="calyp.github.io/2018/05/27/%E6%89%8B%E5%86%8C&amp;%E6%8C%87%E5%8D%97/"/>
+    <id>calyp.github.io/2018/05/27/手册&amp;指南/</id>
+    <published>2018-05-27T01:32:52.000Z</published>
+    <updated>2019-07-04T13:05:15.518Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Linux操作相关"><a href="#Linux操作相关" class="headerlink" title="Linux操作相关"></a>Linux操作相关</h1><p>##基本操作<br><strong>打包</strong>：<br>​       <code>tar -cvf xx.tar xxx</code><br>​       <code>tar zcvf xx.tar.gz xx</code><br><strong>解压</strong>：<br>       <code>tar zxvf xx.tar.gz</code><br>       <code>tar xvf xx.tar</code><br>       <code>tar jxvf xx.tar.bz2</code><br>       <code>bzip2 -d xx.bz2</code><br><strong>创建目录xx</strong>：<code>mkdir xx</code><br><strong>创建目录a及以下子目录b</strong>:<code>mkdir -p a/b</code><br><strong>创建xx文件</strong>:<code>touch xx</code><br><strong>查看xx文件</strong>:<code>cat xx</code><br><strong>查看xx文件</strong>:<code>less xx</code>(内容多于一屏时，j/k向下/上翻滚)<br><strong>显示绝对路径</strong>：<code>pwd</code><br><strong>删除空目录</strong>：<code>rmdir</code><br><strong>删除xx文件</strong>：<code>rm xx</code><br><strong>强制删除目录a</strong>:<code>rm -rf a</code><br><strong>删除目录a</strong>:<code>rm -r a</code><br><strong>删除父目录a中所有的空子目录</strong>：<code>cd a; rmdir</code><br><strong>复制文件a到文件b</strong>：<code>cp a b</code><br><strong>复制目录a为目录b</strong>：<code>cp -r a/ b/</code><br><strong>从指定文件搜索指定文件</strong>：<code>grep &#39;指定内容&#39; ./ -R</code><br><strong>下载文件到xx目录</strong>：<code>axel http://... -o xx</code><br><strong>给文件a.c加执行权限</strong>：<code>chmod +x a.c</code><br><strong>运行脚本xx.sh</strong>:<code>sh xx.sh</code><br><strong>使.bashrc生效</strong>：<code>source ~/.bashrc</code><br><strong>查看opencv版本</strong>：<code>pkg-config --modversion opencv</code><br><strong>查看opencv安装位置</strong>：<code>pkg-config -cflags opencv</code><br><strong>查找</strong>：<code>grep -n -H -R &quot;you want to search &quot; *</code><br><strong>查看文件夹大小</strong>：<code>du -sh</code><br><strong>查看文件夹大小并排序</strong>：<code>du -h /home/* | sort</code><br><strong>查看文件夹大小</strong>：<code>du -h --max-depth=1 ./</code><br><strong>查看磁盘的使用情况</strong>：<code>df -h</code><br><strong>查看权限</strong>：<code>ls -l filaname</code><br><strong>查看GPU使用率</strong>：<code>nvidia-smi</code><br><strong>查看CPU使用率</strong>：<code>top</code><br><strong>查看文件夹内文件个数</strong>：<code>ls -l | grep &#39;^-&#39; | wc -l</code><br><strong>查看文件夹内目录个数</strong>：<code>ls -l | grep &#39;^d&#39; | wc -l</code><br><strong>查看文件行数</strong>：<code>wc -l filename</code><br><strong>批量更改图片尺寸</strong>：<code>mogrify -resize 224x224 -format jpg *</code></p>
 <p><strong>查看网络设置</strong>：<code>ifconfig</code><br><strong>查看操作系统</strong>：<code>uname -a</code><br><strong>查看ubuntu版本</strong>：<code>lsb_release -a</code><br><strong>查看操作系统位数</strong>：getconf LONG_BIT<br><strong>查看gcc版本</strong>：<code>ls /usr/bin/gcc*或gcc -v</code><br><strong>查看磁盘使用情况</strong>：<code>baobab</code><br><strong>添加用户</strong>：<code>sudo adduser username</code><br><strong>删除用户</strong>: <code>sudo userdel -r username</code><br><strong>添加sudo权限</strong>：<code>sudo vi /etc/sudoers</code></p>
@@ -437,7 +632,7 @@
     <link href="calyp.github.io/2018/01/29/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%9B%9E%E9%A1%BE/"/>
     <id>calyp.github.io/2018/01/29/人脸识别回顾/</id>
     <published>2018-01-29T01:47:23.000Z</published>
-    <updated>2018-12-05T09:24:22.556Z</updated>
+    <updated>2019-07-04T13:01:44.683Z</updated>
     
     <content type="html"><![CDATA[<h1 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h1><p><strong>数据清洗</strong>：去除错误标签，图片质量不好的样本，如果有benchmark，还需要去除和benchmark重复的样本。</p>
 <p><strong>构造验证集</strong>:  对于给定的数据集，可能没有划分train set和validation set ，需要手动从给定的训练集中按照一定的比例分离出验证集（比如9:1）</p>
@@ -525,8 +720,7 @@
 <p>Maxout 用在只需要选择一个激活函数的局部竞争网络中。用的方法包含所有的激活函数，不同之处在于 maxout 只选择一个“胜出者”。Maxout 的一个明显的用例是每个分支具有不同大小的内核，而 Maxout 可以尺度不变。</p>
 </li>
 </ol>
-<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><p>##1. loss为nan(83.3365)  [标签错误、学习率太大]</p>
-<p><strong>梯度爆炸</strong></p>
+<h1 id="Caffe调参"><a href="#Caffe调参" class="headerlink" title="Caffe调参"></a>Caffe调参</h1><h2 id="1-loss为nan-83-3365-标签错误、学习率太大"><a href="#1-loss为nan-83-3365-标签错误、学习率太大" class="headerlink" title="1. loss为nan(83.3365)  [标签错误、学习率太大]"></a>1. loss为nan(83.3365)  [标签错误、学习率太大]</h2><p><strong>梯度爆炸</strong></p>
 <p><strong>原因</strong>：梯度变得非常大，使得学习过程难以继续</p>
 <p><strong>现象：</strong>观察log，注意每一轮迭代后的loss。loss随着每轮迭代越来越大，最终超过了浮点型表示的范围，就变成了NaN。</p>
 <p><strong>措施</strong>： </p>
@@ -547,8 +741,7 @@
 <p><strong>池化层中步长比核的尺寸大</strong></p>
 <p>如下例所示，当池化层中stride &gt; kernel的时候会在y中产生NaN</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">layer &#123;</div><div class="line">  name: &quot;faulty_pooling&quot;</div><div class="line">  type: &quot;Pooling&quot;</div><div class="line">  bottom: &quot;x&quot;</div><div class="line">  top: &quot;y&quot;</div><div class="line">  pooling_param &#123;</div><div class="line">  pool: AVE</div><div class="line">  stride: 5</div><div class="line">  kernel: 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>##2. 避免overfitting</p>
-<ul>
+<h2 id="2-避免overfitting"><a href="#2-避免overfitting" class="headerlink" title="2. 避免overfitting"></a>2. 避免overfitting</h2><ul>
 <li><p>simpler model structure</p>
 </li>
 <li><p>regularization</p>
@@ -837,7 +1030,7 @@
     <link href="calyp.github.io/2017/06/02/%E5%BE%85%E5%8A%9E%E5%8F%8A%E8%BF%9B%E5%BA%A6/"/>
     <id>calyp.github.io/2017/06/02/待办及进度/</id>
     <published>2017-06-02T07:15:46.000Z</published>
-    <updated>2018-12-05T09:23:48.239Z</updated>
+    <updated>2019-07-04T13:04:04.827Z</updated>
     
     <content type="html"><![CDATA[<h1 id="step1-Mirror-face相关"><a href="#step1-Mirror-face相关" class="headerlink" title="step1:Mirror face相关"></a>step1:Mirror face相关</h1><table>
 <thead>
@@ -1647,12 +1840,14 @@
 <li>[x] Create umdfaces–&gt;lmdb</li>
 <li>[x] EasyEnsemble train and test</li>
 <li>[x] Use matcaffe for metric learning</li>
-<li>[ ] Megaface test<pre><code>- - [x] center face
-  - [x] balance-cent-soft
-  - [x] reduced
-  - [x] mirror or concatenate
-  - [x] EasyEnsemble
-</code></pre></li>
+<li>[ ] Megaface test<ul>
+<li>[x] center face</li>
+<li>[x] balance-cent-soft</li>
+<li>[x] reduced</li>
+<li>[x] mirror or concatenate</li>
+<li>[x] EasyEnsemble</li>
+</ul>
+</li>
 </ul>
 <ul>
 <li><p>[x] Paper reading:One-shot face recognition by promoting underrepresented classes</p>
@@ -1672,8 +1867,6 @@
 - generate lmdb
 
 - choose a model(ResNet?)
-
-  ​
 </code></pre></li>
 </ul>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://github.com/happynear/FaceVerification" target="_blank" rel="external">happynear-face-verification</a></p>
@@ -1697,7 +1890,7 @@
     <link href="calyp.github.io/2017/06/01/%E6%9D%82%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
     <id>calyp.github.io/2017/06/01/杂知识点/</id>
     <published>2017-06-01T01:42:05.000Z</published>
-    <updated>2019-03-01T03:19:23.990Z</updated>
+    <updated>2019-03-06T02:28:25.557Z</updated>
     
     <content type="html"><![CDATA[<h1 id="分类与回归"><a href="#分类与回归" class="headerlink" title="分类与回归"></a>分类与回归</h1><p><strong>本节部分转载于穆文发表于知乎的<a href="https://www.zhihu.com/question/21329754/answer/151216012" target="_blank" rel="external">分类与回归区别是什么</a>下面的回答，获得原作者授权</strong></p>
 <p><em>分类与回归的模型本质一样，分类模型可将回归模型的输出离散化，回归模型也可将分类模型的输出连续化。</em></p>
@@ -1751,6 +1944,8 @@
 <p>$$<br>精确率=\frac{TP}{TP+FP}<br>$$</p>
 <p>$$<br>召回率=\frac{TP}{TP+FN}<br>$$</p>
 <h2 id="卷积计算后的图片尺寸："><a href="#卷积计算后的图片尺寸：" class="headerlink" title="卷积计算后的图片尺寸："></a>卷积计算后的图片尺寸：</h2><p>$$<br>outputsize=\frac{imagesize+2*padding-kernelsize}{stride}+1<br>$$</p>
+<h2 id="感受野计算"><a href="#感受野计算" class="headerlink" title="感受野计算"></a>感受野计算</h2><p>感受野的定义是 卷积神经网络每一层输出的特征图（feature map）上的像素点在<strong>原始图像</strong>上映射的区域大小。通俗的说，感受野就是输入图像对这一层输出的神经元的影响有多大，影响大不一定好，也许会带来用不着的糟粕，影响小也会阻碍学习。</p>
+<p>具体计算例子参考：<a href="https://zhuanlan.zhihu.com/p/31004121" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/31004121</a></p>
 <h1 id="RankBoost"><a href="#RankBoost" class="headerlink" title="RankBoost:"></a>RankBoost:</h1><p>​    RankBoost的思想比较简单，是二元Learning to rank的常规思路：通过构造目标分类    器，使得pair之间的对象存在相对大小关系。通俗点说，把对象组成一对对的pair，比如一组排序r1&gt;r2&gt;r3&gt;r4，那可以构成pair：(r1,r2)(r1,r3),(r1,r4),(r2,r3)(r3,r4),这样的pair是正值，也就是label是1；而余下的pair如(r2,r1)的值应该是-1或0。这样一个排序问题就被巧妙的转换为了分类问题。近来CV界很多又用这种learning to rank的思想做识别问题，先把识别转换为排序问题再转换为分类问题</p>
 <h1 id="真阳率，假阳率，AUC，ROC"><a href="#真阳率，假阳率，AUC，ROC" class="headerlink" title="真阳率，假阳率，AUC，ROC"></a>真阳率，假阳率，AUC，ROC</h1><p><img src="http://img.blog.csdn.net/20150919111349931" alt="pic1"></p>
 <p>$真阳率=\frac{a}{a+c}$:含义是检测出来的真阳性样本数除以所有真实阳性样本数。</p>

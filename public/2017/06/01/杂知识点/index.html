@@ -75,7 +75,7 @@
 <meta property="og:description" content="深度学习的一些基础知识点">
 <meta property="og:image" content="http://img.blog.csdn.net/20150919111349931">
 <meta property="og:image" content="http://img.blog.csdn.net/20150919114145488">
-<meta property="og:updated_time" content="2019-03-01T03:19:23.990Z">
+<meta property="og:updated_time" content="2019-03-06T02:28:25.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="杂知识点">
 <meta name="twitter:description" content="深度学习的一些基础知识点">
@@ -439,6 +439,8 @@
 <p>$$<br>精确率=\frac{TP}{TP+FP}<br>$$</p>
 <p>$$<br>召回率=\frac{TP}{TP+FN}<br>$$</p>
 <h2 id="卷积计算后的图片尺寸："><a href="#卷积计算后的图片尺寸：" class="headerlink" title="卷积计算后的图片尺寸："></a>卷积计算后的图片尺寸：</h2><p>$$<br>outputsize=\frac{imagesize+2*padding-kernelsize}{stride}+1<br>$$</p>
+<h2 id="感受野计算"><a href="#感受野计算" class="headerlink" title="感受野计算"></a>感受野计算</h2><p>感受野的定义是 卷积神经网络每一层输出的特征图（feature map）上的像素点在<strong>原始图像</strong>上映射的区域大小。通俗的说，感受野就是输入图像对这一层输出的神经元的影响有多大，影响大不一定好，也许会带来用不着的糟粕，影响小也会阻碍学习。</p>
+<p>具体计算例子参考：<a href="https://zhuanlan.zhihu.com/p/31004121" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/31004121</a></p>
 <h1 id="RankBoost"><a href="#RankBoost" class="headerlink" title="RankBoost:"></a>RankBoost:</h1><p>​    RankBoost的思想比较简单，是二元Learning to rank的常规思路：通过构造目标分类    器，使得pair之间的对象存在相对大小关系。通俗点说，把对象组成一对对的pair，比如一组排序r1&gt;r2&gt;r3&gt;r4，那可以构成pair：(r1,r2)(r1,r3),(r1,r4),(r2,r3)(r3,r4),这样的pair是正值，也就是label是1；而余下的pair如(r2,r1)的值应该是-1或0。这样一个排序问题就被巧妙的转换为了分类问题。近来CV界很多又用这种learning to rank的思想做识别问题，先把识别转换为排序问题再转换为分类问题</p>
 <h1 id="真阳率，假阳率，AUC，ROC"><a href="#真阳率，假阳率，AUC，ROC" class="headerlink" title="真阳率，假阳率，AUC，ROC"></a>真阳率，假阳率，AUC，ROC</h1><p><img src="http://img.blog.csdn.net/20150919111349931" alt="pic1"></p>
 <p>$真阳率=\frac{a}{a+c}$:含义是检测出来的真阳性样本数除以所有真实阳性样本数。</p>
@@ -574,7 +576,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -596,7 +598,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -685,7 +687,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类与回归"><span class="nav-number">1.</span> <span class="nav-text">分类与回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些概念"><span class="nav-number">2.</span> <span class="nav-text">一些概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移学习-3："><span class="nav-number">2.1.</span> <span class="nav-text">迁移学习^3：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准确率-amp-精确率-amp-召回率"><span class="nav-number">2.2.</span> <span class="nav-text">准确率&精确率&召回率:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积计算后的图片尺寸："><span class="nav-number">2.3.</span> <span class="nav-text">卷积计算后的图片尺寸：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RankBoost"><span class="nav-number">3.</span> <span class="nav-text">RankBoost:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#真阳率，假阳率，AUC，ROC"><span class="nav-number">4.</span> <span class="nav-text">真阳率，假阳率，AUC，ROC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类与回归"><span class="nav-number">1.</span> <span class="nav-text">分类与回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些概念"><span class="nav-number">2.</span> <span class="nav-text">一些概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移学习-3："><span class="nav-number">2.1.</span> <span class="nav-text">迁移学习^3：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准确率-amp-精确率-amp-召回率"><span class="nav-number">2.2.</span> <span class="nav-text">准确率&精确率&召回率:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积计算后的图片尺寸："><span class="nav-number">2.3.</span> <span class="nav-text">卷积计算后的图片尺寸：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感受野计算"><span class="nav-number">2.4.</span> <span class="nav-text">感受野计算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RankBoost"><span class="nav-number">3.</span> <span class="nav-text">RankBoost:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#真阳率，假阳率，AUC，ROC"><span class="nav-number">4.</span> <span class="nav-text">真阳率，假阳率，AUC，ROC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>

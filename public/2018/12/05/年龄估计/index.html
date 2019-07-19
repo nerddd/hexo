@@ -79,7 +79,7 @@
 <meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202120956.png">
 <meta property="og:image" content="/images/Q83KC%7B3A7Y%7DPVX~YU%60383RN.png">
 <meta property="og:image" content="/images/QQ%E5%9B%BE%E7%89%8720181202130028.png">
-<meta property="og:updated_time" content="2019-02-26T09:03:08.993Z">
+<meta property="og:updated_time" content="2019-03-27T07:12:49.064Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="年龄估计">
 <meta name="twitter:description" content="年龄估计的系列论文阅读">
@@ -396,6 +396,12 @@
 <li><strong>MORPH1</strong>:1690 images</li>
 <li><strong>MORPH2</strong>:55608 images、unbalanced ethnic(96% African and European ,less than 1% Asian)，16到77岁</li>
 <li><strong>AFAD</strong>:160K Asian facial images(unrelease)</li>
+<li><strong>HOIP</strong>：300个人的306600幅，150个男0150个女</li>
+<li><strong>IAD数据库</strong>：从Internet上获取的175000幅，0-80岁     未公开</li>
+<li><strong>OAPFD数据库</strong>：865个人的865幅，23-60岁，全是男。清华大学数据库。</li>
+<li><strong>LHI亚洲人脸库</strong>：50000幅，20-80岁</li>
+<li><strong>PCSO数据集</strong>：10036幅，17-68岁</li>
+<li><strong>Audience benchmark</strong>：26580幅，年龄和性别标签，8个年龄组/0-2，4-6，8-13，15-20，25-32，38-43，48-53，60+</li>
 </ul>
 <h1 id="Ordinal-Regression"><a href="#Ordinal-Regression" class="headerlink" title="Ordinal Regression"></a>Ordinal Regression</h1><p><strong>paper：</strong><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Niu_Ordinal_Regression_With_CVPR_2016_paper.pdf" target="_blank" rel="external">Ordinal Regression With Multiple Output CNN for Age Estimation</a><code>CVPR2016</code><br><strong>code:</strong><a href="https://github.com/luoyetx/OrdinalRegression" target="_blank" rel="external">Ordinal Regression</a></p>
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>To address the non-stationary property of aging patterns, age estimation can be cast as an ordinal regression problem.However, the processes of extracting features and learning a regression model are often separated and optimized independently in previous work. In this paper, we propose an End-to-End learning approach to address ordinal regression problems using deep Convolutional Neural Network, which could simultaneously conduct feature learning andregression modeling. In particular, an ordinal regression problem is transformed into a series of binary classification sub-problems. And we propose a multiple output CNN learning algorithm to collectively solve these classification sub-problems, so that the correlation between these tasks could be explored. In addition, we publish an Asian Face Age Dataset (AFAD) containing more than 160K facial images with precise age ground-truths, which is the largest public age dataset to date. To the best of our knowledge, this is the first work to address ordinal regression problems by using CNN, and achieves the state-of-the-art performance on both the MORPH and AFAD datasets<br><strong>翻译</strong>：为了解决衰老模式的非平稳特性，可以将年龄估计作为序数回归问题。然而，在以前的工作中，提取特征和学习回归模型的过程通常是独立分离和优化的。在本文中，我们提出了一种端到端学习方法，使用深度卷积神经网络解决序数回归问题，可以同时进行特征学习和回归建模。特别是，序数回归问题转化为一系列二元分类子问题。我们提出了一种多输出CNN学习算法来集体解决这些分类子问题，从而可以探索这些任务之间的相关性。此外，我们发布了一个亚洲面部年龄数据集（AFAD），其中包含超过<strong>160K</strong>的面部图像，具有精确的年龄真实性，这是迄今为止最大的公共年龄数据集。据我们所知，这是通过使用CNN解决序数回归问题的第一项工作，并在MORPH和AFAD数据集上实现了最先进的性能。<br><img src="/images/QQ%E5%9B%BE%E7%89%8720181202120825.png" alt="Q图片2018120212082"></p>
@@ -478,7 +484,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/27/手册&指南/" rel="next" title="手册&指南">
+              <a href="/2018/05/27/手册&指南/" rel="next" title="手册&指南">
                 <i class="fa fa-chevron-left"></i> 手册&指南
               </a>
             
@@ -562,7 +568,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -584,7 +590,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

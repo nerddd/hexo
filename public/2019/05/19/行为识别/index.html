@@ -1,0 +1,1240 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="行为识别," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Calyp" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="2018AAAI&amp;2019CVPR GCN in skeleton-based action recognition">
+<meta name="keywords" content="行为识别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="行为识别">
+<meta property="og:url" content="calyp.github.io/2019/05/19/行为识别/index.html">
+<meta property="og:site_name" content="Calyp">
+<meta property="og:description" content="2018AAAI&amp;2019CVPR GCN in skeleton-based action recognition">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-17-39.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-07-17.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-09-03.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-09-35.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-20-10.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-09-52.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-09-59.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-10-12.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-10-22.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-10-30.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-10-39.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-10-46.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-10-57.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-06.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-13.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-20.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-27.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-34.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-42.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-48.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-11-58.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-12-05.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-12-23.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-12-33.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-12-40.png">
+<meta property="og:image" content="/images/Snipaste_2019-07-19_20-12-48.png">
+<meta property="og:updated_time" content="2019-07-19T12:34:23.359Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="行为识别">
+<meta name="twitter:description" content="2018AAAI&amp;2019CVPR GCN in skeleton-based action recognition">
+<meta name="twitter:image" content="/images/Snipaste_2019-07-19_20-17-39.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":true,"scrollpercent":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="calyp.github.io/2019/05/19/行为识别/"/>
+
+
+
+
+
+  <title>行为识别 | Calyp</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Calyp</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Study</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="calyp.github.io/2019/05/19/行为识别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Calyp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/images.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Calyp">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">行为识别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-19T19:56:57+08:00">
+                2019-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  2018AAAI&2019CVPR GCN in skeleton-based action recognition
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ST-GCN"><a href="#ST-GCN" class="headerlink" title="ST-GCN"></a>ST-GCN</h2><p>论文：2018AAAI《Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition》</p>
+<h3 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h3><p><img src="/images/Snipaste_2019-07-19_20-17-39.png" alt="nipaste_2019-07-19_20-17-3"></p>
+<p>本文的主要贡献就是第一次将图的网络应用在骨架模型上用于行为分析任务，然后提出了一些设计特殊的特殊卷积操作的规范，给后来的相关工作提供借鉴意义。</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><p><img src="/images/Snipaste_2019-07-19_20-07-17.png" alt="nipaste_2019-07-19_20-07-1"></p>
+<p>构建骨骼时空图G= (V,E),帧数为T，每一帧上关节点数为N.在图中，节点矩阵集合$V={v_{ti}|t=1,…,T,i=1,…N}$ ，包括骨骼序列上的所有的关节点。</p>
+<p>使用两步构建骨骼序列的时空图。第一步，帧与帧之间的边表示人体对应骨骼点的时序关系；第二步，在每一帧内部，按照人体的自然骨架连接关系构造空间图。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-09-03.png" alt="nipaste_2019-07-19_20-09-0"></p>
+<p>进入完全的ST-GCN 之前，首先看单帧上的graph CNN model。在这种情况下，在时刻t ，单张视频帧的情况下，将会有N 个骨骼节点 Vt，并且有骨骼边界。我们回忆在2D 自然图像或者feature maps 上的卷积操作，卷积操作的输出仍然是2D 的网格。当步长为1，并且设置合适的padding 时，输出的feature maps 可以和输入拥有相同的大小。我们在接下来的讨论中，都是基于这个假设。给定一个kernel size 为K*K 的卷积操作，通道个数为c 的输入 featuremaps，在位置 x 处的单个通道的输出值为：fout</p>
+<p>P 是采样函数，列举了位置 x 的近邻。加权函数w提供了一个权重向量，来计算其与采样的输入向量的内积。由于加权函数与位置x 无关，所以，滤波器的权重可以在图像中进行共享。在图像领域，标准的卷积在图像领域可以通过编码矩形网格,在 graph 上的卷积操作可以定义为：将上述定义拓展到存在于 spatial graph Vt 的输入特征图上.</p>
+<p>本文中D=1，D的取值可以变化，情况复杂，future work</p>
+<p>对于加权函数，在 2D 卷积中，一个固定的 grid 自然的存在于中心位置，相邻像素点拥有一个固定的空间次序,而在graph中是没有这种顺序的，文中建议不用给定每一个近邻节点一个特定的 labeling，我们简单的将骨骼节点的近邻集合划分为固定个数的 K 个子集，每一个子集有一个 label。</p>
+<p>正则项Z对应子集的基数，是用来平衡不同子集对输出的贡献</p>
+<p>  <img src="/images/Snipaste_2019-07-19_20-09-35.png" alt="nipaste_2019-07-19_20-09-3"></p>
+<p>在上述Spatialgraph CNN 的基础上，我们现在开始将其拓展到时空结构上。在构建图的时候，temporal aspect 我们是直接时序上相同的节点连接起来的。这确保我们可以定义一种非常简单的策略将空间上的图卷积CNN 拓展到 时空域。我们将近邻节点拓展到包含时序连接的节点</p>
+<p>时空图卷积：只需要对应修改采样函数和权重映射函数就可以扩展到时空图上，设置采样区域为相邻几帧。权重映射函数根据相邻帧的图有序特点，因此可以设置如下映射函数，当作一种对应寻址的操作，即第几个维度上的第几个矩阵元素。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-20-10.png" alt="nipaste_2019-07-19_20-20-1"></p>
+<p>给定spatialtemporal graph convolution 的高层定义，设计一种partitioningstrategy 来执行 标签映射函数l</p>
+<p>（a）输入骨骼的框架示例。身体关节以蓝点表示。D=1的卷积核感受野由红色的虚线画出。（b）单标签划分策略。其中近邻的所有节点标签相同（绿色）。（c）距离划分。这两个子集是距离为0 的根节点本身，和距离为1 的根节点相邻节点（蓝色）。（d）空间构型划分。根据节点到骨架重心（图中黑色十字）的距离和到根节点（绿色）的距离的比较进行标记。向心节点（蓝色）到骨架重心的距离比根节点到骨架重心的距离短，而离心节点（黄色）到骨架重心的距离比根节点长</p>
+<p><img src="/images/Snipaste_2019-07-19_20-09-52.png" alt="nipaste_2019-07-19_20-09-5"></p>
+<p>在single-frame的情况下，用第一种分割策略的st-gcn 可以用左边的公式进行表达：</p>
+<p>对于多个子集的划分策略，用右边的公式表达，此时邻接矩阵被分解为多个矩阵 Aj</p>
+<p>通过邻接矩阵左乘特征矩阵，可以实现特征的聚合操作，然后再右乘权重矩阵，可以实现加权操作。</p>
+<p>多个输出通道的权重向量堆叠起来构成了权重矩阵</p>
+<p>$\alpha$是为了避免有的行empty<img src="/images/Snipaste_2019-07-19_20-09-59.png" alt="nipaste_2019-07-19_20-09-5"></p>
+<p>基于骨骼的数据可以从运动捕捉设备或视频的姿态估计算法中获得。通常来说，数据是一系列的帧，每一帧都有一组联合坐标。给定2D 或 3D 坐标系下的身体关节序列，我们就能构造一个时空图。其中，人体关节对应图的节点，人体身体结构的连通性和时间上的连通性对应图的两类边。因此，ST-GCN 的输入是图节点的联合坐标向量。对输入数据应用多层的时空图卷积操作，可以生成更高级别的特征图。然后，它将被标准的SoftMax分类器分类到相应的动作类别。整个模型用反向传播进行端对端方式的训练。ST-GCN模型由九层时空图卷积组成。前三层输出64通道数，中间三层输出128通道，最后三层输出256层通道数。一共有9个时间卷积核，在每一个ST-GCN使用残差链接，使用dropout进行特征正则化处理，将一半的神经元进行dropout处理。第4、7层的时间卷积层设置为poling层。最后将输出的256个通道数的输出进行全局pooling,并由softmax进行分类。</p>
+<p>当ST-GCN作为输入的时候，对于一个batch 的视频，我们可以用一个5 维矩阵表示。<br>N代表视频的数量，通常一个batch 有 256个视频（其实随便设置，最好是 2的指数）。<br>C代表关节的特征，通常一个关节包含等 3 个特征（如果是三维骨骼就是4 个）。<br>T代表关键帧的数量，一般一个视频有150 帧。<br>V代表关节的数量，通常一个人标注18 个关节。<br>M代表一帧中的人数，一般选择平均置信度最高的2 个人。<br>所以，OpenPose的输出，也就是 ST-GCN的输入</p>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p><img src="/images/Snipaste_2019-07-19_20-10-12.png" alt="nipaste_2019-07-19_20-10-1"></p>
+<p>图一是三种划分策略的消融实验，Imp是加了maskM, mask 相当于attention操作，根据图中Es上边缘学习的重要性来缩放节点特征对于相邻节点的重要性。（future work)</p>
+<p>第三种策略实际上也包含了对末肢关节赋予更多关注的思想，通常距离重心越近，运动幅度越小，同时能更好的区分向心运动和离心运动。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-10-22.png" alt="nipaste_2019-07-19_20-10-2"></p>
+<h2 id="2s-AGCN"><a href="#2s-AGCN" class="headerlink" title="2s-AGCN"></a>2s-AGCN</h2><p>论文：2019CVPR《Two-Stream Adaptive Graph Convolutional Networks for Skeleton-Based Action Recognition》</p>
+<h3 id="Contributions-1"><a href="#Contributions-1" class="headerlink" title="Contributions"></a>Contributions</h3><p><img src="/images/Snipaste_2019-07-19_20-10-30.png" alt="nipaste_2019-07-19_20-10-3"></p>
+<p>1.ST-GCN中使用的骨架图是启发式预定义的，并且仅表示人体的物理结构。因此，它不能保证对动作识别任务是最优的。例如，双手之间的关系对于识别诸如“拍手”和“阅读”之类的类很重要。然而，ST-GCN很难捕捉到双手之间的依赖关系，因为它们在预先定义的基于人体的图形中彼此相距很远。</p>
+<p>2.GCN的结构是层次结构，不同的层次包含多级语义信息。然而，ST-GCN中应用的图的拓扑结构在所有层上都是固定的，缺乏对所有层中包含的多级语义信息进行建模的灵活性和能力；</p>
+<p>3.对于不同行为类别的所有样本，一个固定图结构可能不是最优的。对于“擦脸”和“摸头”这类类别，手和头之间的联系应该更紧密，但对于其他一些类别，如“跳起来”和“坐下来”则不是这样。这一事实表明，图结构应该依赖于数据，然而，ST-GCN不支持这种依赖性。</p>
+<p>为了解决上述问题，本文提出了一种新的自适应图卷积网络。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-10-39.png" alt="nipaste_2019-07-19_20-10-3"></p>
+<p>ST-GCN中另一个值得注意的问题是，每个顶点上的特征向量只包含关节的二维或三维坐标，可以将其视为骨架数据的一阶信息。然而，代表两关节间骨骼特征的二阶信息并没有被利用。通常情况下，骨骼的长度和方向对于动作识别来说自然更具信息性和识别性。为了利用骨骼数据的二阶信息，将骨骼的长度和方向表示为从其源关节指向目标关节的向量。与一阶信息相似，矢量被输入一个自适应图卷积网络来预测动作标签。同时，提出了一种融合一阶和二阶信息的双流框架，进一步提高了系统的性能。</p>
+<p>（1）提出了一种自适应图卷积网络，以端到端的方式自适应地学习不同GCN层和骨架样本的图的拓扑结构，能够更好地适应GCN的动作识别任务和层次结构。（2）骨架数据的二阶信息采用双流框架显式地表示并与一阶信息相结合，对识别性能有显著提高。（3）在两个大规模的基于骨架的动作识别数据集上，所提出的2s-Agcn大大超过了最先进的水平。</p>
+<h3 id="Method-1"><a href="#Method-1" class="headerlink" title="Method"></a>Method</h3><p><img src="/images/Snipaste_2019-07-19_20-10-46.png" alt="nipaste_2019-07-19_20-10-4"></p>
+<p>首先还是图的构建，采用的是ST-GCN定义的图构建方法，划分策略采用的是基于空间构型的</p>
+<p>$K_v$为kernel size,</p>
+<p>$M_k$ is an N × N矩阵，相当于attention的作用，表示每个节点的重要程度</p>
+<p>点乘</p>
+<p><img src="/images/Snipaste_2019-07-19_20-10-57.png" alt="nipaste_2019-07-19_20-10-5"></p>
+<p>前面的式子中图的拓扑结构是固定的，有$A_k$和$M_k$决定，$A_k$表示两点之间是否有链接，$M_k$表示连接的强弱，为了让图的结构变得自适应，变换成右边，使得图的拓扑结构和参数一样在训练过程中端到端的进行优化.</p>
+<p>$B_k$是训练得到的，通过数据驱动的方式，模型可以学习完全针对识别任务的图形，并且针对不同层中包含的不同信息更加个性化。矩阵中的元素可以是任意值。它不仅表明两个关节之间存在连接，而且还表明连接的强度。它可以起到Mk执行的注意机制的相同作用。 然而，原始注意矩阵Mk是点乘以Ak，这意味着如果中的一个元素为0，则无论的值如何，它总是为0。因此，它无法生成原始物理图中不存在的新连接。从这个角度来看，Bk比Mk更灵活。</p>
+<p>$C_k$是一个数据相关图，它可以学习每个样本的唯一graph表示。为了确定两个顶点之间是否存在连接以及连接的强度，应用标准化的embedding高斯函数来计算两个顶点的相似度</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-06.png" alt="nipaste_2019-07-19_20-11-0"></p>
+<p>自适应图卷积层的图示。每层中总共有三种类型的graph，即$A_k$，$B_k$和$C_k$。橙色框表示该参数是可学习的。1x1表示卷积的内核大小。$K_v$表示子集的数量。 ⊕表示元素总和。 ⊗表示矩阵乘法。仅当$C_in$与$C_out$不同时，才需要左侧的residual box（虚线）</p>
+<p>上式函数f表示正则化embeded高斯函数，用来计算两个点之间的相似度，左图中给定输入的特征图为Cin×T ×N, 首先转换到特征空间$C_e×T ×N$,通过 θ and φ，然后将他们reshape到$N \times C_eT$和$C_eT \times N$矩阵中，将两个矩阵相乘得到相似度矩阵$C_k$, $Ckij$ 表示点i和j的相似度，所以$C_k$中的元素值在0-1之间，可以表示两个结点之间的软连接关系，然后将正则化高斯项与softmax操作得到最终$C<em>k$,$W</em>θ$和 $W_φ$分别表示embedding函数中θand φ的参数</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-13.png" alt="nipaste_2019-07-19_20-11-1"></p>
+<p>Convs 表示spatial GCN, and Convt表示temporal GCN，后面都接一个BN和ReLU，每个block都有一个shortcut</p>
+<p>右图是AGCN网络结构，一共包含9个block,每个块下面三个数字分别表示输入通道的数量，输出通道的数量和步幅，最后接一个GAP，送入softmax分类器</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-20.png" alt="nipaste_2019-07-19_20-11-2"></p>
+<p>论文提出的2stream 网络结构<br>关节点数据送入J-stream<br>骨骼数据送入B-stream<br>最后两路的输出相加后送入softmax中得到结果</p>
+<h3 id="Result-1"><a href="#Result-1" class="headerlink" title="Result"></a>Result</h3><p><img src="/images/Snipaste_2019-07-19_20-11-27.png" alt="nipaste_2019-07-19_20-11-2"></p>
+<p>消融实验，左边证明$A_k,B_k,C_k$的重要性，是adaptive的作用</p>
+<p>右边表示双流的重要性</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-34.png" alt="nipaste_2019-07-19_20-11-3"></p>
+<h2 id="AS-GCN"><a href="#AS-GCN" class="headerlink" title="AS-GCN"></a>AS-GCN</h2><p>论文：2019CVPR《Actional-Structural Graph Convolutional Networks for Skeleton-based<br>Action Recognition》</p>
+<h3 id="Contributions-2"><a href="#Contributions-2" class="headerlink" title="Contributions"></a>Contributions</h3><p><img src="/images/Snipaste_2019-07-19_20-11-42.png" alt="nipaste_2019-07-19_20-11-4"></p>
+<p>本文的贡献主要是提出a-link推理模块用于捕捉动作相关的潜在关系，提出动作-结构图卷积网络用于获取时空信息进行行为分析，并提出了一个未来姿态预测头用来预测未来姿态</p>
+<h3 id="Method-2"><a href="#Method-2" class="headerlink" title="Method"></a>Method</h3><p><img src="/images/Snipaste_2019-07-19_20-11-48.png" alt="nipaste_2019-07-19_20-11-4"></p>
+<p>上图表示行走状态的骨架图<br>以往的方法只捕捉关节之间的局部物理依赖关系，可能忽略了关节间的隐式关联，提出通过A-link来发掘潜在的关节之间的联系，通过s-link来发掘骨骼图的高阶关系。<br>图b中S-links表示右手可以连接左臂关节点，而ST-GCN只关注一阶近邻的关节点<br>图c中A-links捕捉远距离的，直接从动作捕获特定于动作的潜在依赖关系，比如走路时，手和脚是相关的</p>
+<p><img src="/images/Snipaste_2019-07-19_20-11-58.png" alt="nipaste_2019-07-19_20-11-5"></p>
+<p>A-Link实际上就是每个关节和其他所有关节的连接，通过一个编码-解码器来学习这些连接的权重，进而发掘关节之间的潜在联系。</p>
+<p>Encoder用来通过给定的关节点坐标得到A-links，decoder通过A-link得到未来关节点坐标的预测，上图中左侧黄色和紫色分别代表某一帧的原始的joints features和links features，将两种类型的特征反复迭代更新(encoder)，可以实现特征在关节和边中的流动传播，最终得到一个概率权重矩阵。将这个矩阵和该帧之前的所有时刻的帧信息结合起来，通过一个decoder来预测下一时刻的关节位置。这样就能通过反向传播的方式来不断的迭代更新网络参数，实现对网络的训练。在网络得到初步的训练后，将decoder去掉，只使用前半部分抽取A-link特征，用于动作分类任务的进一步训练。</p>
+<p><img src="/images/Snipaste_2019-07-19_20-12-05.png" alt="nipaste_2019-07-19_20-12-0"></p>
+<p>传统的图卷积网络中，每个节点只将自己的信息传播给邻居节点，这会导致节点感受野较小，不利于获取长距离的连接信息。通过对邻接矩阵取一定次数的幂，可以扩大感受野，L为阶数</p>
+<p>左边的式子是一阶领域内的spatialgraph convolution操作，右边扩展到L阶，L大于等于1</p>
+<p><img src="/images/Snipaste_2019-07-19_20-12-23.png" alt="nipaste_2019-07-19_20-12-2"></p>
+<p>AS-GCN的网络结构，采用多任务处理<br>将A-Link和S-link加权结合起来作为GCN的输入。将GCN和Temporal-GCN结合，得到AS-GCN模块，作为基本网络(Backbone)。接不同的后端网络，可以分别实现分类功能和预测功能，识别头是通过GAP和softmax得到识别的类型，预测头不仅可以促进自监督，还可以提高识别准确率。</p>
+<p><strong>核心思想：</strong></p>
+<ul>
+<li>从原始的坐标信息中提取出A-links特征信息作为输入特征，具有更高的可识别度</li>
+<li>通过对邻接矩阵取多次幂来扩大节点的感受域。</li>
+<li>多个block叠加，通过提高复杂度来提高识别能力。</li>
+</ul>
+<p><img src="/images/Snipaste_2019-07-19_20-12-33.png" alt="nipaste_2019-07-19_20-12-3"></p>
+<p>左下角是backbone的示意图，由9个AS-GCN块组成，右边是具体的block里面的结构，ASGC+TCN</p>
+<p><img src="/images/Snipaste_2019-07-19_20-12-40.png" alt="nipaste_2019-07-19_20-12-4"></p>
+<p>预测头的结构，就是5个AS-GCN block+TCN堆叠，再接4个AS-GCN模块组成，解码高层语义特征，得到预测未来的关节点坐标</p>
+<h3 id="Result-2"><a href="#Result-2" class="headerlink" title="Result"></a>Result</h3><p><img src="/images/Snipaste_2019-07-19_20-12-48.png" alt="nipaste_2019-07-19_20-12-4"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/行为识别/" rel="tag"><i class="fa fa-tag"></i> 行为识别</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/表情识别/" rel="next" title="表情识别">
+                <i class="fa fa-chevron-left"></i> 表情识别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/images.jpg"
+               alt="Calyp" />
+          <p class="site-author-name" itemprop="name">Calyp</p>
+           
+              <p class="site-description motion-element" itemprop="description">学习博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nerddd/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5048688311/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Other">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Other
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/atom.xml" title="Feed" target="_blank">Feed</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="/sitemap.xml" title="SiteMap" target="_blank">SiteMap</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ST-GCN"><span class="nav-number">1.</span> <span class="nav-text">ST-GCN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Contributions"><span class="nav-number">1.1.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">1.2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Result"><span class="nav-number">1.3.</span> <span class="nav-text">Result</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2s-AGCN"><span class="nav-number">2.</span> <span class="nav-text">2s-AGCN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Contributions-1"><span class="nav-number">2.1.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-1"><span class="nav-number">2.2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Result-1"><span class="nav-number">2.3.</span> <span class="nav-text">Result</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AS-GCN"><span class="nav-number">3.</span> <span class="nav-text">AS-GCN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Contributions-2"><span class="nav-number">3.1.</span> <span class="nav-text">Contributions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-2"><span class="nav-number">3.2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Result-2"><span class="nav-number">3.3.</span> <span class="nav-text">Result</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Calyp</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
